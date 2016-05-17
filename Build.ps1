@@ -12,10 +12,4 @@ Push-Location src/Serilog.Sinks.Console
 if($LASTEXITCODE -ne 0) { exit 1 }    
 
 Pop-Location
-Push-Location test/Serilog.Tests
-
-& dotnet test -c Release
-if($LASTEXITCODE -ne 0) { exit 2 }
-
-Pop-Location
 Pop-Location

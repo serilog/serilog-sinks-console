@@ -16,7 +16,7 @@
   "dependencies": {
     "Serilog": "2.0.0-rc-556"
   },
-  "compilationOptions": {
+  "buildOptions": {
     "keyFile": "../../assets/Serilog.snk"
   },
   "frameworks": {
