@@ -6,7 +6,7 @@ if(Test-Path .\artifacts) { Remove-Item .\artifacts -Force -Recurse }
 
 $revision = @{ $true = $env:APPVEYOR_BUILD_NUMBER; $false = 1 }[$env:APPVEYOR_BUILD_NUMBER -ne $NULL];
 
-Push-Location src/Serilog.Sinks.TextWriter
+Push-Location src/Serilog.Sinks.Console
 
 & dotnet pack -c Release -o ..\..\.\artifacts --version-suffix=$revision
 if($LASTEXITCODE -ne 0) { exit 1 }    
