@@ -21,7 +21,7 @@
   },
   "frameworks": {
     "net4.5": {},
-    "netstandard1.0": {
+    "netstandard1.3": {
       "dependencies": {
         "System.Console": "4.0.0-rc2-24027"
       }
