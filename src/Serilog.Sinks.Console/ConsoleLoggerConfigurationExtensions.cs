@@ -7,6 +7,9 @@ using Serilog.Sinks.SystemConsole;
 
 namespace Serilog
 {
+    /// <summary>
+    /// Adds the WriteTo.Console() extension method to <see cref="LoggerConfiguration"/>.
+    /// </summary>
     public static class ConsoleLoggerConfigurationExtensions
     {
         const string DefaultConsoleOutputTemplate = "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level}] {Message}{NewLine}{Exception}";
