@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0-beta-*",
+  "version": "2.0.0-rc-*",
   "description": "The console sink for Serilog.",
   "authors": [
     "Serilog Contributors"
