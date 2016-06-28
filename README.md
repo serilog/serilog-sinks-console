@@ -6,6 +6,12 @@ The console sink for Serilog.
 
 Writes to the system console. The colored console sink's boring cousin.
 
+To use the console sink, first install the NuGet package:
+
+```powershell
+Install-Package Serilog.Sinks.Console
+```
+
 ```csharp
 var log = new LoggerConfiguration()
     .WriteTo.Console()
