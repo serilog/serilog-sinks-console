@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0-beta-*",
+  "version": "2.0.0-*",
   "description": "The console sink for Serilog.",
   "authors": [
     "Serilog Contributors"
@@ -14,7 +14,7 @@
     "iconUrl": "http://serilog.net/images/serilog-sink-nuget.png"
   },
   "dependencies": {
-    "Serilog": "2.0.0-rc-556"
+    "Serilog": "2.0.0"
   },
   "buildOptions": {
     "keyFile": "../../assets/Serilog.snk"
@@ -23,7 +23,7 @@
     "net4.5": {},
     "netstandard1.3": {
       "dependencies": {
-        "System.Console": "4.0.0-rc2-24027"
+        "System.Console": "4.0.0"
       }
     }
   }
