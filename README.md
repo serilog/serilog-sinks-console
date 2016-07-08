@@ -1,9 +1,7 @@
 # Serilog.Sinks.Console
 [![Build status](https://ci.appveyor.com/api/projects/status/w1w3m1wyk3in1c96/branch/master?svg=true)](https://ci.appveyor.com/project/serilog/serilog-sinks-console/branch/master) [![NuGet Version](http://img.shields.io/nuget/v/Serilog.Sinks.Console.svg?style=flat)](https://www.nuget.org/packages/Serilog.Sinks.Console/) [![Documentation](https://img.shields.io/badge/docs-wiki-yellow.svg)](https://github.com/serilog/serilog/wiki) [![Join the chat at https://gitter.im/serilog/serilog](https://img.shields.io/gitter/room/serilog/serilog.svg)](https://gitter.im/serilog/serilog) [![Help](https://img.shields.io/badge/stackoverflow-serilog-orange.svg)](http://stackoverflow.com/questions/tagged/serilog)
 
-A simple Serilog sink that writes log events as text to `STDOUT`.
-
-For **colored console** output, check out [Serilog.Sinks.Literate](https://github.com/serilog/serilog-sinks-literate), which is designed for interactive use.
+A simple Serilog sink that writes log events as text to `STDOUT`. For **colored console** output, check out [Serilog.Sinks.Literate](https://github.com/serilog/serilog-sinks-literate), which is designed for interactive use.
 
 ### Getting started
 
