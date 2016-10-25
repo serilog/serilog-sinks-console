@@ -23,19 +23,31 @@ namespace Serilog.Sinks.SystemConsole
     class ConsoleSink : ILogEventSink
     {
         readonly ITextFormatter _textFormatter;
+        readonly LogEventLevel? _standardErrorFromLevel;
 
-        public ConsoleSink(ITextFormatter textFormatter)
+        public ConsoleSink(ITextFormatter textFormatter, LogEventLevel? standardErrorFromLevel)
         {
             if (textFormatter == null) throw new ArgumentNullException(nameof(textFormatter));
             _textFormatter = textFormatter;
+            _standardErrorFromLevel = standardErrorFromLevel;
         }
 
         public void Emit(LogEvent logEvent)
         {
             if (logEvent == null) throw new ArgumentNullException(nameof(logEvent));
             var renderSpace = new StringWriter();
+            var outputStream = GetOutputStream(logEvent.Level);
             _textFormatter.Format(logEvent, renderSpace);
-            Console.Out.Write(renderSpace.ToString());
+            outputStream.Write(renderSpace.ToString());
+        }
+
+        TextWriter GetOutputStream(LogEventLevel logLevel)
+         {
+            if (!_standardErrorFromLevel.HasValue)
+            {
+                return Console.Out;
+            }
+            return logLevel < _standardErrorFromLevel ? Console.Out : Console.Error;
         }
     }
 }
