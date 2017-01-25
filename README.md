@@ -48,7 +48,7 @@ To write JSON instead of plain text, pass an appropriate `ITextFormatter` to the
     .WriteTo.Console(new JsonFormatter())
 ```
 
-[Serilog.Formatting.Compact](https://github.com/serilog/serilog.formatting.compact) provides alternatives to the default `JsonFormatter`.
+[Serilog.Formatting.Compact](https://github.com/serilog/serilog-formatting-compact) provides alternatives to the default `JsonFormatter`.
 
 ### XML `<appSettings>` configuration
 
