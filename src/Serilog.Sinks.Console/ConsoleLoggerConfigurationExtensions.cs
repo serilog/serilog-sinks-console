@@ -13,7 +13,7 @@ namespace Serilog
     /// </summary>
     public static class ConsoleLoggerConfigurationExtensions
     {
-        const string DefaultConsoleOutputTemplate = "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level}] {Message}{NewLine}{Exception}";
+        const string DefaultConsoleOutputTemplate = "[{Timestamp:HH:mm:ss} {Level:u3}] {Message}{NewLine}{Exception}";
 
         /// <summary>
         /// Writes log events to <see cref="System.Console"/>.
@@ -24,7 +24,7 @@ namespace Serilog
         /// <param name="levelSwitch">A switch allowing the pass-through minimum level
         /// to be changed at runtime.</param>
         /// <param name="outputTemplate">A message template describing the format used to write to the sink.
-        /// the default is "{Timestamp} [{Level}] {Message}{NewLine}{Exception}".</param>
+        /// the default is <code>"[{Timestamp:HH:mm:ss} {Level:u3}] {Message}{NewLine}{Exception}"</code>.</param>
         /// <param name="formatProvider">Supplies culture-specific formatting information, or null.</param>
         /// <param name="standardErrorFromLevel">Specifies the level at which events will be written to standard error.</param>
         /// <returns>Configuration object allowing method chaining.</returns>
@@ -38,8 +38,8 @@ namespace Serilog
         {
             if (sinkConfiguration == null) throw new ArgumentNullException(nameof(sinkConfiguration));
             if (outputTemplate == null) throw new ArgumentNullException(nameof(outputTemplate));
-            var formatter = new MessageTemplateTextFormatter(outputTemplate, formatProvider);
-            return Console(sinkConfiguration, formatter, restrictedToMinimumLevel, levelSwitch, standardErrorFromLevel);
+
+            return sinkConfiguration.Sink(new ColoredConsoleSink(outputTemplate, formatProvider, standardErrorFromLevel), restrictedToMinimumLevel, levelSwitch);
         }
 
         /// <summary>
@@ -63,7 +63,8 @@ namespace Serilog
         {
             if (sinkConfiguration == null) throw new ArgumentNullException(nameof(sinkConfiguration));
             if (formatter == null) throw new ArgumentNullException(nameof(formatter));
-            return sinkConfiguration.Sink(new ConsoleSink(formatter, standardErrorFromLevel), restrictedToMinimumLevel, levelSwitch);
+
+            return sinkConfiguration.Sink(new PlainTextConsoleSink(formatter, standardErrorFromLevel), restrictedToMinimumLevel, levelSwitch);
         }
     }
 }

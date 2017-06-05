@@ -1,4 +1,4 @@
-﻿// Copyright 2013-2016 Serilog Contributors
+﻿// Copyright 2017 Serilog Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,12 +20,12 @@ using Serilog.Formatting;
 
 namespace Serilog.Sinks.SystemConsole
 {
-    class ConsoleSink : ILogEventSink
+    class PlainTextConsoleSink : ILogEventSink
     {
         readonly ITextFormatter _textFormatter;
         readonly LogEventLevel? _standardErrorFromLevel;
 
-        public ConsoleSink(ITextFormatter textFormatter, LogEventLevel? standardErrorFromLevel)
+        public PlainTextConsoleSink(ITextFormatter textFormatter, LogEventLevel? standardErrorFromLevel)
         {
             _textFormatter = textFormatter ?? throw new ArgumentNullException(nameof(textFormatter));
             _standardErrorFromLevel = standardErrorFromLevel;
@@ -35,18 +35,9 @@ namespace Serilog.Sinks.SystemConsole
         {
             if (logEvent == null) throw new ArgumentNullException(nameof(logEvent));
             var renderSpace = new StringWriter();
-            var outputStream = GetOutputStream(logEvent.Level);
+            var outputStream = LeveledStreamSelector.GetOutputStream(_standardErrorFromLevel, logEvent.Level);
             _textFormatter.Format(logEvent, renderSpace);
             outputStream.Write(renderSpace.ToString());
-        }
-
-        TextWriter GetOutputStream(LogEventLevel logLevel)
-         {
-            if (!_standardErrorFromLevel.HasValue)
-            {
-                return Console.Out;
-            }
-            return logLevel < _standardErrorFromLevel ? Console.Out : Console.Error;
         }
     }
 }

@@ -19,7 +19,8 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <!-- Don't reference the full NETStandard.Library -->
     <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
-    <WarningsAsErrors>true</WarningsAsErrors>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <TreatSpecificWarningsAsErrors />
     <RootNamespace>Serilog</RootNamespace>
   </PropertyGroup>
 
