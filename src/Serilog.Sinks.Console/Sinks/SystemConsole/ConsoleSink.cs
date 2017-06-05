@@ -27,8 +27,7 @@ namespace Serilog.Sinks.SystemConsole
 
         public ConsoleSink(ITextFormatter textFormatter, LogEventLevel? standardErrorFromLevel)
         {
-            if (textFormatter == null) throw new ArgumentNullException(nameof(textFormatter));
-            _textFormatter = textFormatter;
+            _textFormatter = textFormatter ?? throw new ArgumentNullException(nameof(textFormatter));
             _standardErrorFromLevel = standardErrorFromLevel;
         }
 
