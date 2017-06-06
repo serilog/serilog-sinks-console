@@ -33,8 +33,10 @@ namespace Serilog.Sinks.SystemConsole
             DebugLevel = VerboseLevel,
             InformationLevel = ConsoleColor.White,
             WarningLevel = ConsoleColor.Yellow,
-            ErrorLevel = ConsoleColor.Red,
+            ErrorLevel = ConsoleColor.White,
+            ErrorLevelBackground = ConsoleColor.Red,
             FatalLevel = ErrorLevel,
+            FatalLevelBackground = ErrorLevelBackground,
 
             KeywordSymbol = ConsoleColor.Blue,
             NumericSymbol = ConsoleColor.Magenta,
@@ -45,24 +47,26 @@ namespace Serilog.Sinks.SystemConsole
 
         const string StackFrameLinePrefix = "   ";
 
-        class LevelFormat
+        struct LevelFormat
         {
-            public LevelFormat(ConsoleColor color)
+            public LevelFormat(ConsoleColor? foreground, ConsoleColor? background)
             {
-                Color = color;
+                Foreground = foreground;
+                Background = background;
             }
 
-            public ConsoleColor Color { get; }
+            public ConsoleColor? Foreground { get; }
+            public ConsoleColor? Background { get; }
         }
 
         readonly IDictionary<LogEventLevel, LevelFormat> _levels = new Dictionary<LogEventLevel, LevelFormat>
         {
-            { LogEventLevel.Verbose, new LevelFormat(VerboseLevel) },
-            { LogEventLevel.Debug, new LevelFormat(DebugLevel) },
-            { LogEventLevel.Information, new LevelFormat(InformationLevel) },
-            { LogEventLevel.Warning, new LevelFormat(WarningLevel) },
-            { LogEventLevel.Error, new LevelFormat(ErrorLevel) },
-            { LogEventLevel.Fatal, new LevelFormat(FatalLevel) },
+            { LogEventLevel.Verbose, new LevelFormat(VerboseLevel, null) },
+            { LogEventLevel.Debug, new LevelFormat(DebugLevel, null) },
+            { LogEventLevel.Information, new LevelFormat(InformationLevel, null) },
+            { LogEventLevel.Warning, new LevelFormat(WarningLevel, null) },
+            { LogEventLevel.Error, new LevelFormat(ErrorLevel, ErrorLevelBackground) },
+            { LogEventLevel.Fatal, new LevelFormat(FatalLevel, FatalLevelBackground) },
         };
 
         readonly IFormatProvider _formatProvider;
@@ -183,13 +187,11 @@ namespace Serilog.Sinks.SystemConsole
             if (!_levels.TryGetValue(level, out format))
                 format = _levels[LogEventLevel.Warning];
 
-            Console.ForegroundColor = format.Color;
+            if (format.Foreground.HasValue)
+                Console.ForegroundColor = format.Foreground.Value;
 
-            if (level == LogEventLevel.Error || level == LogEventLevel.Fatal)
-            {
-                Console.BackgroundColor = format.Color;
-                Console.ForegroundColor = ConsoleColor.White;
-            }
+            if (format.Background.HasValue)
+                Console.BackgroundColor = format.Background.Value;
 
             token.Render(properties, outputStream);
             Console.ResetColor();
