@@ -31,7 +31,7 @@ namespace Serilog.Sinks.SystemConsole.Themes
         public static AnsiConsoleTheme Literate { get; } = AnsiConsoleThemes.Literate;
 
         readonly IReadOnlyDictionary<ConsoleThemeStyle, string> _styles;
-        const string AnsiStyleReset = "RESET";
+        const string AnsiStyleReset = "\u001b[0m";
 
         /// <summary>
         /// Construct a theme given a set of styles.

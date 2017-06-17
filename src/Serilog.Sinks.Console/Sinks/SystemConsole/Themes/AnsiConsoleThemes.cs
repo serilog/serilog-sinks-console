@@ -21,22 +21,22 @@ namespace Serilog.Sinks.SystemConsole.Themes
         public static AnsiConsoleTheme Literate { get; } = new AnsiConsoleTheme(
             new Dictionary<ConsoleThemeStyle, string>
             {
-                [ConsoleThemeStyle.Text] = "WHITE",
-                [ConsoleThemeStyle.SecondaryText] = "GRAY",
-                [ConsoleThemeStyle.Punctuation] = "DARKGRAY",
-                [ConsoleThemeStyle.Invalid] = "YELLOW",
-                [ConsoleThemeStyle.Null] = "BLUE",
-                [ConsoleThemeStyle.Name] = "GRAY",
-                [ConsoleThemeStyle.String] = "CYAN",
-                [ConsoleThemeStyle.Number] = "MAGENTA",
-                [ConsoleThemeStyle.Boolean] = "BLUE",
-                [ConsoleThemeStyle.Object] = "GREEN",
-                [ConsoleThemeStyle.LevelVerbose] = "GRAY",
-                [ConsoleThemeStyle.LevelDebug] = "GRAY",
-                [ConsoleThemeStyle.LevelInformation] = "WHITE",
-                [ConsoleThemeStyle.LevelWarning] = "YELLOW",
-                [ConsoleThemeStyle.LevelError] = "WHITE-RED",
-                [ConsoleThemeStyle.LevelFatal] = "WHITE-RED"
+                [ConsoleThemeStyle.Text] = "\u001b[37;1m",
+                [ConsoleThemeStyle.SecondaryText] = "\u001b[37m",
+                [ConsoleThemeStyle.Punctuation] = "\u001b[30;1m",
+                [ConsoleThemeStyle.Invalid] = "\u001b[33;1m",
+                [ConsoleThemeStyle.Null] = "\u001b[34;1m",
+                [ConsoleThemeStyle.Name] = "\u001b[37m",
+                [ConsoleThemeStyle.String] = "\u001b[36;1m",
+                [ConsoleThemeStyle.Number] = "\u001b[35;1m",
+                [ConsoleThemeStyle.Boolean] = "\u001b[34;1m",
+                [ConsoleThemeStyle.Object] = "\u001b[32;1m",
+                [ConsoleThemeStyle.LevelVerbose] = "\u001b[37m",
+                [ConsoleThemeStyle.LevelDebug] = "\u001b[37m",
+                [ConsoleThemeStyle.LevelInformation] = "\u001b[37;1m",
+                [ConsoleThemeStyle.LevelWarning] = "\u001b[33;1m",
+                [ConsoleThemeStyle.LevelError] = "\u001b[37;1m\u001b[41;1m",
+                [ConsoleThemeStyle.LevelFatal] = "\u001b[37;1m\u001b[41;1m"
             });
     }
 }
