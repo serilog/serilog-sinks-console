@@ -56,7 +56,11 @@ namespace Serilog
             if (sinkConfiguration == null) throw new ArgumentNullException(nameof(sinkConfiguration));
             if (outputTemplate == null) throw new ArgumentNullException(nameof(outputTemplate));
 
-            return sinkConfiguration.Sink(new StyledConsoleSink(theme ?? SystemConsoleThemes.Literate, outputTemplate, formatProvider, standardErrorFromLevel), restrictedToMinimumLevel, levelSwitch);
+            var actualTheme = System.Console.IsOutputRedirected || System.Console.IsErrorRedirected ?
+                ConsoleTheme.None :
+                theme ?? SystemConsoleThemes.Literate;
+
+            return sinkConfiguration.Sink(new StyledConsoleSink(actualTheme, outputTemplate, formatProvider, standardErrorFromLevel), restrictedToMinimumLevel, levelSwitch);
         }
 
         /// <summary>
