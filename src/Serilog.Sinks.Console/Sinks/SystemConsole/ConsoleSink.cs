@@ -51,6 +51,9 @@ namespace Serilog.Sinks.SystemConsole
         {
             var output = SelectOutputStream(logEvent.Level);
 
+            // ANSI escape codes can be pre-rendered into a buffer; however, if we're on Windows and
+            // using its console coloring APIs, the color switches would happen during the off-screen
+            // buffered write here and have no effect when the line is actually written out.
             if (_theme.CanBuffer)
             {
                 var buffer = new StringWriter(new StringBuilder(DefaultWriteBuffer));
