@@ -19,6 +19,7 @@ using Serilog.Events;
 using Serilog.Formatting;
 using Serilog.Sinks.SystemConsole;
 using Serilog.Sinks.SystemConsole.Themes;
+using Serilog.Sinks.SystemConsole.Output;
 
 namespace Serilog
 {
@@ -56,11 +57,12 @@ namespace Serilog
             if (sinkConfiguration == null) throw new ArgumentNullException(nameof(sinkConfiguration));
             if (outputTemplate == null) throw new ArgumentNullException(nameof(outputTemplate));
 
-            var actualTheme = System.Console.IsOutputRedirected || System.Console.IsErrorRedirected ?
+            var appliedTheme = System.Console.IsOutputRedirected || System.Console.IsErrorRedirected ?
                 ConsoleTheme.None :
                 theme ?? SystemConsoleThemes.Literate;
 
-            return sinkConfiguration.Sink(new StyledConsoleSink(actualTheme, outputTemplate, formatProvider, standardErrorFromLevel), restrictedToMinimumLevel, levelSwitch);
+            var formatter = new OutputTemplateRenderer(appliedTheme, outputTemplate, formatProvider);
+            return sinkConfiguration.Sink(new ConsoleSink(appliedTheme, formatter, formatProvider, standardErrorFromLevel), restrictedToMinimumLevel, levelSwitch);
         }
 
         /// <summary>
@@ -85,7 +87,7 @@ namespace Serilog
             if (sinkConfiguration == null) throw new ArgumentNullException(nameof(sinkConfiguration));
             if (formatter == null) throw new ArgumentNullException(nameof(formatter));
 
-            return sinkConfiguration.Sink(new PlainConsoleSink(formatter, standardErrorFromLevel), restrictedToMinimumLevel, levelSwitch);
+            return sinkConfiguration.Sink(new ConsoleSink(ConsoleTheme.None, formatter, null, standardErrorFromLevel), restrictedToMinimumLevel, levelSwitch);
         }
     }
 }

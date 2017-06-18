@@ -24,7 +24,7 @@ using Serilog.Sinks.SystemConsole.Themes;
 
 namespace Serilog.Sinks.SystemConsole.Output
 {
-    class OutputTemplateRenderer
+    class OutputTemplateRenderer : ITextFormatter
     {
         readonly OutputTemplateTokenRenderer[] _renderers;
 
@@ -76,7 +76,7 @@ namespace Serilog.Sinks.SystemConsole.Output
             _renderers = renderers.ToArray();
         }
 
-        public void Render(LogEvent logEvent, TextWriter output)
+        public void Format(LogEvent logEvent, TextWriter output)
         {
             if (logEvent == null) throw new ArgumentNullException(nameof(logEvent));
             if (output == null) throw new ArgumentNullException(nameof(output));

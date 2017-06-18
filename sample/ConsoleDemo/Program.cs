@@ -1,4 +1,5 @@
 ﻿using Serilog;
+using Serilog.Formatting.Display;
 using Serilog.Sinks.SystemConsole.Themes;
 using System;
 using System.Threading;
@@ -11,7 +12,7 @@ namespace ConsoleDemo
         {
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Verbose()
-                .WriteTo.Console(theme: AnsiConsoleTheme.Literate)
+                .WriteTo.Console()
                 .CreateLogger();
 
             try
@@ -22,7 +23,7 @@ namespace ConsoleDemo
 
                 Log.Warning("No coins remain at position {@Position}", new { Lat = 25, Long = 134 });
 
-                throw new DivideByZeroException();
+                Fail();
             }
             catch (Exception e)
             {
@@ -32,6 +33,11 @@ namespace ConsoleDemo
             Log.CloseAndFlush();
 
             Console.ReadKey(true);
+        }
+
+        static void Fail()
+        {
+            throw new DivideByZeroException();
         }
     }
 }

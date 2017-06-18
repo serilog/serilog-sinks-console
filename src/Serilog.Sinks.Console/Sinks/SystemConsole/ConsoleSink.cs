@@ -17,30 +17,30 @@ using System.IO;
 using System.Text;
 using Serilog.Core;
 using Serilog.Events;
-using Serilog.Sinks.SystemConsole.Output;
 using Serilog.Sinks.SystemConsole.Themes;
+using Serilog.Formatting;
 
 namespace Serilog.Sinks.SystemConsole
 {
-    class StyledConsoleSink : ILogEventSink
+    class ConsoleSink : ILogEventSink
     {
         readonly LogEventLevel? _standardErrorFromLevel;
         readonly ConsoleTheme _theme;
-        readonly OutputTemplateRenderer _renderer;
+        readonly ITextFormatter _formatter;
         readonly TextWriter _stdout, _stderr;
         readonly object _syncRoot = new object();
 
         const int DefaultWriteBuffer = 256;
 
-        public StyledConsoleSink(
+        public ConsoleSink(
             ConsoleTheme theme,
-            string outputTemplate,
+            ITextFormatter formatter,
             IFormatProvider formatProvider,
             LogEventLevel? standardErrorFromLevel)
         {
             _standardErrorFromLevel = standardErrorFromLevel;
             _theme = theme ?? throw new ArgumentNullException(nameof(theme));
-            _renderer = new OutputTemplateRenderer(_theme, outputTemplate, formatProvider);
+            _formatter = formatter;
 
             if (_theme.CanBuffer)
             {
@@ -61,7 +61,7 @@ namespace Serilog.Sinks.SystemConsole
             if (_theme.CanBuffer)
             {
                 var buffer = new StringWriter(new StringBuilder(DefaultWriteBuffer));
-                _renderer.Render(logEvent, buffer);
+                _formatter.Format(logEvent, buffer);
                 lock (_syncRoot)
                 {
                     output.Write(buffer.ToString());
@@ -72,7 +72,7 @@ namespace Serilog.Sinks.SystemConsole
             {
                 lock (_syncRoot)
                 {
-                    _renderer.Render(logEvent, output);
+                    _formatter.Format(logEvent, output);
                     output.Flush();
                 }
             }
