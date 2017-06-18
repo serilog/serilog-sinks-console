@@ -26,6 +26,11 @@ namespace Serilog.Sinks.SystemConsole.Themes
     public class AnsiConsoleTheme : ConsoleTheme
     {
         /// <summary>
+        /// A 256-color theme along the lines of Visual Studio Code.
+        /// </summary>
+        public static AnsiConsoleTheme Code { get; } = AnsiConsoleThemes.Code;
+
+        /// <summary>
         /// A theme using only gray, black and white.
         /// </summary>
         public static AnsiConsoleTheme Grayscale { get; } = AnsiConsoleThemes.Grayscale;
