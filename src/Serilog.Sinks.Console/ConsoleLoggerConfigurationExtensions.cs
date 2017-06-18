@@ -62,7 +62,7 @@ namespace Serilog
                 theme ?? SystemConsoleThemes.Literate;
 
             var formatter = new OutputTemplateRenderer(appliedTheme, outputTemplate, formatProvider);
-            return sinkConfiguration.Sink(new ConsoleSink(appliedTheme, formatter, formatProvider, standardErrorFromLevel), restrictedToMinimumLevel, levelSwitch);
+            return sinkConfiguration.Sink(new ConsoleSink(appliedTheme, formatter, standardErrorFromLevel), restrictedToMinimumLevel, levelSwitch);
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace Serilog
             if (sinkConfiguration == null) throw new ArgumentNullException(nameof(sinkConfiguration));
             if (formatter == null) throw new ArgumentNullException(nameof(formatter));
 
-            return sinkConfiguration.Sink(new ConsoleSink(ConsoleTheme.None, formatter, null, standardErrorFromLevel), restrictedToMinimumLevel, levelSwitch);
+            return sinkConfiguration.Sink(new ConsoleSink(ConsoleTheme.None, formatter, standardErrorFromLevel), restrictedToMinimumLevel, levelSwitch);
         }
     }
 }

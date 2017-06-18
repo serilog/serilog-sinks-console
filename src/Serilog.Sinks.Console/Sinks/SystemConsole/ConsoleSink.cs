@@ -27,7 +27,6 @@ namespace Serilog.Sinks.SystemConsole
         readonly LogEventLevel? _standardErrorFromLevel;
         readonly ConsoleTheme _theme;
         readonly ITextFormatter _formatter;
-        readonly TextWriter _stdout, _stderr;
         readonly object _syncRoot = new object();
 
         const int DefaultWriteBuffer = 256;
@@ -35,23 +34,11 @@ namespace Serilog.Sinks.SystemConsole
         public ConsoleSink(
             ConsoleTheme theme,
             ITextFormatter formatter,
-            IFormatProvider formatProvider,
             LogEventLevel? standardErrorFromLevel)
         {
             _standardErrorFromLevel = standardErrorFromLevel;
             _theme = theme ?? throw new ArgumentNullException(nameof(theme));
             _formatter = formatter;
-
-            if (_theme.CanBuffer)
-            {
-                _stdout = new StreamWriter(Console.OpenStandardOutput(), Console.Out.Encoding);
-                _stderr = new StreamWriter(Console.OpenStandardError(), Console.Error.Encoding);
-            }
-            else
-            {
-                _stdout = Console.Out;
-                _stderr = Console.Error;
-            }
         }
 
         public void Emit(LogEvent logEvent)
@@ -81,9 +68,9 @@ namespace Serilog.Sinks.SystemConsole
         TextWriter SelectOutputStream(LogEventLevel logEventLevel)
         {
             if (!_standardErrorFromLevel.HasValue)
-                return _stdout;
+                return Console.Out;
 
-            return logEventLevel < _standardErrorFromLevel ? _stdout : _stderr;
+            return logEventLevel < _standardErrorFromLevel ? Console.Out : Console.Error;
         }
     }
 }

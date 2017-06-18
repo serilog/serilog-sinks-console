@@ -26,12 +26,17 @@ namespace Serilog.Sinks.SystemConsole.Themes
     public class AnsiConsoleTheme : ConsoleTheme
     {
         /// <summary>
+        /// A theme using only gray, black and white.
+        /// </summary>
+        public static AnsiConsoleTheme Grayscale { get; } = AnsiConsoleThemes.Grayscale;
+
+        /// <summary>
         /// A theme in the syle of the original <i>Serilog.Sinks.Literate</i>.
         /// </summary>
         public static AnsiConsoleTheme Literate { get; } = AnsiConsoleThemes.Literate;
 
         readonly IReadOnlyDictionary<ConsoleThemeStyle, string> _styles;
-        const string AnsiStyleReset = "\u001b[0m";
+        const string AnsiStyleReset = "\x1b[0m";
 
         /// <summary>
         /// Construct a theme given a set of styles.

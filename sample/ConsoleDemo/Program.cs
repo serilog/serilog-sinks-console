@@ -1,6 +1,4 @@
 ﻿using Serilog;
-using Serilog.Formatting.Display;
-using Serilog.Sinks.SystemConsole.Themes;
 using System;
 using System.Threading;
 
@@ -31,8 +29,6 @@ namespace ConsoleDemo
             }
 
             Log.CloseAndFlush();
-
-            Console.ReadKey(true);
         }
 
         static void Fail()

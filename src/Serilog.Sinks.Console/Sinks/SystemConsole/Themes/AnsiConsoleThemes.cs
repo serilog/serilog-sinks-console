@@ -21,22 +21,43 @@ namespace Serilog.Sinks.SystemConsole.Themes
         public static AnsiConsoleTheme Literate { get; } = new AnsiConsoleTheme(
             new Dictionary<ConsoleThemeStyle, string>
             {
-                [ConsoleThemeStyle.Text] = "\u001b[37;1m",
-                [ConsoleThemeStyle.SecondaryText] = "\u001b[37m",
-                [ConsoleThemeStyle.Punctuation] = "\u001b[30;1m",
-                [ConsoleThemeStyle.Invalid] = "\u001b[33;1m",
-                [ConsoleThemeStyle.Null] = "\u001b[34;1m",
-                [ConsoleThemeStyle.Name] = "\u001b[37m",
-                [ConsoleThemeStyle.String] = "\u001b[36;1m",
-                [ConsoleThemeStyle.Number] = "\u001b[35;1m",
-                [ConsoleThemeStyle.Boolean] = "\u001b[34;1m",
-                [ConsoleThemeStyle.Object] = "\u001b[32;1m",
-                [ConsoleThemeStyle.LevelVerbose] = "\u001b[37m",
-                [ConsoleThemeStyle.LevelDebug] = "\u001b[37m",
-                [ConsoleThemeStyle.LevelInformation] = "\u001b[37;1m",
-                [ConsoleThemeStyle.LevelWarning] = "\u001b[33;1m",
-                [ConsoleThemeStyle.LevelError] = "\u001b[37;1m\u001b[41;1m",
-                [ConsoleThemeStyle.LevelFatal] = "\u001b[37;1m\u001b[41;1m"
+                [ConsoleThemeStyle.Text] = "\x1b[37;1m",
+                [ConsoleThemeStyle.SecondaryText] = "\x1b[37m",
+                [ConsoleThemeStyle.Punctuation] = "\x1b[30;1m",
+                [ConsoleThemeStyle.Invalid] = "\x1b[33;1m",
+                [ConsoleThemeStyle.Null] = "\x1b[34;1m",
+                [ConsoleThemeStyle.Name] = "\x1b[37m",
+                [ConsoleThemeStyle.String] = "\x1b[36;1m",
+                [ConsoleThemeStyle.Number] = "\x1b[35;1m",
+                [ConsoleThemeStyle.Boolean] = "\x1b[34;1m",
+                [ConsoleThemeStyle.Object] = "\x1b[32;1m",
+                [ConsoleThemeStyle.LevelVerbose] = "\x1b[37m",
+                [ConsoleThemeStyle.LevelDebug] = "\x1b[37m",
+                [ConsoleThemeStyle.LevelInformation] = "\x1b[37;1m",
+                [ConsoleThemeStyle.LevelWarning] = "\x1b[33;1m",
+                [ConsoleThemeStyle.LevelError] = "\x1b[37;1m\x1b[41;1m",
+                [ConsoleThemeStyle.LevelFatal] = "\x1b[37;1m\x1b[41;1m"
+            });
+
+        public static AnsiConsoleTheme Grayscale { get; } = new AnsiConsoleTheme(
+            new Dictionary<ConsoleThemeStyle, string>
+            {
+                [ConsoleThemeStyle.Text] = "\x1b[37;1m",
+                [ConsoleThemeStyle.SecondaryText] = "\x1b[37m",
+                [ConsoleThemeStyle.Punctuation] = "\x1b[30;1m",
+                [ConsoleThemeStyle.Invalid] = "\x1b[37;1m\x1b[47m",
+                [ConsoleThemeStyle.Null] = "\x1b[37;1m",
+                [ConsoleThemeStyle.Name] = "\x1b[37m",
+                [ConsoleThemeStyle.String] = "\x1b[37;1m",
+                [ConsoleThemeStyle.Number] ="\x1b[37;1m",
+                [ConsoleThemeStyle.Boolean] ="\x1b[37;1m",
+                [ConsoleThemeStyle.Object] ="\x1b[37;1m",
+                [ConsoleThemeStyle.LevelVerbose] = "\x1b[30;1m",
+                [ConsoleThemeStyle.LevelDebug] = "\x1b[30;1m",
+                [ConsoleThemeStyle.LevelInformation] ="\x1b[37;1m",
+                [ConsoleThemeStyle.LevelWarning] = "\x1b[37;1m\x1b[47m",
+                [ConsoleThemeStyle.LevelError] = "\x1b[30m\x1b[47;1m",
+                [ConsoleThemeStyle.LevelFatal] = "\x1b[30m\x1b[47;1m"
             });
     }
 }
