@@ -1,6 +1,7 @@
 ﻿using Serilog;
 using System;
 using System.Threading;
+using Serilog.Sinks.SystemConsole.Themes;
 
 namespace ConsoleDemo
 {
@@ -10,7 +11,7 @@ namespace ConsoleDemo
         {
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Verbose()
-                .WriteTo.Console()
+                .WriteTo.Console(theme: AnsiConsoleTheme.Code)
                 .CreateLogger();
 
             try
