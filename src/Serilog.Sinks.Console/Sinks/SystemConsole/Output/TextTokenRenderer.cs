@@ -32,7 +32,7 @@ namespace Serilog.Sinks.SystemConsole.Output
         public override void Render(LogEvent logEvent, TextWriter output)
         {
             var _ = 0;
-            using (_theme.Apply(output, ConsoleThemeStyle.SecondaryText, ref _))
+            using (_theme.Apply(output, ConsoleThemeStyle.TertiaryText, ref _))
                 output.Write(_text);
         }
     }

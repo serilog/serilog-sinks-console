@@ -23,7 +23,7 @@ namespace Serilog.Sinks.SystemConsole.Themes
             {
                 [ConsoleThemeStyle.Text] = "\x1b[37;1m",
                 [ConsoleThemeStyle.SecondaryText] = "\x1b[37m",
-                [ConsoleThemeStyle.Punctuation] = "\x1b[30;1m",
+                [ConsoleThemeStyle.TertiaryText] = "\x1b[30;1m",
                 [ConsoleThemeStyle.Invalid] = "\x1b[33;1m",
                 [ConsoleThemeStyle.Null] = "\x1b[34;1m",
                 [ConsoleThemeStyle.Name] = "\x1b[37m",
@@ -44,7 +44,7 @@ namespace Serilog.Sinks.SystemConsole.Themes
             {
                 [ConsoleThemeStyle.Text] = "\x1b[37;1m",
                 [ConsoleThemeStyle.SecondaryText] = "\x1b[37m",
-                [ConsoleThemeStyle.Punctuation] = "\x1b[30;1m",
+                [ConsoleThemeStyle.TertiaryText] = "\x1b[30;1m",
                 [ConsoleThemeStyle.Invalid] = "\x1b[37;1m\x1b[47m",
                 [ConsoleThemeStyle.Null] = "\x1b[1m\x1b[37;1m",
                 [ConsoleThemeStyle.Name] = "\x1b[37m",
@@ -65,7 +65,7 @@ namespace Serilog.Sinks.SystemConsole.Themes
             {
                 [ConsoleThemeStyle.Text] = "\x1b[38;5;0253m",
                 [ConsoleThemeStyle.SecondaryText] = "\x1b[38;5;0246m",
-                [ConsoleThemeStyle.Punctuation] = "\x1b[38;5;0253m",
+                [ConsoleThemeStyle.TertiaryText] = "\x1b[38;5;0253m",
                 [ConsoleThemeStyle.Invalid] = "\x1b[33;1m",
                 [ConsoleThemeStyle.Null] = "\x1b[38;5;0038m",
                 [ConsoleThemeStyle.Name] = "\x1b[38;5;0081m",

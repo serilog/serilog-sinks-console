@@ -49,21 +49,21 @@ namespace Serilog.Sinks.SystemConsole.Formatting
 
             var count = 0;
 
-            using (ApplyStyle(state.Output, ConsoleThemeStyle.Punctuation, ref count))
+            using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                 state.Output.Write('[');
 
             var delim = "";
             for (var index = 0; index < sequence.Elements.Count; ++index)
             {
                 if (delim.Length != 0)
-                    using (ApplyStyle(state.Output, ConsoleThemeStyle.Punctuation, ref count))
+                    using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                         state.Output.Write(delim);
 
                 delim = ", ";
                 Visit(state, sequence.Elements[index]);
             }
 
-            using (ApplyStyle(state.Output, ConsoleThemeStyle.Punctuation, ref count))
+            using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                 state.Output.Write(']');
 
             return count;
@@ -81,14 +81,14 @@ namespace Serilog.Sinks.SystemConsole.Formatting
                 state.Output.Write(' ');
             }
 
-            using (ApplyStyle(state.Output, ConsoleThemeStyle.Punctuation, ref count))
+            using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                 state.Output.Write('{');
 
             var delim = "";
             for (var index = 0; index < structure.Properties.Count; ++index)
             {
                 if (delim.Length != 0)
-                    using (ApplyStyle(state.Output, ConsoleThemeStyle.Punctuation, ref count))
+                    using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                         state.Output.Write(delim);
 
                 delim = ", ";
@@ -98,13 +98,13 @@ namespace Serilog.Sinks.SystemConsole.Formatting
                 using (ApplyStyle(state.Output, ConsoleThemeStyle.Name, ref count))
                     state.Output.Write(property.Name);
 
-                using (ApplyStyle(state.Output, ConsoleThemeStyle.Punctuation, ref count))
+                using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                     state.Output.Write('=');
 
                 count += Visit(state.Nest(), property.Value);
             }
 
-            using (ApplyStyle(state.Output, ConsoleThemeStyle.Punctuation, ref count))
+            using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                 state.Output.Write('}');
 
             return count;
@@ -114,31 +114,31 @@ namespace Serilog.Sinks.SystemConsole.Formatting
         {
             var count = 0;
 
-            using (ApplyStyle(state.Output, ConsoleThemeStyle.Punctuation, ref count))
+            using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                 state.Output.Write('{');
 
             var delim = "";
             foreach (var element in dictionary.Elements)
             {
                 if (delim.Length != 0)
-                    using (ApplyStyle(state.Output, ConsoleThemeStyle.Punctuation, ref count))
+                    using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                         state.Output.Write(delim);
 
                 delim = ", ";
 
-                using (ApplyStyle(state.Output, ConsoleThemeStyle.Punctuation, ref count))
+                using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                     state.Output.Write('[');
 
                 using (ApplyStyle(state.Output, ConsoleThemeStyle.String, ref count))
                     count += Visit(state.Nest(), element.Key);
 
-                using (ApplyStyle(state.Output, ConsoleThemeStyle.Punctuation, ref count))
+                using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                     state.Output.Write("]=");
 
                 count += Visit(state.Nest(), element.Value);
             }
 
-            using (ApplyStyle(state.Output, ConsoleThemeStyle.Punctuation, ref count))
+            using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                 state.Output.Write('}');
 
             return count;
