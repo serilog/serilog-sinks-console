@@ -30,9 +30,10 @@ namespace Serilog.Sinks.SystemConsole.Themes
         SecondaryText,
 
         /// <summary>
-        /// Punctuation used when writing structured data.
+        /// De-emphasized text, for example literal text in output templates and 
+        /// punctuation used when writing structured data.
         /// </summary>
-        Punctuation,
+        TertiaryText,
 
         /// <summary>
         /// Output demonstrating some kind of configuration issue, e.g. an invalid

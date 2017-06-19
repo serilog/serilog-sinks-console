@@ -52,21 +52,21 @@ namespace Serilog.Sinks.SystemConsole.Formatting
 
             var count = 0;
 
-            using (ApplyStyle(state.Output, ConsoleThemeStyle.Punctuation, ref count))
+            using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                 state.Output.Write('[');
 
             var delim = "";
             for (var index = 0; index < sequence.Elements.Count; ++index)
             {
                 if (delim.Length != 0)
-                    using (ApplyStyle(state.Output, ConsoleThemeStyle.Punctuation, ref count))
+                    using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                         state.Output.Write(delim);
 
                 delim = ", ";
                 Visit(state, sequence.Elements[index]);
             }
 
-            using (ApplyStyle(state.Output, ConsoleThemeStyle.Punctuation, ref count))
+            using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                 state.Output.Write(']');
 
             return count;
@@ -76,14 +76,14 @@ namespace Serilog.Sinks.SystemConsole.Formatting
         {
             var count = 0;
 
-            using (ApplyStyle(state.Output, ConsoleThemeStyle.Punctuation, ref count))
+            using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                 state.Output.Write('{');
 
             var delim = "";
             for (var index = 0; index < structure.Properties.Count; ++index)
             {
                 if (delim.Length != 0)
-                    using (ApplyStyle(state.Output, ConsoleThemeStyle.Punctuation, ref count))
+                    using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                         state.Output.Write(delim);
 
                 delim = ", ";
@@ -93,27 +93,27 @@ namespace Serilog.Sinks.SystemConsole.Formatting
                 using (ApplyStyle(state.Output, ConsoleThemeStyle.Name, ref count))
                     JsonValueFormatter.WriteQuotedJsonString(property.Name, state.Output);
 
-                using (ApplyStyle(state.Output, ConsoleThemeStyle.Punctuation, ref count))
+                using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                     state.Output.Write(": ");
 
                 count += Visit(state, property.Value);
             }
             if (structure.TypeTag != null)
             {
-                using (ApplyStyle(state.Output, ConsoleThemeStyle.Punctuation, ref count))
+                using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                     state.Output.Write(delim);
 
                 using (ApplyStyle(state.Output, ConsoleThemeStyle.Name, ref count))
                     JsonValueFormatter.WriteQuotedJsonString("$type", state.Output);
 
-                using (ApplyStyle(state.Output, ConsoleThemeStyle.Punctuation, ref count))
+                using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                     state.Output.Write(": ");
 
                 using (ApplyStyle(state.Output, ConsoleThemeStyle.String, ref count))
                     JsonValueFormatter.WriteQuotedJsonString(structure.TypeTag, state.Output);
             }
 
-            using (ApplyStyle(state.Output, ConsoleThemeStyle.Punctuation, ref count))
+            using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                 state.Output.Write('}');
 
             return count;
@@ -123,14 +123,14 @@ namespace Serilog.Sinks.SystemConsole.Formatting
         {
             int count = 0;
 
-            using (ApplyStyle(state.Output, ConsoleThemeStyle.Punctuation, ref count))
+            using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                 state.Output.Write('{');
 
             var delim = "";
             foreach (var element in dictionary.Elements)
             {
                 if (delim.Length != 0)
-                    using (ApplyStyle(state.Output, ConsoleThemeStyle.Punctuation, ref count))
+                    using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                         state.Output.Write(delim);
 
                 delim = ", ";
@@ -138,13 +138,13 @@ namespace Serilog.Sinks.SystemConsole.Formatting
                 using (ApplyStyle(state.Output, ConsoleThemeStyle.String, ref count))
                     JsonValueFormatter.WriteQuotedJsonString((element.Key.Value ?? "null").ToString(), state.Output);
 
-                using (ApplyStyle(state.Output, ConsoleThemeStyle.Punctuation, ref count))
+                using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                     state.Output.Write(": ");
 
                 count += Visit(state, element.Value);
             }
 
-            using (ApplyStyle(state.Output, ConsoleThemeStyle.Punctuation, ref count))
+            using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                 state.Output.Write('}');
 
             return count;
