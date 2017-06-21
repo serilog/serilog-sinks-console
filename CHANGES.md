@@ -1,3 +1,1 @@
-2.0.0 
-- Moved to new project
-- DotNet Core support
+See: https://github.com/serilog/serilog-sinks-console/releases
