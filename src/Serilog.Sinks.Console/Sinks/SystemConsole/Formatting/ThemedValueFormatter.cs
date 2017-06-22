@@ -36,7 +36,7 @@ namespace Serilog.Sinks.SystemConsole.Formatting
 
         public int Format(LogEventPropertyValue value, TextWriter output, string format)
         {
-            return Visit(new ThemedValueFormatterState { Output = output, Format = format }, value);
+            return Visit(new ThemedValueFormatterState { Output = output, Format = format, IsTopLevel = true }, value);
         }
 
         public abstract ThemedValueFormatter SwitchTheme(ConsoleTheme theme);
