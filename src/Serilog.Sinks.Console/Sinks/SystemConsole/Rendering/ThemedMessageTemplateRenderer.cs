@@ -126,7 +126,7 @@ namespace Serilog.Sinks.SystemConsole.Rendering
 
         int RenderValue(ConsoleTheme theme, ThemedValueFormatter valueFormatter, LogEventPropertyValue propertyValue, TextWriter output, string format)
         {
-            if (_isLiteral && propertyValue is ScalarValue sv && (sv.Value is string str || sv.Value is char ch))
+            if (_isLiteral && propertyValue is ScalarValue sv && sv.Value is string)
             {
                 var count = 0;
                 using (theme.Apply(output, ConsoleThemeStyle.String, ref count))
@@ -134,7 +134,7 @@ namespace Serilog.Sinks.SystemConsole.Rendering
                 return count;
             }
 
-            return valueFormatter.Format(propertyValue, output, format);
+            return valueFormatter.Format(propertyValue, output, format, _isLiteral);
         }
     }
 }
