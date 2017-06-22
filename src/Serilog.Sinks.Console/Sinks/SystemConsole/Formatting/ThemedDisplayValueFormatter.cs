@@ -184,7 +184,7 @@ namespace Serilog.Sinks.SystemConsole.Formatting
 
                 if (value is char ch)
                 {
-                    using (ApplyStyle(output, ConsoleThemeStyle.String, ref count))
+                    using (ApplyStyle(output, ConsoleThemeStyle.Scalar, ref count))
                     {
                         output.Write('\'');
                         output.Write(ch);
@@ -194,7 +194,7 @@ namespace Serilog.Sinks.SystemConsole.Formatting
                 }
             }
 
-            using (ApplyStyle(output, ConsoleThemeStyle.Object, ref count))
+            using (ApplyStyle(output, ConsoleThemeStyle.Scalar, ref count))
                 scalar.Render(output, format, _formatProvider);
 
             return count;

@@ -20,6 +20,7 @@ namespace Serilog.Sinks.SystemConsole.Formatting
     {
         public TextWriter Output;
         public string Format;
+        public bool IsTopLevel;
 
         public ThemedValueFormatterState Nest()
         {
