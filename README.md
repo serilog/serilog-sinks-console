@@ -143,4 +143,12 @@ To achieve output identical to version 2 of this sink, specify a formatter and o
 
 This will bypass theming and use Serilog's built-in message template formatting.
 
+### Detailed build status
+
+Branch  | AppVeyor | Travis
+------------- | ------------- |-------------
+dev | [![Build status](https://ci.appveyor.com/api/projects/status/w1w3m1wyk3in1c96/branch/dev?svg=true)](https://ci.appveyor.com/project/serilog/serilog-sinks-console/branch/dev)  | [![Build Status](https://travis-ci.org/serilog/serilog-sinks-console.svg?branch=dev)](https://travis-ci.org/serilog/serilog-sinks-console) 
+master | [![Build status](https://ci.appveyor.com/api/projects/status/w1w3m1wyk3in1c96/branch/master?svg=true)](https://ci.appveyor.com/project/serilog/serilog-sinks-console/branch/master) | [![Build Status](https://travis-ci.org/serilog/serilog-sinks-console.svg?branch=master)](https://travis-ci.org/serilog/serilog-sinks-console) 
+
+
 _Copyright &copy; 2017 Serilog Contributors - Provided under the [Apache License, Version 2.0](http://apache.org/licenses/LICENSE-2.0.html)._

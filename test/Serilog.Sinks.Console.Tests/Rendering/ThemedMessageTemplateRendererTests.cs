@@ -4,11 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Xunit;
-using Serilog.Core;
 using Serilog.Sinks.SystemConsole.Themes;
 using Serilog.Sinks.SystemConsole.Formatting;
 using Serilog.Sinks.SystemConsole.Rendering;
-using MessageTemplateParser = Serilog.Parsing.MessageTemplateParser;
 
 namespace Serilog.Sinks.Console.Tests.Rendering
 {
@@ -17,8 +15,9 @@ namespace Serilog.Sinks.Console.Tests.Rendering
         class Chair
         {
             // ReSharper disable UnusedMember.Local
-            public string Back { get { return "straight"; } }
-            public int[] Legs { get { return new[] { 1, 2, 3, 4 }; } }
+            public string Back => "straight";
+
+            public int[] Legs => new[] { 1, 2, 3, 4 };
             // ReSharper restore UnusedMember.Local
             public override string ToString()
             {
@@ -29,9 +28,11 @@ namespace Serilog.Sinks.Console.Tests.Rendering
         class Receipt
         {
             // ReSharper disable UnusedMember.Local
-            public decimal Sum { get { return 12.345m; } }
-            public DateTime When { get { return new DateTime(2013, 5, 20, 16, 39, 0); } }
+            public decimal Sum => 12.345m;
+       
+            public DateTime When => new DateTime(2013, 5, 20, 16, 39, 0);
             // ReSharper restore UnusedMember.Local
+
             public override string ToString()
             {
                 return "a receipt";

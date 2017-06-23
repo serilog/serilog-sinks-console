@@ -20,8 +20,9 @@ namespace Serilog.Sinks.Console.Tests.Formatting
             public string Format(object literal)
             {
                 var output = new StringWriter();
-                Format(new ScalarValue(literal), output, null);
-                return output.ToString();
+                Format(new SequenceValue(new [] {new ScalarValue(literal)}), output, null);
+                var o = output.ToString();
+                return o.Substring(1, o.Length - 2);
             }
         }
 
