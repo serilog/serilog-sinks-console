@@ -35,6 +35,11 @@ namespace Serilog.Sinks.SystemConsole.Themes
         /// </summary>
         public static SystemConsoleTheme Literate { get; } = SystemConsoleThemes.Literate;
 
+        /// <summary>
+        /// A theme based on the original Serilog "colored console" sink.
+        /// </summary>
+        public static SystemConsoleTheme Colored { get; } = SystemConsoleThemes.Colored;
+
         readonly IReadOnlyDictionary<ConsoleThemeStyle, SystemConsoleThemeStyle> _styles;
 
         /// <summary>
