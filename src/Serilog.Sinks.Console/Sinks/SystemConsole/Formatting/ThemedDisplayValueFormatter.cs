@@ -159,7 +159,12 @@ namespace Serilog.Sinks.SystemConsole.Formatting
             if (value is string str)
             {
                 using (ApplyStyle(output, ConsoleThemeStyle.String, ref count))
-                    JsonValueFormatter.WriteQuotedJsonString(str, output);
+                {
+                    if (format != "l")
+                        JsonValueFormatter.WriteQuotedJsonString(str, output);
+                    else
+                        output.Write(str);
+                }
                 return count;
             }
 
