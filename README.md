@@ -143,6 +143,13 @@ To achieve output identical to version 2 of this sink, specify a formatter and o
 
 This will bypass theming and use Serilog's built-in message template formatting.
 
+### Contributing
+
+Would you like to help make the Serilog console sink even better? We keep a list of issues that are approachable for newcomers under the [up-for-grabs](https://github.com/serilog/serilog-sinks-console/issues?labels=up-for-grabs&state=open) label. Before starting work on a pull request, we suggest commenting on, or raising, an issue on the issue tracker so that we can help and coordinate efforts.  For more details check out our [contributing guide](CONTRIBUTING.md).
+
+When contributing please keep in mind our [Code of Conduct](CODE_OF_CONDUCT.md).
+
+
 ### Detailed build status
 
 Branch  | AppVeyor | Travis
