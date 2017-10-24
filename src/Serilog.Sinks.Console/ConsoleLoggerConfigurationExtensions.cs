@@ -39,7 +39,7 @@ namespace Serilog
         /// <param name="levelSwitch">A switch allowing the pass-through minimum level
         /// to be changed at runtime.</param>
         /// <param name="outputTemplate">A message template describing the format used to write to the sink.
-        /// the default is <code>"[{Timestamp:HH:mm:ss} {Level:u3}] {Message}{NewLine}{Exception}"</code>.</param>
+        /// the default is <code>"[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}"</code>.</param>
         /// <param name="formatProvider">Supplies culture-specific formatting information, or null.</param>
         /// <param name="standardErrorFromLevel">Specifies the level at which events will be written to standard error.</param>
         /// <param name="theme">The theme to apply to the styled output. If not specified,
