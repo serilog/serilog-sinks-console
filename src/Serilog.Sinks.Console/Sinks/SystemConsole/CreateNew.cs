@@ -7,6 +7,9 @@ using System;
 
 namespace Serilog.Sinks.SystemConsole
 {
+    /// <summary>
+    /// Static factory class for creating text formatters and sinks for the console sink.
+    /// </summary>
     public static class CreateNew
     {
         const string DefaultConsoleOutputTemplate =
