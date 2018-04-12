@@ -14,15 +14,9 @@ namespace Serilog.Sinks.Console.Tests
         }
 
         [Fact]
-        void ConsoleSinkNullThemeAndFormatProviderThrows()
-        {
-            Assert.Throws<ArgumentNullException>(() => CreateNew.ConsoleSink(null, (IFormatProvider)null));
-        }
-
-        [Fact]
         void ValidInstance()
         {
-            CreateNew.ConsoleSink(ConsoleTheme.None, CreateNew.TextFormatter(ConsoleTheme.None));
+            CreateNew.TextFormatter(ConsoleTheme.None);
         }
     }
 }
