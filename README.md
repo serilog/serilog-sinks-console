@@ -122,11 +122,27 @@ var logger = new LoggerConfiguration()
 ```
 
 In your `appsettings.json` file, under the `Serilog` node, :
-
 ```json
 {
   "Serilog": {
     "WriteTo": [{"Name": "Console"}]
+  }
+}
+```
+
+To configure the console sink with a different theme and include the `SourceContext` in the output, change your `appsettings.json` to:
+```json
+{
+  "Serilog": {
+    "WriteTo": [
+      {
+          "Name": "Console",
+          "Args": {
+            "theme": "Serilog.Sinks.SystemConsole.Themes.AnsiConsoleTheme::Code, Serilog.Sinks.Console",
+            "outputTemplate": "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} <s:{SourceContext}>{NewLine}{Exception}"
+          }
+      }
+    ]
   }
 }
 ```
