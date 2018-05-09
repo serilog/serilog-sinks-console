@@ -101,6 +101,15 @@ In your application's `App.config` or `Web.config` file, specify the console sin
     <add key="serilog:write-to:Console" />
 ```
 
+To configure the console sink with a different theme and include the `SourceContext` in the output, change your `App.config`/`Web.config` to:
+```xml
+<configuration>
+  <appSettings>
+    <add key="serilog:using:Console" value="Serilog.Sinks.Console" />
+    <add key="serilog:write-to:Console.theme" value="Serilog.Sinks.SystemConsole.Themes.AnsiConsoleTheme::Code, Serilog.Sinks.Console" />
+    <add key="serilog:write-to:Console.outputTemplate" value="[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} &lt;s:{SourceContext}&gt;{NewLine}{Exception}" />
+```
+
 ### JSON `appsettings.json` configuration
 
 To use the console sink with _Microsoft.Extensions.Configuration_, for example with ASP.NET Core or .NET Core, use the [Serilog.Settings.Configuration](https://github.com/serilog/serilog-settings-configuration) package. First install that package if you have not already done so:
