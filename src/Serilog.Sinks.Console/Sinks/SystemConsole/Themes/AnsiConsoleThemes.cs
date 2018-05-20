@@ -65,7 +65,7 @@ namespace Serilog.Sinks.SystemConsole.Themes
             {
                 [ConsoleThemeStyle.Text] = "\x1b[38;5;0253m",
                 [ConsoleThemeStyle.SecondaryText] = "\x1b[38;5;0246m",
-                [ConsoleThemeStyle.TertiaryText] = "\x1b[38;5;0253m",
+                [ConsoleThemeStyle.TertiaryText] = "\x1b[38;5;0242m",
                 [ConsoleThemeStyle.Invalid] = "\x1b[33;1m",
                 [ConsoleThemeStyle.Null] = "\x1b[38;5;0038m",
                 [ConsoleThemeStyle.Name] = "\x1b[38;5;0081m",
