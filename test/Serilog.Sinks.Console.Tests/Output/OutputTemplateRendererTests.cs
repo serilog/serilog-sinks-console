@@ -200,7 +200,7 @@ namespace Serilog.Sinks.Console.Tests.Output
             var evt = DelegatingSink.GetLogEvent(l => l.ForContext("Foo", 42).Information("Hello from {Bar}!", "bar"));
             var sw = new StringWriter();
             formatter.Format(evt, sw);
-            Assert.Equal("{ Foo: 42 }", sw.ToString());
+            Assert.Equal("{Foo=42}", sw.ToString());
         }
 
         [Fact]
@@ -210,7 +210,7 @@ namespace Serilog.Sinks.Console.Tests.Output
             var evt = DelegatingSink.GetLogEvent(l => l.ForContext("Foo", 42).Information("Hello from {0}!", "bar"));
             var sw = new StringWriter();
             formatter.Format(evt, sw);
-            Assert.Equal("{ Foo: 42 }", sw.ToString());
+            Assert.Equal("{Foo=42}", sw.ToString());
         }
 
         [Fact]
@@ -220,7 +220,7 @@ namespace Serilog.Sinks.Console.Tests.Output
             var evt = DelegatingSink.GetLogEvent(l => l.ForContext("Foo", 42).ForContext("Bar", 42).Information("Hello from bar!"));
             var sw = new StringWriter();
             formatter.Format(evt, sw);
-            Assert.Equal("42 { Bar: 42 }", sw.ToString());
+            Assert.Equal("42 {Bar=42}", sw.ToString());
         }
 
         [Theory]
@@ -239,10 +239,10 @@ namespace Serilog.Sinks.Console.Tests.Output
         }
 
         [Theory]
-        [InlineData("", "{ Name: \"World\" }")]
-        [InlineData(":j", "{\"Name\":\"World\"}")]
-        [InlineData(":lj", "{\"Name\":\"World\"}")]
-        [InlineData(":jl", "{\"Name\":\"World\"}")]
+        [InlineData("", "{Name=\"World\"}")]
+        [InlineData(":j", "{\"Name\": \"World\"}")]
+        [InlineData(":lj", "{\"Name\": \"World\"}")]
+        [InlineData(":jl", "{\"Name\": \"World\"}")]
         public void AppliesJsonFormattingToMessageStructuresWhenSpecified(string format, string expected)
         {
             var formatter = new OutputTemplateRenderer(ConsoleTheme.None, "{Message" + format + "}", null);
@@ -253,10 +253,10 @@ namespace Serilog.Sinks.Console.Tests.Output
         }
 
         [Theory]
-        [InlineData("", "{ Name: \"World\" }")]
-        [InlineData(":j", "{\"Name\":\"World\"}")]
-        [InlineData(":lj", "{\"Name\":\"World\"}")]
-        [InlineData(":jl", "{\"Name\":\"World\"}")]
+        [InlineData("", "{Name=\"World\"}")]
+        [InlineData(":j", "{\"Name\": \"World\"}")]
+        [InlineData(":lj", "{\"Name\": \"World\"}")]
+        [InlineData(":jl", "{\"Name\": \"World\"}")]
         public void AppliesJsonFormattingToPropertiesTokenWhenSpecified(string format, string expected)
         {
             var formatter = new OutputTemplateRenderer(ConsoleTheme.None, "{Properties" + format + "}", null);
@@ -267,21 +267,26 @@ namespace Serilog.Sinks.Console.Tests.Output
         }
 
         [Fact]
-        public void AnEmptyPropertiesTokenIsAnEmptyStructureValueWithDefaultFormatting()
+        public void AnEmptyPropertiesTokenIsAnEmptyStructureValue()
         {
             var formatter = new OutputTemplateRenderer(ConsoleTheme.None, "{Properties}", null);
             var evt = DelegatingSink.GetLogEvent(l => l.Information("Hello"));
             var sw = new StringWriter();
             formatter.Format(evt, sw);
 
-            var expected = new StructureValue(Enumerable.Empty<LogEventProperty>()).ToString();
-            Assert.Equal(expected, sw.ToString());
+            // /!\ different behavior from Serilog Core : https://github.com/serilog/serilog/blob/5c3a7821aa0f654e551dc21e8e19089f6767666b/test/Serilog.Tests/Formatting/Display/MessageTemplateTextFormatterTests.cs#L268-L278
+            //
+            // var expected = new StructureValue(Enumerable.Empty<LogEventProperty>()).ToString();
+            // // expected == "{  }"
+            // Assert.Equal(expected, sw.ToString());
+            //
+            Assert.Equal("{}", sw.ToString());
         }
 
         [Theory]
         [InlineData("", true)]
-        [InlineData(":lj", false)]
-        [InlineData(":jl", false)]
+        [InlineData(":lj", true)]
+        [InlineData(":jl", true)]
         [InlineData(":j", false)]
         [InlineData(":l", true)]
         public void FormatProviderWithScalarProperties(string format, bool shouldUseCustomFormatter)
