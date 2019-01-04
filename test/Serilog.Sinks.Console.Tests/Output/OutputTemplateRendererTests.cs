@@ -285,8 +285,8 @@ namespace Serilog.Sinks.Console.Tests.Output
 
         [Theory]
         [InlineData("", true)]
-        [InlineData(":lj", true)]
-        [InlineData(":jl", true)]
+        [InlineData(":lj", false)]
+        [InlineData(":jl", false)]
         [InlineData(":j", false)]
         [InlineData(":l", true)]
         public void FormatProviderWithScalarProperties(string format, bool shouldUseCustomFormatter)

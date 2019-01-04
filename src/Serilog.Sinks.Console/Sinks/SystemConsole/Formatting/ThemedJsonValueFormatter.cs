@@ -23,13 +23,11 @@ namespace Serilog.Sinks.SystemConsole.Formatting
 {
     class ThemedJsonValueFormatter : ThemedValueFormatter
     {
-        readonly ThemedDisplayValueFormatter _displayFormatter;
         readonly IFormatProvider _formatProvider;
 
         public ThemedJsonValueFormatter(ConsoleTheme theme, IFormatProvider formatProvider)
             : base(theme)
         {
-            _displayFormatter = new ThemedDisplayValueFormatter(theme, formatProvider);
             _formatProvider = formatProvider;
         }
 
@@ -42,10 +40,6 @@ namespace Serilog.Sinks.SystemConsole.Formatting
         {
             if (scalar == null)
                 throw new ArgumentNullException(nameof(scalar));
-
-            // At the top level, for scalar values, use "display" rendering.
-            if (state.IsTopLevel)
-                return _displayFormatter.FormatLiteralValue(scalar, state.Output, state.Format);
 
             return FormatLiteralValue(scalar, state.Output);
         }

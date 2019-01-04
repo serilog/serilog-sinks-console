@@ -134,7 +134,7 @@ namespace Serilog.Sinks.SystemConsole.Rendering
                 return count;
             }
 
-            return valueFormatter.Format(propertyValue, output, format, _isLiteral);
+            return valueFormatter.Format(propertyValue, output, format);
         }
     }
 }
