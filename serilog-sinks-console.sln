@@ -13,7 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{E9D1B5
 		Build.ps1 = Build.ps1
 		CHANGES.md = CHANGES.md
 		LICENSE = LICENSE
-		NuGet.Config = NuGet.Config
 		README.md = README.md
 		assets\Serilog.snk = assets\Serilog.snk
 	EndProjectSection
@@ -26,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serilog.Sinks.Console.Tests
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{CF817664-4CEC-4B6A-9C57-A0D687757D82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleDemo", "sample\ConsoleDemo\ConsoleDemo.csproj", "{DBF4907A-63A2-4895-8DEF-59F90C20380B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleDemo", "sample\ConsoleDemo\ConsoleDemo.csproj", "{DBF4907A-63A2-4895-8DEF-59F90C20380B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,5 +53,8 @@ Global
 		{866A028E-27DB-49A0-AC78-E5FEF247C099} = {037440DE-440B-4129-9F7A-09B42D00397E}
 		{1D56534C-4009-42C2-A573-789CAE6B8AA9} = {7D0692CD-F95D-4BF9-8C63-B4A1C078DF23}
 		{DBF4907A-63A2-4895-8DEF-59F90C20380B} = {CF817664-4CEC-4B6A-9C57-A0D687757D82}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {43C32ED4-D39A-4E27-AE99-7BB8C883833C}
 	EndGlobalSection
 EndGlobal
