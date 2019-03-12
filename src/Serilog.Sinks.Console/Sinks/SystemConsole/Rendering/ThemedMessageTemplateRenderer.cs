@@ -66,8 +66,7 @@ namespace Serilog.Sinks.SystemConsole.Rendering
 
         int RenderPropertyToken(PropertyToken pt, IReadOnlyDictionary<string, LogEventPropertyValue> properties, TextWriter output)
         {
-            LogEventPropertyValue propertyValue;
-            if (!properties.TryGetValue(pt.PropertyName, out propertyValue))
+            if (!properties.TryGetValue(pt.PropertyName, out LogEventPropertyValue propertyValue))
             {
                 var count = 0;
                 using (_theme.Apply(output, ConsoleThemeStyle.Invalid, ref count))

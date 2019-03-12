@@ -25,6 +25,7 @@ namespace Serilog.Sinks.SystemConsole.Output
     {
         readonly ConsoleTheme _theme;
         readonly PropertyToken _levelToken;
+
         static readonly Dictionary<LogEventLevel, ConsoleThemeStyle> Levels = new Dictionary<LogEventLevel, ConsoleThemeStyle>
         {
             { LogEventLevel.Verbose, ConsoleThemeStyle.LevelVerbose },

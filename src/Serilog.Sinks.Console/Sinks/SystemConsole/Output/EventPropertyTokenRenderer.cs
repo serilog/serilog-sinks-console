@@ -37,8 +37,7 @@ namespace Serilog.Sinks.SystemConsole.Output
         public override void Render(LogEvent logEvent, TextWriter output)
         {
             // If a property is missing, don't render anything (message templates render the raw token here).
-            LogEventPropertyValue propertyValue;
-            if (!logEvent.Properties.TryGetValue(_token.PropertyName, out propertyValue))
+            if (!logEvent.Properties.TryGetValue(_token.PropertyName, out LogEventPropertyValue propertyValue))
             {
                 Padding.Apply(output, "", _token.Alignment);
                 return;
