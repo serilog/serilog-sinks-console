@@ -32,20 +32,18 @@ namespace Serilog.Sinks.SystemConsole.Rendering
                 return;
             }
 
+            var pad = alignment.Value.Width - value.Length;
+
             if (alignment.Value.Direction == AlignmentDirection.Left)
                 output.Write(value);
 
-            var pad = alignment.Value.Width - value.Length;
-            if (pad > 0)
+            if (pad <= PaddingChars.Length)
             {
-                if (pad <= PaddingChars.Length)
-                {
-                    output.Write(PaddingChars, 0, pad);
-                }
-                else
-                {
-                    output.Write(new string(' ', pad));
-                }
+                output.Write(PaddingChars, 0, pad);
+            }
+            else
+            {
+                output.Write(new string(' ', pad));
             }
 
             if (alignment.Value.Direction == AlignmentDirection.Right)
