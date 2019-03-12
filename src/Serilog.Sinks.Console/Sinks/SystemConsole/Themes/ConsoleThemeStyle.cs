@@ -75,7 +75,7 @@ namespace Serilog.Sinks.SystemConsole.Themes
         Scalar,
 
         /// <summary>
-        /// Unrecogized literal values, e.g. <see cref="System.Guid"/> instances.
+        /// Unrecognized literal values, e.g. <see cref="System.Guid"/> instances.
         /// </summary>
         [Obsolete("Use ConsoleThemeStyle.Scalar instead"), EditorBrowsable(EditorBrowsableState.Never)]
         Object = Scalar,
