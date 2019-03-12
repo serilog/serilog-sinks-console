@@ -40,8 +40,6 @@ namespace Serilog.Sinks.SystemConsole.Themes
         /// </summary>
         public static SystemConsoleTheme Colored { get; } = SystemConsoleThemes.Colored;
 
-        readonly IReadOnlyDictionary<ConsoleThemeStyle, SystemConsoleThemeStyle> _styles;
-
         /// <summary>
         /// Construct a theme given a set of styles.
         /// </summary>
@@ -49,11 +47,11 @@ namespace Serilog.Sinks.SystemConsole.Themes
         public SystemConsoleTheme(IReadOnlyDictionary<ConsoleThemeStyle, SystemConsoleThemeStyle> styles)
         {
             if (styles == null) throw new ArgumentNullException(nameof(styles));
-            _styles = styles.ToDictionary(kv => kv.Key, kv => kv.Value);
+            Styles = styles.ToDictionary(kv => kv.Key, kv => kv.Value);
         }
 
         /// <inheritdoc/>
-        public IReadOnlyDictionary<ConsoleThemeStyle, SystemConsoleThemeStyle> Styles => _styles;
+        public IReadOnlyDictionary<ConsoleThemeStyle, SystemConsoleThemeStyle> Styles { get; private set; }
 
         /// <inheritdoc/>
         public override bool CanBuffer => false;
@@ -64,7 +62,7 @@ namespace Serilog.Sinks.SystemConsole.Themes
         /// <inheritdoc/>
         public override int Set(TextWriter output, ConsoleThemeStyle style)
         {
-            if (_styles.TryGetValue(style, out var wcts))
+            if (Styles.TryGetValue(style, out var wcts))
             {
                 if (wcts.Foreground.HasValue)
                     Console.ForegroundColor = wcts.Foreground.Value;
