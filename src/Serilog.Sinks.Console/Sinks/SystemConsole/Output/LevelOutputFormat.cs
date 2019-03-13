@@ -48,6 +48,7 @@ namespace Serilog.Sinks.SystemConsole.Output
         static readonly string[][] UppercaseLevelMap =
         {
             new[] { "V", "VB", "VRB", "VERB" },
+            new[] { "D", "DE", "DBG", "DBUG" },
             new[] { "I", "IN", "INF", "INFO" },
             new[] { "W", "WN", "WRN", "WARN" },
             new[] { "E", "ER", "ERR", "EROR" },
