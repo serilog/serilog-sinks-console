@@ -51,13 +51,13 @@ namespace Serilog.Sinks.SystemConsole.Themes
         }
 
         /// <inheritdoc/>
-        public IReadOnlyDictionary<ConsoleThemeStyle, SystemConsoleThemeStyle> Styles { get; private set; }
+        public IReadOnlyDictionary<ConsoleThemeStyle, SystemConsoleThemeStyle> Styles { get; }
 
         /// <inheritdoc/>
         public override bool CanBuffer => false;
 
         /// <inheritdoc/>
-        protected override int ResetCharCount { get; } = 0;
+        protected override int ResetCharCount { get; }
 
         /// <inheritdoc/>
         public override int Set(TextWriter output, ConsoleThemeStyle style)

@@ -33,7 +33,7 @@ namespace Serilog.Sinks.SystemConsole.Themes
         SecondaryText,
 
         /// <summary>
-        /// De-emphasized text, for example literal text in output templates and 
+        /// De-emphasized text, for example literal text in output templates and
         /// punctuation used when writing structured data.
         /// </summary>
         TertiaryText,
@@ -63,9 +63,9 @@ namespace Serilog.Sinks.SystemConsole.Themes
         /// Numbers.
         /// </summary>
         Number,
-        
+
         /// <summary>
-        /// <see cref="System.Boolean"/> values.
+        /// <see cref="bool"/> values.
         /// </summary>
         Boolean,
 
@@ -77,7 +77,8 @@ namespace Serilog.Sinks.SystemConsole.Themes
         /// <summary>
         /// Unrecognized literal values, e.g. <see cref="System.Guid"/> instances.
         /// </summary>
-        [Obsolete("Use ConsoleThemeStyle.Scalar instead"), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("Use ConsoleThemeStyle.Scalar instead")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         Object = Scalar,
 
         /// <summary>
@@ -108,6 +109,6 @@ namespace Serilog.Sinks.SystemConsole.Themes
         /// <summary>
         /// Level indicator.
         /// </summary>
-        LevelFatal
+        LevelFatal,
     }
 }
