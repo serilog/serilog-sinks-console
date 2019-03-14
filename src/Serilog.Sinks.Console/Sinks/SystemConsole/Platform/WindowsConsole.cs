@@ -23,7 +23,7 @@ namespace Serilog.Sinks.SystemConsole.Platform
     {
 #if PINVOKE
         public static void EnableVirtualTerminalProcessing()
-        {         
+        {
 #if RUNTIME_INFORMATION
             if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 return;
@@ -49,10 +49,10 @@ namespace Serilog.Sinks.SystemConsole.Platform
         static extern bool GetConsoleMode(IntPtr handle, out uint mode);
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        static extern bool SetConsoleMode(IntPtr handle, uint mode);   
+        static extern bool SetConsoleMode(IntPtr handle, uint mode);
 #else
         public static void EnableVirtualTerminalProcessing()
-        {            
+        {
         }
 #endif
     }

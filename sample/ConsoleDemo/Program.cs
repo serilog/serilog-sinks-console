@@ -1,7 +1,7 @@
 ﻿using Serilog;
+using Serilog.Sinks.SystemConsole.Themes;
 using System;
 using System.Threading;
-using Serilog.Sinks.SystemConsole.Themes;
 
 namespace ConsoleDemo
 {

@@ -44,7 +44,9 @@ namespace Serilog.Sinks.SystemConsole.Output
             using (_theme.Apply(output, ConsoleThemeStyle.SecondaryText, ref _))
             {
                 if (_token.Alignment == null)
+                {
                     sv.Render(output, _token.Format, _formatProvider);
+                }
                 else
                 {
                     var buffer = new StringWriter();

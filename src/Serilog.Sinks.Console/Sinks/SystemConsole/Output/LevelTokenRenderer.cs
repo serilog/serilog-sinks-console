@@ -25,6 +25,7 @@ namespace Serilog.Sinks.SystemConsole.Output
     {
         readonly ConsoleTheme _theme;
         readonly PropertyToken _levelToken;
+
         static readonly Dictionary<LogEventLevel, ConsoleThemeStyle> Levels = new Dictionary<LogEventLevel, ConsoleThemeStyle>
         {
             { LogEventLevel.Verbose, ConsoleThemeStyle.LevelVerbose },
@@ -32,7 +33,7 @@ namespace Serilog.Sinks.SystemConsole.Output
             { LogEventLevel.Information, ConsoleThemeStyle.LevelInformation },
             { LogEventLevel.Warning, ConsoleThemeStyle.LevelWarning },
             { LogEventLevel.Error, ConsoleThemeStyle.LevelError },
-            { LogEventLevel.Fatal, ConsoleThemeStyle.LevelFatal }
+            { LogEventLevel.Fatal, ConsoleThemeStyle.LevelFatal },
         };
 
         public LevelTokenRenderer(ConsoleTheme theme, PropertyToken levelToken)

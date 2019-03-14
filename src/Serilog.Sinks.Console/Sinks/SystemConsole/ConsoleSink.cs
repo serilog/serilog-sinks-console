@@ -12,14 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Serilog.Core;
+using Serilog.Events;
+using Serilog.Formatting;
+using Serilog.Sinks.SystemConsole.Platform;
+using Serilog.Sinks.SystemConsole.Themes;
 using System;
 using System.IO;
 using System.Text;
-using Serilog.Core;
-using Serilog.Events;
-using Serilog.Sinks.SystemConsole.Themes;
-using Serilog.Formatting;
-using Serilog.Sinks.SystemConsole.Platform;
 
 namespace Serilog.Sinks.SystemConsole
 {
@@ -30,7 +30,7 @@ namespace Serilog.Sinks.SystemConsole
         readonly ITextFormatter _formatter;
         readonly object _syncRoot = new object();
 
-        const int DefaultWriteBuffer = 256;
+        const int DefaultWriteBufferCapacity = 256;
 
         static ConsoleSink()
         {
@@ -56,7 +56,7 @@ namespace Serilog.Sinks.SystemConsole
             // buffered write here and have no effect when the line is actually written out.
             if (_theme.CanBuffer)
             {
-                var buffer = new StringWriter(new StringBuilder(DefaultWriteBuffer));
+                var buffer = new StringWriter(new StringBuilder(DefaultWriteBufferCapacity));
                 _formatter.Format(logEvent, buffer);
                 lock (_syncRoot)
                 {
@@ -76,7 +76,7 @@ namespace Serilog.Sinks.SystemConsole
 
         TextWriter SelectOutputStream(LogEventLevel logEventLevel)
         {
-            if (!_standardErrorFromLevel.HasValue)
+            if (_standardErrorFromLevel == null)
                 return Console.Out;
 
             return logEventLevel < _standardErrorFromLevel ? Console.Out : Console.Error;

@@ -20,12 +20,9 @@ namespace Serilog.Sinks.SystemConsole.Themes
     {
         public override bool CanBuffer => true;
 
-        protected override int ResetCharCount { get; } = 0;
+        protected override int ResetCharCount { get; }
 
-        public override int Set(TextWriter output, ConsoleThemeStyle style)
-        {
-            return 0;
-        }
+        public override int Set(TextWriter output, ConsoleThemeStyle style) => 0;
 
         public override void Reset(TextWriter output)
         {

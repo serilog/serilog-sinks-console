@@ -60,12 +60,14 @@ namespace Serilog.Sinks.SystemConsole.Formatting
             using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                 state.Output.Write('[');
 
-            var delim = "";
+            var delim = string.Empty;
             for (var index = 0; index < sequence.Elements.Count; ++index)
             {
                 if (delim.Length != 0)
+                {
                     using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                         state.Output.Write(delim);
+                }
 
                 delim = ", ";
                 Visit(state.Nest(), sequence.Elements[index]);
@@ -84,12 +86,14 @@ namespace Serilog.Sinks.SystemConsole.Formatting
             using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                 state.Output.Write('{');
 
-            var delim = "";
+            var delim = string.Empty;
             for (var index = 0; index < structure.Properties.Count; ++index)
             {
                 if (delim.Length != 0)
+                {
                     using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                         state.Output.Write(delim);
+                }
 
                 delim = ", ";
 
@@ -132,12 +136,14 @@ namespace Serilog.Sinks.SystemConsole.Formatting
             using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                 state.Output.Write('{');
 
-            var delim = "";
+            var delim = string.Empty;
             foreach (var element in dictionary.Elements)
             {
                 if (delim.Length != 0)
+                {
                     using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                         state.Output.Write(delim);
+                }
 
                 delim = ", ";
 

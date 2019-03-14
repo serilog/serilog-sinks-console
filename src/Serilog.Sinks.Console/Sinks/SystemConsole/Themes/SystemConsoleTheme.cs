@@ -31,7 +31,7 @@ namespace Serilog.Sinks.SystemConsole.Themes
         public static SystemConsoleTheme Grayscale { get; } = SystemConsoleThemes.Grayscale;
 
         /// <summary>
-        /// A theme in the syle of the original <i>Serilog.Sinks.Literate</i>.
+        /// A theme in the style of the original <i>Serilog.Sinks.Literate</i>.
         /// </summary>
         public static SystemConsoleTheme Literate { get; } = SystemConsoleThemes.Literate;
 
@@ -40,8 +40,6 @@ namespace Serilog.Sinks.SystemConsole.Themes
         /// </summary>
         public static SystemConsoleTheme Colored { get; } = SystemConsoleThemes.Colored;
 
-        readonly IReadOnlyDictionary<ConsoleThemeStyle, SystemConsoleThemeStyle> _styles;
-
         /// <summary>
         /// Construct a theme given a set of styles.
         /// </summary>
@@ -49,22 +47,22 @@ namespace Serilog.Sinks.SystemConsole.Themes
         public SystemConsoleTheme(IReadOnlyDictionary<ConsoleThemeStyle, SystemConsoleThemeStyle> styles)
         {
             if (styles == null) throw new ArgumentNullException(nameof(styles));
-            _styles = styles.ToDictionary(kv => kv.Key, kv => kv.Value);
+            Styles = styles.ToDictionary(kv => kv.Key, kv => kv.Value);
         }
 
         /// <inheritdoc/>
-        public IReadOnlyDictionary<ConsoleThemeStyle, SystemConsoleThemeStyle> Styles => _styles;
+        public IReadOnlyDictionary<ConsoleThemeStyle, SystemConsoleThemeStyle> Styles { get; }
 
         /// <inheritdoc/>
         public override bool CanBuffer => false;
 
         /// <inheritdoc/>
-        protected override int ResetCharCount { get; } = 0;
+        protected override int ResetCharCount { get; }
 
         /// <inheritdoc/>
         public override int Set(TextWriter output, ConsoleThemeStyle style)
         {
-            if (_styles.TryGetValue(style, out var wcts))
+            if (Styles.TryGetValue(style, out var wcts))
             {
                 if (wcts.Foreground.HasValue)
                     Console.ForegroundColor = wcts.Foreground.Value;

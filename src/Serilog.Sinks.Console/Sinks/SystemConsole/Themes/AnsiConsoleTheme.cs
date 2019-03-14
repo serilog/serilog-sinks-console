@@ -36,7 +36,7 @@ namespace Serilog.Sinks.SystemConsole.Themes
         public static AnsiConsoleTheme Grayscale { get; } = AnsiConsoleThemes.Grayscale;
 
         /// <summary>
-        /// A theme in the syle of the original <i>Serilog.Sinks.Literate</i>.
+        /// A theme in the style of the original <i>Serilog.Sinks.Literate</i>.
         /// </summary>
         public static AnsiConsoleTheme Literate { get; } = AnsiConsoleThemes.Literate;
 

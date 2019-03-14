@@ -343,7 +343,7 @@ namespace Serilog.Sinks.Console.Tests.Output
                 l.Information("{@Item}", new
                 {
                     MyDate = date,
-                    MyNumber = number
+                    MyNumber = number,
                 });
             });
             var sw = new StringWriter();

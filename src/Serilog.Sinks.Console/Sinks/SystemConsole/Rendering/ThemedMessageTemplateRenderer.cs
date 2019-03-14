@@ -66,8 +66,7 @@ namespace Serilog.Sinks.SystemConsole.Rendering
 
         int RenderPropertyToken(PropertyToken pt, IReadOnlyDictionary<string, LogEventPropertyValue> properties, TextWriter output)
         {
-            LogEventPropertyValue propertyValue;
-            if (!properties.TryGetValue(pt.PropertyName, out propertyValue))
+            if (!properties.TryGetValue(pt.PropertyName, out var propertyValue))
             {
                 var count = 0;
                 using (_theme.Apply(output, ConsoleThemeStyle.Invalid, ref count))
@@ -116,11 +115,11 @@ namespace Serilog.Sinks.SystemConsole.Rendering
             if (pt.Alignment.Value.Direction == AlignmentDirection.Left)
             {
                 var invisible = RenderValue(_theme, _valueFormatter, propertyValue, output, pt.Format);
-                Padding.Apply(output, "", pt.Alignment.Value.Widen(-valueLength));
+                Padding.Apply(output, string.Empty, pt.Alignment.Value.Widen(-valueLength));
                 return invisible;
             }
 
-            Padding.Apply(output, "", pt.Alignment.Value.Widen(-valueLength));
+            Padding.Apply(output, string.Empty, pt.Alignment.Value.Widen(-valueLength));
             return RenderValue(_theme, _valueFormatter, propertyValue, output, pt.Format);
         }
 
