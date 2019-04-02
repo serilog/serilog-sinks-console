@@ -156,6 +156,20 @@ To configure the console sink with a different theme and include the `SourceCont
 }
 ```
 
+### Accessing the `ILogEventSink`
+```
+var theme = AnsiConsoleTheme.Code;
+var textFormatter = ConsoleSinkTextFormatFactory.Create()
+                                                .WithOutPutTemplate("[{Timestamp:HH:mm:ss} {Level:u3}] {Message,-30:lj} {Properties:j}{NewLine}{Exception}")
+                                                .With(theme)
+                                                .Build()
+var eventSink = ConsoleSinkFactory.Create()
+                                  .With(theme)
+                                  .With(textFormatter)
+                                  .Build();
+```
+
+
 ### Upgrading from _Serilog.Sinks.Console_ 2.x
 
 To achieve output identical to version 2 of this sink, specify a formatter and output template explicitly:
