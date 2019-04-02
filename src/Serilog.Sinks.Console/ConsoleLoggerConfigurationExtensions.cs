@@ -16,8 +16,6 @@ using Serilog.Configuration;
 using Serilog.Core;
 using Serilog.Events;
 using Serilog.Formatting;
-using Serilog.Sinks.SystemConsole;
-using Serilog.Sinks.SystemConsole.Output;
 using Serilog.Sinks.SystemConsole.Themes;
 using System;
 
@@ -28,7 +26,6 @@ namespace Serilog
     /// </summary>
     public static class ConsoleLoggerConfigurationExtensions
     {
-        const string DefaultConsoleOutputTemplate = "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}";
 
         /// <summary>
         /// Writes log events to <see cref="System.Console"/>.
@@ -48,21 +45,26 @@ namespace Serilog
         public static LoggerConfiguration Console(
             this LoggerSinkConfiguration sinkConfiguration,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
-            string outputTemplate = DefaultConsoleOutputTemplate,
+            string outputTemplate = null,
             IFormatProvider formatProvider = null,
             LoggingLevelSwitch levelSwitch = null,
             LogEventLevel? standardErrorFromLevel = null,
             ConsoleTheme theme = null)
         {
             if (sinkConfiguration == null) throw new ArgumentNullException(nameof(sinkConfiguration));
-            if (outputTemplate == null) throw new ArgumentNullException(nameof(outputTemplate));
 
-            var appliedTheme = System.Console.IsOutputRedirected || System.Console.IsErrorRedirected ?
-                ConsoleTheme.None :
-                theme ?? SystemConsoleThemes.Literate;
+            var textFormat = ConsoleSinkTextFormatFactory.Create()
+                                                         .WithOutPutTemplate(outputTemplate)
+                                                         .With(formatProvider)
+                                                         .With(theme)
+                                                         .Build();
+            var consoleSink = ConsoleSinkFactory.Create()
+                                                .With(standardErrorFromLevel)
+                                                .With(theme)
+                                                .With(textFormat)
+                                                .Build();
 
-            var formatter = new OutputTemplateRenderer(appliedTheme, outputTemplate, formatProvider);
-            return sinkConfiguration.Sink(new ConsoleSink(appliedTheme, formatter, standardErrorFromLevel), restrictedToMinimumLevel, levelSwitch);
+            return sinkConfiguration.Sink(consoleSink, restrictedToMinimumLevel, levelSwitch);
         }
 
         /// <summary>
@@ -87,7 +89,13 @@ namespace Serilog
             if (sinkConfiguration == null) throw new ArgumentNullException(nameof(sinkConfiguration));
             if (formatter == null) throw new ArgumentNullException(nameof(formatter));
 
-            return sinkConfiguration.Sink(new ConsoleSink(ConsoleTheme.None, formatter, standardErrorFromLevel), restrictedToMinimumLevel, levelSwitch);
+            var consoleSink = ConsoleSinkFactory.Create()
+                                                .With(formatter)
+                                                .With(standardErrorFromLevel)
+                                                .With(ConsoleTheme.None)
+                                                .Build();
+
+            return sinkConfiguration.Sink(consoleSink, restrictedToMinimumLevel, levelSwitch);
         }
     }
 }
