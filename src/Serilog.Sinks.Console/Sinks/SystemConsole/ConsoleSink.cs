@@ -58,9 +58,10 @@ namespace Serilog.Sinks.SystemConsole
             {
                 var buffer = new StringWriter(new StringBuilder(DefaultWriteBufferCapacity));
                 _formatter.Format(logEvent, buffer);
+                var formattedLogEventText = buffer.ToString();
                 lock (_syncRoot)
                 {
-                    output.Write(buffer.ToString());
+                    output.Write(formattedLogEventText);
                     output.Flush();
                 }
             }
