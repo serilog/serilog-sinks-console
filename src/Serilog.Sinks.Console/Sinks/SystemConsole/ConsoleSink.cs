@@ -28,7 +28,7 @@ namespace Serilog.Sinks.SystemConsole
         readonly LogEventLevel? _standardErrorFromLevel;
         readonly ConsoleTheme _theme;
         readonly ITextFormatter _formatter;
-        readonly object _syncRoot = new object();
+        static readonly object _syncRoot = new object();
 
         const int DefaultWriteBufferCapacity = 256;
 
