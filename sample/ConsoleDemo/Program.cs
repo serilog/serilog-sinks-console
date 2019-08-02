@@ -79,7 +79,7 @@ namespace ConsoleDemo
                 Log.Error(e, "Something went wrong");
             }
 
-            Log.CloseAndFlush();            
+            Log.CloseAndFlush();
         }
 
         static void Fail()
