@@ -1,15 +1,13 @@
 ﻿using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
 using System;
-using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace ConsoleDemo
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Verbose()
