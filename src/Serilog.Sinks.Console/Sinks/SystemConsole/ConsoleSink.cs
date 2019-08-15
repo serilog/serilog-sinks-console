@@ -29,7 +29,6 @@ namespace Serilog.Sinks.SystemConsole
         readonly ConsoleTheme _theme;
         readonly ITextFormatter _formatter;
         readonly object _syncRoot;
-        static readonly object _defaultSyncRoot = new object();
 
         const int DefaultWriteBufferCapacity = 256;
 
@@ -41,21 +40,13 @@ namespace Serilog.Sinks.SystemConsole
         public ConsoleSink(
             ConsoleTheme theme,
             ITextFormatter formatter,
-            LogEventLevel? standardErrorFromLevel)
-            : this(theme, formatter, standardErrorFromLevel, _defaultSyncRoot)
-        {
-        }
-
-        public ConsoleSink(
-            ConsoleTheme theme,
-            ITextFormatter formatter,
             LogEventLevel? standardErrorFromLevel,
             object syncRoot)
         {
             _standardErrorFromLevel = standardErrorFromLevel;
             _theme = theme ?? throw new ArgumentNullException(nameof(theme));
             _formatter = formatter;
-            _syncRoot = syncRoot ?? _defaultSyncRoot;
+            _syncRoot = syncRoot ?? throw new ArgumentNullException(nameof(syncRoot));
         }
 
         public void Emit(LogEvent logEvent)

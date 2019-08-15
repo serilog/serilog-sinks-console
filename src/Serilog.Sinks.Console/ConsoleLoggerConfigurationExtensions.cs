@@ -28,6 +28,7 @@ namespace Serilog
     /// </summary>
     public static class ConsoleLoggerConfigurationExtensions
     {
+        private static object DefaultSyncRoot = new object();
         const string DefaultConsoleOutputTemplate = "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}";
 
         /// <summary>
@@ -65,6 +66,8 @@ namespace Serilog
                 ConsoleTheme.None :
                 theme ?? SystemConsoleThemes.Literate;
 
+            syncRoot = syncRoot ?? DefaultSyncRoot;
+
             var formatter = new OutputTemplateRenderer(appliedTheme, outputTemplate, formatProvider);
             return sinkConfiguration.Sink(new ConsoleSink(appliedTheme, formatter, standardErrorFromLevel, syncRoot), restrictedToMinimumLevel, levelSwitch);
         }
@@ -95,6 +98,7 @@ namespace Serilog
             if (sinkConfiguration == null) throw new ArgumentNullException(nameof(sinkConfiguration));
             if (formatter == null) throw new ArgumentNullException(nameof(formatter));
 
+            syncRoot = syncRoot ?? DefaultSyncRoot;
             return sinkConfiguration.Sink(new ConsoleSink(ConsoleTheme.None, formatter, standardErrorFromLevel, syncRoot), restrictedToMinimumLevel, levelSwitch);
         }
     }
