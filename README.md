@@ -71,7 +71,7 @@ Install-Package Serilog.Formatting.Compact
 Pass a formatter to the `Console()` configuration method:
 
 ```csharp
-    .WriteTo.Console(new CompactJsonFormatter())
+    .WriteTo.Console(new RenderedCompactJsonFormatter())
 ```
 
 Output theming is not available when custom formatters are used.
@@ -155,18 +155,6 @@ To configure the console sink with a different theme and include the `SourceCont
   }
 }
 ```
-
-### Upgrading from _Serilog.Sinks.Console_ 2.x
-
-To achieve output identical to version 2 of this sink, specify a formatter and output template explicitly:
-
-```csharp
-    .WriteTo.Console(new MessageTemplateTextFormatter(
-        "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level}] {Message}{NewLine}{Exception}",
-        null))
-```
-
-This will bypass theming and use Serilog's built-in message template formatting.
 
 ### Contributing
 
