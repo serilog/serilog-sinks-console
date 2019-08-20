@@ -1,9 +1,9 @@
-echo "build: Build started"
+Write-Host "build: Build started"
 
 Push-Location $PSScriptRoot
 
 if(Test-Path .\artifacts) {
-	echo "build: Cleaning .\artifacts"
+    Write-Host "build: Cleaning .\artifacts"
 	Remove-Item .\artifacts -Force -Recurse
 }
 
@@ -15,13 +15,13 @@ $suffix = @{ $true = ""; $false = "$($branch.Substring(0, [math]::Min(10,$branch
 $commitHash = $(git rev-parse --short HEAD)
 $buildSuffix = @{ $true = "$($suffix)-$($commitHash)"; $false = "$($branch)-$($commitHash)" }[$suffix -ne ""]
 
-echo "build: Package version suffix is $suffix"
-echo "build: Build version suffix is $buildSuffix" 
+Write-Host "build: Package version suffix is $suffix"
+Write-Host "build: Build version suffix is $buildSuffix" 
 
-foreach ($src in ls src/*) {
+foreach ($src in Get-ChildItem src/*) {
     Push-Location $src
 
-	echo "build: Packaging project in $src"
+    Write-Host "build: Packaging project in $src"
 
     & dotnet build -c Release --version-suffix=$buildSuffix
     if ($suffix) {
@@ -34,10 +34,21 @@ foreach ($src in ls src/*) {
     Pop-Location
 }
 
+foreach ($sample in Get-ChildItem sample/*) {
+    Push-Location $sample
+
+    Write-Host "build: Testing project in $sample"
+
+    & dotnet build -c Release --version-suffix=$buildSuffix
+    if($LASTEXITCODE -ne 0) { exit 3 }
+
+    Pop-Location
+}
+
 foreach ($test in ls test/*.Tests) {
     Push-Location $test
 
-	echo "build: Testing project in $test"
+	Write-Host "build: Testing project in $test"
 
     & dotnet test -c Release
     if($LASTEXITCODE -ne 0) { exit 3 }
