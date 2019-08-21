@@ -3,9 +3,10 @@ language: csharp
 matrix:
   include:
     - os: linux # Ubuntu 14.04
-      dist: trusty
+      dist: xenial
       sudo: required
-      dotnet: 2.2
+      dotnet: 2.2.401
+      mono: none
       group: edge
 
 script:
