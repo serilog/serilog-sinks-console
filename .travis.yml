@@ -6,6 +6,7 @@ matrix:
       dist: trusty
       sudo: required
       dotnet: 1.0.4
+      mono: none
       group: edge
 
 script:
