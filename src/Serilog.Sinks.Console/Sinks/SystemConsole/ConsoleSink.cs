@@ -15,7 +15,6 @@
 using Serilog.Core;
 using Serilog.Events;
 using Serilog.Formatting;
-using Serilog.Sinks.SystemConsole.Platform;
 using Serilog.Sinks.SystemConsole.Themes;
 using System;
 using System.IO;
@@ -31,11 +30,6 @@ namespace Serilog.Sinks.SystemConsole
         static readonly object _syncRoot = new object();
 
         const int DefaultWriteBufferCapacity = 256;
-
-        static ConsoleSink()
-        {
-            WindowsConsole.EnableVirtualTerminalProcessing();
-        }
 
         public ConsoleSink(
             ConsoleTheme theme,

@@ -4,7 +4,7 @@
     <Description>A Serilog sink that writes log events to the console/terminal.</Description>
     <VersionPrefix>3.1.2</VersionPrefix>
     <Authors>Serilog Contributors</Authors>
-    <TargetFrameworks>net45;netstandard1.3;netstandard2.0;netcoreapp1.1</TargetFrameworks>
+    <TargetFrameworks>netstandard1.3;netstandard2.0</TargetFrameworks>
     <AssemblyName>Serilog.Sinks.Console</AssemblyName>
     <AssemblyOriginatorKeyFile>../../assets/Serilog.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
@@ -26,32 +26,12 @@
     <RootNamespace>Serilog</RootNamespace>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net45' ">
-    <DefineConstants>$(DefineConstants);PINVOKE</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.1' ">
-    <DefineConstants>$(DefineConstants);PINVOKE;RUNTIME_INFORMATION</DefineConstants>
-  </PropertyGroup>
-  
   <ItemGroup>
     <PackageReference Include="Serilog" Version="2.8.0" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
-
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
     <PackageReference Include="System.Console" Version="4.3.0" />
-  </ItemGroup>
-  
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.1' ">
-    <PackageReference Include="System.Console" Version="4.3.0" />
-    <PackageReference Include="System.Runtime.InteropServices" Version="4.3.0" />
-    <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Version="4.3.0" />
   </ItemGroup>
 
 </Project>
