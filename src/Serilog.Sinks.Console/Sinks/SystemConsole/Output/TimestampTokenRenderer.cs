@@ -41,7 +41,7 @@ namespace Serilog.Sinks.SystemConsole.Output
             var sv = new ScalarValue(logEvent.Timestamp);
 
             var _ = 0;
-            using (_theme.Apply(output, ConsoleThemeStyle.SecondaryText, ref _))
+            using (_theme.Apply(output, ConsoleThemeStyle.SecondaryText, ref _, logEvent.Level))
             {
                 if (_token.Alignment == null)
                 {

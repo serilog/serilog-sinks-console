@@ -60,8 +60,14 @@ namespace Serilog.Sinks.SystemConsole.Themes
         protected override int ResetCharCount { get; } = AnsiStyleReset.Length;
 
         /// <inheritdoc/>
-        public override int Set(TextWriter output, ConsoleThemeStyle style)
+        public override int Set(TextWriter output, ConsoleThemeStyle style, ConsoleThemeStyle levelLineStyle)
         {
+            if (_styles.TryGetValue(levelLineStyle, out var ansiLineStyle))
+            {
+                output.Write(ansiLineStyle);
+                return ansiLineStyle.Length;
+            }
+
             if (_styles.TryGetValue(style, out var ansiStyle))
             {
                 output.Write(ansiStyle);

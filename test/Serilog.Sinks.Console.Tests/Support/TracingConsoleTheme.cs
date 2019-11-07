@@ -11,9 +11,9 @@ namespace Serilog.Sinks.SystemConsole.Tests
 
         protected override int ResetCharCount { get; } = End.Length;
 
-        public override int Set(TextWriter output, ConsoleThemeStyle style)
+        public override int Set(TextWriter output, ConsoleThemeStyle style, ConsoleThemeStyle levelLineStyle)
         {
-            var start = $"<{style.ToString().ToLowerInvariant()}>";
+            var start = $"<{levelLineStyle.ToString().ToLowerInvariant()} {style.ToString().ToLowerInvariant()}>";
             output.Write(start);
             return start.Length;
         }

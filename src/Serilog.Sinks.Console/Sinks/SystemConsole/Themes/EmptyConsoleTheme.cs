@@ -22,7 +22,7 @@ namespace Serilog.Sinks.SystemConsole.Themes
 
         protected override int ResetCharCount { get; }
 
-        public override int Set(TextWriter output, ConsoleThemeStyle style) => 0;
+        public override int Set(TextWriter output, ConsoleThemeStyle style, ConsoleThemeStyle levelLineStyle) => 0;
 
         public override void Reset(TextWriter output)
         {

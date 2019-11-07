@@ -45,9 +45,9 @@ namespace Serilog.Sinks.SystemConsole.Formatting
 
             // At the top level, for scalar values, use "display" rendering.
             if (state.IsTopLevel)
-                return _displayFormatter.FormatLiteralValue(scalar, state.Output, state.Format);
+                return _displayFormatter.FormatLiteralValue(scalar, state.Output, state.Format, state.logEventLevel);
 
-            return FormatLiteralValue(scalar, state.Output);
+            return FormatLiteralValue(scalar, state.Output, state.logEventLevel);
         }
 
         protected override int VisitSequenceValue(ThemedValueFormatterState state, SequenceValue sequence)
@@ -57,7 +57,7 @@ namespace Serilog.Sinks.SystemConsole.Formatting
 
             var count = 0;
 
-            using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
+            using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count, state.logEventLevel))
                 state.Output.Write('[');
 
             var delim = string.Empty;
@@ -65,7 +65,7 @@ namespace Serilog.Sinks.SystemConsole.Formatting
             {
                 if (delim.Length != 0)
                 {
-                    using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
+                    using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count, state.logEventLevel))
                         state.Output.Write(delim);
                 }
 
@@ -73,7 +73,7 @@ namespace Serilog.Sinks.SystemConsole.Formatting
                 Visit(state.Nest(), sequence.Elements[index]);
             }
 
-            using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
+            using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count, state.logEventLevel))
                 state.Output.Write(']');
 
             return count;
@@ -83,7 +83,7 @@ namespace Serilog.Sinks.SystemConsole.Formatting
         {
             var count = 0;
 
-            using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
+            using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count, state.logEventLevel))
                 state.Output.Write('{');
 
             var delim = string.Empty;
@@ -91,7 +91,7 @@ namespace Serilog.Sinks.SystemConsole.Formatting
             {
                 if (delim.Length != 0)
                 {
-                    using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
+                    using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count, state.logEventLevel))
                         state.Output.Write(delim);
                 }
 
@@ -99,10 +99,10 @@ namespace Serilog.Sinks.SystemConsole.Formatting
 
                 var property = structure.Properties[index];
 
-                using (ApplyStyle(state.Output, ConsoleThemeStyle.Name, ref count))
+                using (ApplyStyle(state.Output, ConsoleThemeStyle.Name, ref count, state.logEventLevel))
                     JsonValueFormatter.WriteQuotedJsonString(property.Name, state.Output);
 
-                using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
+                using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count, state.logEventLevel))
                     state.Output.Write(": ");
 
                 count += Visit(state.Nest(), property.Value);
@@ -110,20 +110,20 @@ namespace Serilog.Sinks.SystemConsole.Formatting
 
             if (structure.TypeTag != null)
             {
-                using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
+                using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count, state.logEventLevel))
                     state.Output.Write(delim);
 
-                using (ApplyStyle(state.Output, ConsoleThemeStyle.Name, ref count))
+                using (ApplyStyle(state.Output, ConsoleThemeStyle.Name, ref count, state.logEventLevel))
                     JsonValueFormatter.WriteQuotedJsonString("$type", state.Output);
 
-                using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
+                using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count, state.logEventLevel))
                     state.Output.Write(": ");
 
-                using (ApplyStyle(state.Output, ConsoleThemeStyle.String, ref count))
+                using (ApplyStyle(state.Output, ConsoleThemeStyle.String, ref count, state.logEventLevel))
                     JsonValueFormatter.WriteQuotedJsonString(structure.TypeTag, state.Output);
             }
 
-            using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
+            using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count, state.logEventLevel))
                 state.Output.Write('}');
 
             return count;
@@ -133,7 +133,7 @@ namespace Serilog.Sinks.SystemConsole.Formatting
         {
             var count = 0;
 
-            using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
+            using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count, state.logEventLevel))
                 state.Output.Write('{');
 
             var delim = string.Empty;
@@ -141,7 +141,7 @@ namespace Serilog.Sinks.SystemConsole.Formatting
             {
                 if (delim.Length != 0)
                 {
-                    using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
+                    using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count, state.logEventLevel))
                         state.Output.Write(delim);
                 }
 
@@ -153,36 +153,36 @@ namespace Serilog.Sinks.SystemConsole.Formatting
                         ? ConsoleThemeStyle.String
                         : ConsoleThemeStyle.Scalar;
 
-                using (ApplyStyle(state.Output, style, ref count))
+                using (ApplyStyle(state.Output, style, ref count, state.logEventLevel))
                     JsonValueFormatter.WriteQuotedJsonString((element.Key.Value ?? "null").ToString(), state.Output);
 
-                using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
+                using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count, state.logEventLevel))
                     state.Output.Write(": ");
 
                 count += Visit(state.Nest(), element.Value);
             }
 
-            using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
+            using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count, state.logEventLevel))
                 state.Output.Write('}');
 
             return count;
         }
 
-        int FormatLiteralValue(ScalarValue scalar, TextWriter output)
+        int FormatLiteralValue(ScalarValue scalar, TextWriter output, LogEventLevel logEventLevel)
         {
             var value = scalar.Value;
             var count = 0;
 
             if (value == null)
             {
-                using (ApplyStyle(output, ConsoleThemeStyle.Null, ref count))
+                using (ApplyStyle(output, ConsoleThemeStyle.Null, ref count, logEventLevel))
                     output.Write("null");
                 return count;
             }
 
             if (value is string str)
             {
-                using (ApplyStyle(output, ConsoleThemeStyle.String, ref count))
+                using (ApplyStyle(output, ConsoleThemeStyle.String, ref count, logEventLevel))
                     JsonValueFormatter.WriteQuotedJsonString(str, output);
                 return count;
             }
@@ -191,14 +191,14 @@ namespace Serilog.Sinks.SystemConsole.Formatting
             {
                 if (value is int || value is uint || value is long || value is ulong || value is decimal || value is byte || value is sbyte || value is short || value is ushort)
                 {
-                    using (ApplyStyle(output, ConsoleThemeStyle.Number, ref count))
+                    using (ApplyStyle(output, ConsoleThemeStyle.Number, ref count, logEventLevel))
                         output.Write(((IFormattable)value).ToString(null, CultureInfo.InvariantCulture));
                     return count;
                 }
 
                 if (value is double d)
                 {
-                    using (ApplyStyle(output, ConsoleThemeStyle.Number, ref count))
+                    using (ApplyStyle(output, ConsoleThemeStyle.Number, ref count, logEventLevel))
                     {
                         if (double.IsNaN(d) || double.IsInfinity(d))
                             JsonValueFormatter.WriteQuotedJsonString(d.ToString(CultureInfo.InvariantCulture), output);
@@ -210,7 +210,7 @@ namespace Serilog.Sinks.SystemConsole.Formatting
 
                 if (value is float f)
                 {
-                    using (ApplyStyle(output, ConsoleThemeStyle.Number, ref count))
+                    using (ApplyStyle(output, ConsoleThemeStyle.Number, ref count, logEventLevel))
                     {
                         if (double.IsNaN(f) || double.IsInfinity(f))
                             JsonValueFormatter.WriteQuotedJsonString(f.ToString(CultureInfo.InvariantCulture), output);
@@ -222,7 +222,7 @@ namespace Serilog.Sinks.SystemConsole.Formatting
 
                 if (value is bool b)
                 {
-                    using (ApplyStyle(output, ConsoleThemeStyle.Boolean, ref count))
+                    using (ApplyStyle(output, ConsoleThemeStyle.Boolean, ref count, logEventLevel))
                         output.Write(b ? "true" : "false");
 
                     return count;
@@ -230,14 +230,14 @@ namespace Serilog.Sinks.SystemConsole.Formatting
 
                 if (value is char ch)
                 {
-                    using (ApplyStyle(output, ConsoleThemeStyle.Scalar, ref count))
+                    using (ApplyStyle(output, ConsoleThemeStyle.Scalar, ref count, logEventLevel))
                         JsonValueFormatter.WriteQuotedJsonString(ch.ToString(), output);
                     return count;
                 }
 
                 if (value is DateTime || value is DateTimeOffset)
                 {
-                    using (ApplyStyle(output, ConsoleThemeStyle.Scalar, ref count))
+                    using (ApplyStyle(output, ConsoleThemeStyle.Scalar, ref count, logEventLevel))
                     {
                         output.Write('"');
                         output.Write(((IFormattable)value).ToString("O", CultureInfo.InvariantCulture));
@@ -247,7 +247,7 @@ namespace Serilog.Sinks.SystemConsole.Formatting
                 }
             }
 
-            using (ApplyStyle(output, ConsoleThemeStyle.Scalar, ref count))
+            using (ApplyStyle(output, ConsoleThemeStyle.Scalar, ref count, logEventLevel))
                 JsonValueFormatter.WriteQuotedJsonString(value.ToString(), output);
 
             return count;

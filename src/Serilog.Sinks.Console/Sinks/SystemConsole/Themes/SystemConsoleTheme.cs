@@ -60,8 +60,16 @@ namespace Serilog.Sinks.SystemConsole.Themes
         protected override int ResetCharCount { get; }
 
         /// <inheritdoc/>
-        public override int Set(TextWriter output, ConsoleThemeStyle style)
+        public override int Set(TextWriter output, ConsoleThemeStyle style, ConsoleThemeStyle levelLineStyle)
         {
+            if (Styles.TryGetValue(levelLineStyle, out var wctls))
+            {
+                if (wctls.Foreground.HasValue)
+                    Console.ForegroundColor = wctls.Foreground.Value;
+                if (wctls.Background.HasValue)
+                    Console.BackgroundColor = wctls.Background.Value;
+            }
+
             if (Styles.TryGetValue(style, out var wcts))
             {
                 if (wcts.Foreground.HasValue)

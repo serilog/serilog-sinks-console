@@ -110,5 +110,35 @@ namespace Serilog.Sinks.SystemConsole.Themes
         /// Level indicator.
         /// </summary>
         LevelFatal,
+
+        /// <summary>
+        /// Level indicator.
+        /// </summary>
+        LevelVerboseLine,
+
+        /// <summary>
+        /// Level indicator.
+        /// </summary>
+        LevelDebugLine,
+
+        /// <summary>
+        /// Level indicator.
+        /// </summary>
+        LevelInformationLine,
+
+        /// <summary>
+        /// Level indicator.
+        /// </summary>
+        LevelWarningLine,
+
+        /// <summary>
+        /// Level indicator.
+        /// </summary>
+        LevelErrorLine,
+
+        /// <summary>
+        /// Level indicator.
+        /// </summary>
+        LevelFatalLine,
     }
 }

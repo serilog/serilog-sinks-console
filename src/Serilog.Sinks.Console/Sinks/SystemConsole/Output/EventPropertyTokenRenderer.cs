@@ -44,7 +44,7 @@ namespace Serilog.Sinks.SystemConsole.Output
             }
 
             var _ = 0;
-            using (_theme.Apply(output, ConsoleThemeStyle.SecondaryText, ref _))
+            using (_theme.Apply(output, ConsoleThemeStyle.SecondaryText, ref _, logEvent.Level))
             {
                 var writer = _token.Alignment.HasValue ? new StringWriter() : output;
 

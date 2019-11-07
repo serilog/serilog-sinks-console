@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Serilog.Events;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Serilog.Sinks.SystemConsole.Themes
@@ -21,6 +23,16 @@ namespace Serilog.Sinks.SystemConsole.Themes
     /// </summary>
     public abstract class ConsoleTheme
     {
+        static readonly Dictionary<LogEventLevel, ConsoleThemeStyle> Levels = new Dictionary<LogEventLevel, ConsoleThemeStyle>
+        {
+            { LogEventLevel.Verbose, ConsoleThemeStyle.LevelVerboseLine },
+            { LogEventLevel.Debug, ConsoleThemeStyle.LevelDebugLine },
+            { LogEventLevel.Information, ConsoleThemeStyle.LevelInformationLine },
+            { LogEventLevel.Warning, ConsoleThemeStyle.LevelWarningLine },
+            { LogEventLevel.Error, ConsoleThemeStyle.LevelErrorLine },
+            { LogEventLevel.Fatal, ConsoleThemeStyle.LevelFatalLine },
+        };
+
         /// <summary>
         /// No styling applied.
         /// </summary>
@@ -37,8 +49,9 @@ namespace Serilog.Sinks.SystemConsole.Themes
         /// </summary>
         /// <param name="output">Output destination.</param>
         /// <param name="style">Style to apply.</param>
+        /// <param name="levelLineStyle">Style to apply to the entire line.</param>
         /// <returns> The number of characters written to <paramref name="output"/>. </returns>
-        public abstract int Set(TextWriter output, ConsoleThemeStyle style);
+        public abstract int Set(TextWriter output, ConsoleThemeStyle style, ConsoleThemeStyle levelLineStyle);
 
         /// <summary>
         /// Reset the output to un-styled colors.
@@ -51,9 +64,12 @@ namespace Serilog.Sinks.SystemConsole.Themes
         /// </summary>
         protected abstract int ResetCharCount { get; }
 
-        internal StyleReset Apply(TextWriter output, ConsoleThemeStyle style, ref int invisibleCharacterCount)
+        internal StyleReset Apply(TextWriter output, ConsoleThemeStyle style, ref int invisibleCharacterCount, LogEventLevel logEventLevel)
         {
-            invisibleCharacterCount += Set(output, style);
+            if (!Levels.TryGetValue(logEventLevel, out var levelLineStyle))
+                levelLineStyle = ConsoleThemeStyle.Invalid;
+
+            invisibleCharacterCount += Set(output, style, levelLineStyle);
             invisibleCharacterCount += ResetCharCount;
 
             return new StyleReset(this, output);

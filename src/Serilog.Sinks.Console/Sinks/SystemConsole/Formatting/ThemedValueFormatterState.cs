@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Serilog.Events;
 using System.IO;
 
 namespace Serilog.Sinks.SystemConsole.Formatting
@@ -21,7 +22,7 @@ namespace Serilog.Sinks.SystemConsole.Formatting
         public TextWriter Output;
         public string Format;
         public bool IsTopLevel;
-
-        public ThemedValueFormatterState Nest() => new ThemedValueFormatterState { Output = Output };
+        public LogEventLevel logEventLevel;
+        public ThemedValueFormatterState Nest() => new ThemedValueFormatterState { Output = Output, logEventLevel = logEventLevel };
     }
 }

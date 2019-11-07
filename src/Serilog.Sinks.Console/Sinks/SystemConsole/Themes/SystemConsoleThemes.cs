@@ -38,6 +38,13 @@ namespace Serilog.Sinks.SystemConsole.Themes
                 [ConsoleThemeStyle.LevelWarning] = new SystemConsoleThemeStyle { Foreground = ConsoleColor.Yellow },
                 [ConsoleThemeStyle.LevelError] = new SystemConsoleThemeStyle { Foreground = ConsoleColor.White, Background = ConsoleColor.Red },
                 [ConsoleThemeStyle.LevelFatal] = new SystemConsoleThemeStyle { Foreground = ConsoleColor.White, Background = ConsoleColor.Red },
+                [ConsoleThemeStyle.LevelVerboseLine] = new SystemConsoleThemeStyle { Background = ConsoleColor.DarkBlue },
+                [ConsoleThemeStyle.LevelDebugLine] = new SystemConsoleThemeStyle { Background = ConsoleColor.DarkGray },
+                [ConsoleThemeStyle.LevelInformationLine] = new SystemConsoleThemeStyle { },
+                [ConsoleThemeStyle.LevelWarningLine] = new SystemConsoleThemeStyle { Background = ConsoleColor.DarkYellow },
+                [ConsoleThemeStyle.LevelErrorLine] = new SystemConsoleThemeStyle { Background = ConsoleColor.DarkRed },
+                [ConsoleThemeStyle.LevelFatalLine] = new SystemConsoleThemeStyle { Background = ConsoleColor.Red },
+
             });
 
         public static SystemConsoleTheme Grayscale { get; } = new SystemConsoleTheme(

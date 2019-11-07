@@ -38,53 +38,53 @@ namespace Serilog.Sinks.SystemConsole.Rendering
             _unthemedValueFormatter = valueFormatter.SwitchTheme(NoTheme);
         }
 
-        public int Render(MessageTemplate template, IReadOnlyDictionary<string, LogEventPropertyValue> properties, TextWriter output)
+        public int Render(MessageTemplate template, IReadOnlyDictionary<string, LogEventPropertyValue> properties, TextWriter output, LogEventLevel logEventLevel)
         {
             var count = 0;
             foreach (var token in template.Tokens)
             {
                 if (token is TextToken tt)
                 {
-                    count += RenderTextToken(tt, output);
+                    count += RenderTextToken(tt, output, logEventLevel);
                 }
                 else
                 {
                     var pt = (PropertyToken)token;
-                    count += RenderPropertyToken(pt, properties, output);
+                    count += RenderPropertyToken(pt, properties, output, logEventLevel);
                 }
             }
             return count;
         }
 
-        int RenderTextToken(TextToken tt, TextWriter output)
+        int RenderTextToken(TextToken tt, TextWriter output, LogEventLevel logEventLevel)
         {
             var count = 0;
-            using (_theme.Apply(output, ConsoleThemeStyle.Text, ref count))
+            using (_theme.Apply(output, ConsoleThemeStyle.Text, ref count, logEventLevel))
                 output.Write(tt.Text);
             return count;
         }
 
-        int RenderPropertyToken(PropertyToken pt, IReadOnlyDictionary<string, LogEventPropertyValue> properties, TextWriter output)
+        int RenderPropertyToken(PropertyToken pt, IReadOnlyDictionary<string, LogEventPropertyValue> properties, TextWriter output, LogEventLevel logEventLevel)
         {
             if (!properties.TryGetValue(pt.PropertyName, out var propertyValue))
             {
                 var count = 0;
-                using (_theme.Apply(output, ConsoleThemeStyle.Invalid, ref count))
+                using (_theme.Apply(output, ConsoleThemeStyle.Invalid, ref count, logEventLevel))
                     output.Write(pt.ToString());
                 return count;
             }
 
             if (!pt.Alignment.HasValue)
             {
-                return RenderValue(_theme, _valueFormatter, propertyValue, output, pt.Format);
+                return RenderValue(_theme, _valueFormatter, propertyValue, output, pt.Format, logEventLevel);
             }
 
             var valueOutput = new StringWriter();
 
             if (!_theme.CanBuffer)
-                return RenderAlignedPropertyTokenUnbuffered(pt, output, propertyValue);
+                return RenderAlignedPropertyTokenUnbuffered(pt, output, propertyValue, logEventLevel);
 
-            var invisibleCount = RenderValue(_theme, _valueFormatter, propertyValue, valueOutput, pt.Format);
+            var invisibleCount = RenderValue(_theme, _valueFormatter, propertyValue, valueOutput, pt.Format, logEventLevel);
 
             var value = valueOutput.ToString();
 
@@ -100,40 +100,40 @@ namespace Serilog.Sinks.SystemConsole.Rendering
             return invisibleCount;
         }
 
-        int RenderAlignedPropertyTokenUnbuffered(PropertyToken pt, TextWriter output, LogEventPropertyValue propertyValue)
+        int RenderAlignedPropertyTokenUnbuffered(PropertyToken pt, TextWriter output, LogEventPropertyValue propertyValue, LogEventLevel logEventLevel)
         {
             var valueOutput = new StringWriter();
-            RenderValue(NoTheme, _unthemedValueFormatter, propertyValue, valueOutput, pt.Format);
+            RenderValue(NoTheme, _unthemedValueFormatter, propertyValue, valueOutput, pt.Format, logEventLevel);
 
             var valueLength = valueOutput.ToString().Length;
             // ReSharper disable once PossibleInvalidOperationException
             if (valueLength >= pt.Alignment.Value.Width)
             {
-                return RenderValue(_theme, _valueFormatter, propertyValue, output, pt.Format);
+                return RenderValue(_theme, _valueFormatter, propertyValue, output, pt.Format, logEventLevel);
             }
 
             if (pt.Alignment.Value.Direction == AlignmentDirection.Left)
             {
-                var invisible = RenderValue(_theme, _valueFormatter, propertyValue, output, pt.Format);
+                var invisible = RenderValue(_theme, _valueFormatter, propertyValue, output, pt.Format, logEventLevel);
                 Padding.Apply(output, string.Empty, pt.Alignment.Value.Widen(-valueLength));
                 return invisible;
             }
 
             Padding.Apply(output, string.Empty, pt.Alignment.Value.Widen(-valueLength));
-            return RenderValue(_theme, _valueFormatter, propertyValue, output, pt.Format);
+            return RenderValue(_theme, _valueFormatter, propertyValue, output, pt.Format, logEventLevel);
         }
 
-        int RenderValue(ConsoleTheme theme, ThemedValueFormatter valueFormatter, LogEventPropertyValue propertyValue, TextWriter output, string format)
+        int RenderValue(ConsoleTheme theme, ThemedValueFormatter valueFormatter, LogEventPropertyValue propertyValue, TextWriter output, string format, LogEventLevel logEventLevel)
         {
             if (_isLiteral && propertyValue is ScalarValue sv && sv.Value is string)
             {
                 var count = 0;
-                using (theme.Apply(output, ConsoleThemeStyle.String, ref count))
+                using (theme.Apply(output, ConsoleThemeStyle.String, ref count, logEventLevel))
                     output.Write(sv.Value);
                 return count;
             }
 
-            return valueFormatter.Format(propertyValue, output, format, _isLiteral);
+            return valueFormatter.Format(propertyValue, output, format, logEventLevel, _isLiteral);
         }
     }
 }

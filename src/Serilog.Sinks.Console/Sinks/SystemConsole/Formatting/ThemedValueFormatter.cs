@@ -29,12 +29,12 @@ namespace Serilog.Sinks.SystemConsole.Formatting
             _theme = theme ?? throw new ArgumentNullException(nameof(theme));
         }
 
-        protected StyleReset ApplyStyle(TextWriter output, ConsoleThemeStyle style, ref int invisibleCharacterCount)
+        protected StyleReset ApplyStyle(TextWriter output, ConsoleThemeStyle style, ref int invisibleCharacterCount, LogEventLevel logEventLevel)
         {
-            return _theme.Apply(output, style, ref invisibleCharacterCount);
+            return _theme.Apply(output, style, ref invisibleCharacterCount, logEventLevel);
         }
 
-        public int Format(LogEventPropertyValue value, TextWriter output, string format, bool literalTopLevel = false)
+        public int Format(LogEventPropertyValue value, TextWriter output, string format, LogEventLevel logEventLevel, bool literalTopLevel = false)
         {
             return Visit(new ThemedValueFormatterState { Output = output, Format = format, IsTopLevel = literalTopLevel }, value);
         }

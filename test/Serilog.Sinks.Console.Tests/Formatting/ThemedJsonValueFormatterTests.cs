@@ -20,7 +20,7 @@ namespace Serilog.Sinks.Console.Tests.Formatting
             public string Format(object literal)
             {
                 var output = new StringWriter();
-                Format(new SequenceValue(new[] { new ScalarValue(literal) }), output, null);
+                Format(new SequenceValue(new[] { new ScalarValue(literal) }), output, null, LogEventLevel.Information);
                 var o = output.ToString();
                 return o.Substring(1, o.Length - 2);
             }
@@ -85,7 +85,7 @@ namespace Serilog.Sinks.Console.Tests.Formatting
         {
             var formatter = new TestThemedJsonValueFormatter();
             var output = new StringWriter();
-            formatter.Format(value, output, null);
+            formatter.Format(value, output, null, LogEventLevel.Information);
             return output.ToString();
         }
 

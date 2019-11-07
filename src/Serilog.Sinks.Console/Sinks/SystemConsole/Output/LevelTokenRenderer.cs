@@ -53,7 +53,7 @@ namespace Serilog.Sinks.SystemConsole.Output
                 levelStyle = ConsoleThemeStyle.Invalid;
 
             var _ = 0;
-            using (_theme.Apply(output, levelStyle, ref _))
+            using (_theme.Apply(output, levelStyle, ref _, logEvent.Level))
                 Padding.Apply(output, moniker, _levelToken.Alignment);
         }
     }

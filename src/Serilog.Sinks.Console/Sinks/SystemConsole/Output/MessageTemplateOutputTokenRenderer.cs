@@ -56,12 +56,12 @@ namespace Serilog.Sinks.SystemConsole.Output
         {
             if (_token.Alignment == null || !_theme.CanBuffer)
             {
-                _renderer.Render(logEvent.MessageTemplate, logEvent.Properties, output);
+                _renderer.Render(logEvent.MessageTemplate, logEvent.Properties, output, logEvent.Level);
                 return;
             }
 
             var buffer = new StringWriter();
-            var invisible = _renderer.Render(logEvent.MessageTemplate, logEvent.Properties, buffer);
+            var invisible = _renderer.Render(logEvent.MessageTemplate, logEvent.Properties, buffer, logEvent.Level);
             var value = buffer.ToString();
             Padding.Apply(output, value, _token.Alignment.Value.Widen(invisible));
         }

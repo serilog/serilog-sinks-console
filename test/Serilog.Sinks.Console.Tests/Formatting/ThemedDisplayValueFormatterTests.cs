@@ -15,7 +15,7 @@ namespace Serilog.Sinks.Console.Tests.Formatting
         {
             var formatter = new ThemedDisplayValueFormatter(ConsoleTheme.None, null);
             var sw = new StringWriter();
-            formatter.FormatLiteralValue(new ScalarValue(value), sw, format);
+            formatter.FormatLiteralValue(new ScalarValue(value), sw, format, LogEventLevel.Information);
             var actual = sw.ToString();
             Assert.Equal(expected, actual);
         }
