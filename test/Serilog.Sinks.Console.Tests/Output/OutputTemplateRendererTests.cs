@@ -143,7 +143,7 @@ namespace Serilog.Sinks.Console.Tests.Output
         }
 
         [Fact]
-        public void AligmentAndWidthCanBeCombined()
+        public void AlignmentAndWidthCanBeCombined()
         {
             var formatter = new OutputTemplateRenderer(ConsoleTheme.None, "{Level,5:w3}", CultureInfo.InvariantCulture);
             var evt = DelegatingSink.GetLogEvent(l => l.Information("Hello"));
