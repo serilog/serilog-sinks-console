@@ -1,9 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Text;
 using Xunit;
-using System.Linq.Expressions;
 using Serilog.Sinks.SystemConsole.Themes;
 
 namespace Serilog.Sinks.Console.Tests.Configuration
