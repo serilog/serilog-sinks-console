@@ -44,6 +44,7 @@ namespace Serilog
         /// <param name="standardErrorFromLevel">Specifies the level at which events will be written to standard error.</param>
         /// <param name="theme">The theme to apply to the styled output. If not specified,
         /// uses <see cref="SystemConsoleTheme.Literate"/>.</param>
+        /// <param name="applyThemeOnOutputRedirection">Applies the selected or default theme even when output redirection is detected.</param>
         /// <returns>Configuration object allowing method chaining.</returns>
         public static LoggerConfiguration Console(
             this LoggerSinkConfiguration sinkConfiguration,
@@ -52,12 +53,13 @@ namespace Serilog
             IFormatProvider formatProvider = null,
             LoggingLevelSwitch levelSwitch = null,
             LogEventLevel? standardErrorFromLevel = null,
-            ConsoleTheme theme = null)
+            ConsoleTheme theme = null, 
+            bool applyThemeOnOutputRedirection = false)
         {
             if (sinkConfiguration == null) throw new ArgumentNullException(nameof(sinkConfiguration));
             if (outputTemplate == null) throw new ArgumentNullException(nameof(outputTemplate));
 
-            var appliedTheme = System.Console.IsOutputRedirected || System.Console.IsErrorRedirected ?
+            var appliedTheme = !applyThemeOnOutputRedirection && (System.Console.IsOutputRedirected || System.Console.IsErrorRedirected) ?
                 ConsoleTheme.None :
                 theme ?? SystemConsoleThemes.Literate;
 
