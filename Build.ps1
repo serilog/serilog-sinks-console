@@ -45,7 +45,7 @@ foreach ($sample in Get-ChildItem sample/*) {
     Pop-Location
 }
 
-foreach ($test in ls test/*.Tests) {
+foreach ($test in Get-ChildItem test/*.Tests) {
     Push-Location $test
 
 	Write-Host "build: Testing project in $test"
