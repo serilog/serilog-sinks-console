@@ -58,13 +58,15 @@ namespace Serilog.Sinks.SystemConsole
             // buffered write here and have no effect when the line is actually written out.
             if (_theme.CanBuffer)
             {
-                var buffer = new StringWriter(new StringBuilder(DefaultWriteBufferCapacity));
-                _formatter.Format(logEvent, buffer);
-                var formattedLogEventText = buffer.ToString();
-                lock (_syncRoot)
+                using (var buffer = new StringWriter(new StringBuilder(DefaultWriteBufferCapacity)))
                 {
-                    output.Write(formattedLogEventText);
-                    output.Flush();
+                    _formatter.Format(logEvent, buffer);
+                    var formattedLogEventText = buffer.ToString();
+                    lock (_syncRoot)
+                    {
+                        output.Write(formattedLogEventText);
+                        output.Flush();
+                    }
                 }
             }
             else
