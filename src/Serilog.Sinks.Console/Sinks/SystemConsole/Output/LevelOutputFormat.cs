@@ -55,7 +55,7 @@ namespace Serilog.Sinks.SystemConsole.Output
             new[] { "F", "FA", "FTL", "FATL" },
         };
 
-        public static string GetLevelMoniker(LogEventLevel value, string format = null)
+        public static string GetLevelMoniker(LogEventLevel value, string? format = null)
         {
             if (format == null || format.Length != 2 && format.Length != 3)
                 return Casing.Format(value.ToString(), format);

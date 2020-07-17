@@ -24,9 +24,9 @@ namespace Serilog.Sinks.SystemConsole.Formatting
     class ThemedJsonValueFormatter : ThemedValueFormatter
     {
         readonly ThemedDisplayValueFormatter _displayFormatter;
-        readonly IFormatProvider _formatProvider;
+        readonly IFormatProvider? _formatProvider;
 
-        public ThemedJsonValueFormatter(ConsoleTheme theme, IFormatProvider formatProvider)
+        public ThemedJsonValueFormatter(ConsoleTheme theme, IFormatProvider? formatProvider)
             : base(theme)
         {
             _displayFormatter = new ThemedDisplayValueFormatter(theme, formatProvider);

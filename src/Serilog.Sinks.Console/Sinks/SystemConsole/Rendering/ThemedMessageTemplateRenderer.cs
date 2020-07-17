@@ -102,11 +102,12 @@ namespace Serilog.Sinks.SystemConsole.Rendering
 
         int RenderAlignedPropertyTokenUnbuffered(PropertyToken pt, TextWriter output, LogEventPropertyValue propertyValue)
         {
+            if(pt.Alignment == null) throw new ArgumentException("Invalid PropertyToken State. The PropertyToken should have a Alignment.", nameof(pt));
+
             var valueOutput = new StringWriter();
             RenderValue(NoTheme, _unthemedValueFormatter, propertyValue, valueOutput, pt.Format);
 
             var valueLength = valueOutput.ToString().Length;
-            // ReSharper disable once PossibleInvalidOperationException
             if (valueLength >= pt.Alignment.Value.Width)
             {
                 return RenderValue(_theme, _valueFormatter, propertyValue, output, pt.Format);
@@ -123,7 +124,7 @@ namespace Serilog.Sinks.SystemConsole.Rendering
             return RenderValue(_theme, _valueFormatter, propertyValue, output, pt.Format);
         }
 
-        int RenderValue(ConsoleTheme theme, ThemedValueFormatter valueFormatter, LogEventPropertyValue propertyValue, TextWriter output, string format)
+        int RenderValue(ConsoleTheme theme, ThemedValueFormatter valueFormatter, LogEventPropertyValue propertyValue, TextWriter output, string? format)
         {
             if (_isLiteral && propertyValue is ScalarValue sv && sv.Value is string)
             {
