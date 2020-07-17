@@ -16,10 +16,10 @@
     <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
   </PropertyGroup>
 
-  <!--<PropertyGroup>
+  <PropertyGroup>
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
-  </PropertyGroup>-->
+  </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Serilog.Sinks.Console\Serilog.Sinks.Console.csproj" />
