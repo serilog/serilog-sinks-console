@@ -37,14 +37,14 @@ namespace Serilog.Sinks.SystemConsole.Formatting
 
         protected override int VisitScalarValue(ThemedValueFormatterState state, ScalarValue scalar)
         {
-            if (scalar == null)
+            if (scalar is null)
                 throw new ArgumentNullException(nameof(scalar));
             return FormatLiteralValue(scalar, state.Output, state.Format);
         }
 
         protected override int VisitSequenceValue(ThemedValueFormatterState state, SequenceValue sequence)
         {
-            if (sequence == null)
+            if (sequence is null)
                 throw new ArgumentNullException(nameof(sequence));
 
             var count = 0;
@@ -155,7 +155,7 @@ namespace Serilog.Sinks.SystemConsole.Formatting
             var value = scalar.Value;
             var count = 0;
 
-            if (value == null)
+            if (value is null)
             {
                 using (ApplyStyle(output, ConsoleThemeStyle.Null, ref count))
                     output.Write("null");

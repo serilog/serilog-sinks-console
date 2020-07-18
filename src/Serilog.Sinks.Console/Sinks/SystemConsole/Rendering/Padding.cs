@@ -29,7 +29,7 @@ namespace Serilog.Sinks.SystemConsole.Rendering
         /// <param name="alignment">The alignment settings to apply when rendering <paramref name="value"/>.</param>
         public static void Apply(TextWriter output, string value, Alignment? alignment)
         {
-            if (alignment == null || value.Length >= alignment.Value.Width)
+            if (alignment is null || value.Length >= alignment.Value.Width)
             {
                 output.Write(value);
                 return;
