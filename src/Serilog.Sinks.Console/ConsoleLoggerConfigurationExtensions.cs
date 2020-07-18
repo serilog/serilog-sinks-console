@@ -50,6 +50,8 @@ namespace Serilog
         /// uses <see cref="SystemConsoleTheme.Literate"/>.</param>
         /// <param name="applyThemeToRedirectedOutput">Applies the selected or default theme even when output redirection is detected.</param>
         /// <returns>Configuration object allowing method chaining.</returns>
+        /// <exception cref="ArgumentNullException">When <paramref name="sinkConfiguration"/> is <code>null</code></exception>
+        /// <exception cref="ArgumentNullException">When <paramref name="outputTemplate"/> is <code>null</code></exception>
         public static LoggerConfiguration Console(
             this LoggerSinkConfiguration sinkConfiguration,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
@@ -89,6 +91,8 @@ namespace Serilog
         /// to be changed at runtime.</param>
         /// <param name="standardErrorFromLevel">Specifies the level at which events will be written to standard error.</param>
         /// <returns>Configuration object allowing method chaining.</returns>
+        /// <exception cref="ArgumentNullException">When <paramref name="sinkConfiguration"/> is <code>null</code></exception>
+        /// <exception cref="ArgumentNullException">When <paramref name="formatter"/> is <code>null</code></exception>
         public static LoggerConfiguration Console(
             this LoggerSinkConfiguration sinkConfiguration,
             ITextFormatter formatter,
