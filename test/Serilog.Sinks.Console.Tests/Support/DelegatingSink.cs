@@ -20,14 +20,14 @@ namespace Serilog.Sinks.Console.Tests.Support
 
         public static LogEvent GetLogEvent(Action<ILogger> writeAction)
         {
-            LogEvent result = null;
+            LogEvent? result = null;
             var logger = new LoggerConfiguration()
                 .MinimumLevel.Verbose()
                 .WriteTo.Sink(new DelegatingSink(le => result = le))
                 .CreateLogger();
 
             writeAction(logger);
-            return result;
+            return result!;
         }
     }
 }
