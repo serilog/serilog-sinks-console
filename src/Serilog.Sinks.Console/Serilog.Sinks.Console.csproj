@@ -4,7 +4,7 @@
     <Description>A Serilog sink that writes log events to the console/terminal.</Description>
     <VersionPrefix>4.0.0</VersionPrefix>
     <Authors>Serilog Contributors</Authors>
-    <TargetFrameworks>net45;netstandard1.3;netstandard2.0;netcoreapp1.1;netcoreapp2.0;</TargetFrameworks>
+    <TargetFrameworks>net45;netstandard1.3;netstandard2.0;netstandard2.1;netcoreapp1.1;netcoreapp2.0;netcoreapp3.0;netcoreapp3.1;</TargetFrameworks>
     <AssemblyName>Serilog.Sinks.Console</AssemblyName>
     <AssemblyOriginatorKeyFile>../../assets/Serilog.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
@@ -20,7 +20,7 @@
     <GenerateAssemblyFileVersionAttribute>true</GenerateAssemblyFileVersionAttribute>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <!-- Don't reference the full NETStandard.Library -->
-    <DisableImplicitFrameworkReferences Condition=" '$(TargetFramework)' != 'netstandard2.0' And '$(TargetFramework)' != 'netcoreapp2.0' ">true</DisableImplicitFrameworkReferences>
+    <DisableImplicitFrameworkReferences Condition=" '$(TargetFramework)' != 'netstandard2.0' And '$(TargetFramework)' != 'netstandard2.1' And '$(TargetFramework)' != 'netcoreapp2.0' And '$(TargetFramework)' != 'netcoreapp3.0' And '$(TargetFramework)' != 'netcoreapp3.1' ">true</DisableImplicitFrameworkReferences>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <TreatSpecificWarningsAsErrors />
     <RootNamespace>Serilog</RootNamespace>
@@ -34,8 +34,8 @@
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net45' ">
     <DefineConstants>$(DefineConstants);PINVOKE</DefineConstants>
   </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.1' ">
+  
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.1' or '$(TargetFramework)' == 'netcoreapp2.0' or '$(TargetFramework)' == 'netcoreapp3.0' ">
     <DefineConstants>$(DefineConstants);PINVOKE;RUNTIME_INFORMATION</DefineConstants>
   </PropertyGroup>
   
@@ -49,11 +49,11 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' or '$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'netstandard2.1' ">
     <PackageReference Include="System.Console" Version="4.3.0" />
   </ItemGroup>
   
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.1' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.1' or '$(TargetFramework)' == 'netcoreapp2.0' or '$(TargetFramework)' == 'netcoreapp3.0' or '$(TargetFramework)' == 'netcoreapp3.1' ">
     <PackageReference Include="System.Console" Version="4.3.0" />
     <PackageReference Include="System.Runtime.InteropServices" Version="4.3.0" />
     <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Version="4.3.0" />
