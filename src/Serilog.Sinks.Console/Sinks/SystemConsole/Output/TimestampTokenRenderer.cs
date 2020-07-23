@@ -43,7 +43,7 @@ namespace Serilog.Sinks.SystemConsole.Output
             var _ = 0;
             using (_theme.Apply(output, ConsoleThemeStyle.SecondaryText, ref _))
             {
-                if (_token.Alignment == null)
+                if (_token.Alignment is null)
                 {
                     sv.Render(output, _token.Format, _formatProvider);
                 }

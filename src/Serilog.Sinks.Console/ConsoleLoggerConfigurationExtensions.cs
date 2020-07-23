@@ -28,7 +28,7 @@ namespace Serilog
     /// </summary>
     public static class ConsoleLoggerConfigurationExtensions
     {
-        static object DefaultSyncRoot = new object();
+        static readonly object DefaultSyncRoot = new object();
         const string DefaultConsoleOutputTemplate = "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}";
 
         /// <summary>
@@ -61,8 +61,8 @@ namespace Serilog
             bool applyThemeToRedirectedOutput = false,
             object? syncRoot = null)
         {
-            if (sinkConfiguration == null) throw new ArgumentNullException(nameof(sinkConfiguration));
-            if (outputTemplate == null) throw new ArgumentNullException(nameof(outputTemplate));
+            if (sinkConfiguration is null) throw new ArgumentNullException(nameof(sinkConfiguration));
+            if (outputTemplate is null) throw new ArgumentNullException(nameof(outputTemplate));
 
             var appliedTheme = !applyThemeToRedirectedOutput && (System.Console.IsOutputRedirected || System.Console.IsErrorRedirected) ?
                 ConsoleTheme.None :
@@ -97,8 +97,8 @@ namespace Serilog
             LogEventLevel? standardErrorFromLevel = null,
             object? syncRoot = null)
         {
-            if (sinkConfiguration == null) throw new ArgumentNullException(nameof(sinkConfiguration));
-            if (formatter == null) throw new ArgumentNullException(nameof(formatter));
+            if (sinkConfiguration is null) throw new ArgumentNullException(nameof(sinkConfiguration));
+            if (formatter is null) throw new ArgumentNullException(nameof(formatter));
 
             syncRoot ??= DefaultSyncRoot;
 

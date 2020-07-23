@@ -34,7 +34,7 @@ namespace Serilog.Sinks.SystemConsole.Output
         {
             // Padding is never applied by this renderer.
 
-            if (logEvent.Exception == null)
+            if (logEvent.Exception is null)
                 return;
 
             var lines = new StringReader(logEvent.Exception.ToString());
