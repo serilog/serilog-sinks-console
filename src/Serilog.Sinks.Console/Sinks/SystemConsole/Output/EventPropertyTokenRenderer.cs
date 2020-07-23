@@ -62,7 +62,7 @@ namespace Serilog.Sinks.SystemConsole.Output
 
                 if (_token.Alignment.HasValue)
                 {
-                    var str = writer.ToString() ?? throw new InvalidOperationException("The output TextWriter, return a invalid state.");
+                    var str = writer.ToString()!;
                     Padding.Apply(output, str, _token.Alignment);
                 }
             }
