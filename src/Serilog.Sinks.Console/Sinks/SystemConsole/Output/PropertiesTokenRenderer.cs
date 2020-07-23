@@ -62,7 +62,7 @@ namespace Serilog.Sinks.SystemConsole.Output
 
             var value = new StructureValue(included);
 
-            if (_token.Alignment == null || !_theme.CanBuffer)
+            if (_token.Alignment is null || !_theme.CanBuffer)
             {
                 _valueFormatter.Format(value, output, null);
                 return;

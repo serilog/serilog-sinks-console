@@ -55,7 +55,7 @@ namespace Serilog.Sinks.SystemConsole.Output
 
         public override void Render(LogEvent logEvent, TextWriter output)
         {
-            if (_token.Alignment == null || !_theme.CanBuffer)
+            if (_token.Alignment is null || !_theme.CanBuffer)
             {
                 _renderer.Render(logEvent.MessageTemplate, logEvent.Properties, output);
                 return;

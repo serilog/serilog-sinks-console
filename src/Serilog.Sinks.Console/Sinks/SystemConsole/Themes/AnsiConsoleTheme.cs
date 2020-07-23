@@ -49,7 +49,7 @@ namespace Serilog.Sinks.SystemConsole.Themes
         /// <param name="styles">Styles to apply within the theme.</param>
         public AnsiConsoleTheme(IReadOnlyDictionary<ConsoleThemeStyle, string> styles)
         {
-            if (styles == null) throw new ArgumentNullException(nameof(styles));
+            if (styles is null) throw new ArgumentNullException(nameof(styles));
             _styles = styles.ToDictionary(kv => kv.Key, kv => kv.Value);
         }
 

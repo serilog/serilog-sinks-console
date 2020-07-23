@@ -40,7 +40,7 @@ namespace Serilog.Sinks.SystemConsole.Formatting
 
         protected override int VisitScalarValue(ThemedValueFormatterState state, ScalarValue scalar)
         {
-            if (scalar == null)
+            if (scalar is null)
                 throw new ArgumentNullException(nameof(scalar));
 
             // At the top level, for scalar values, use "display" rendering.
