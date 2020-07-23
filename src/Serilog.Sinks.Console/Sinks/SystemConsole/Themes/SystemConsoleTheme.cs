@@ -47,7 +47,8 @@ namespace Serilog.Sinks.SystemConsole.Themes
         /// <exception cref="ArgumentNullException">When <paramref name="styles"/> is <code>null</code></exception>
         public SystemConsoleTheme(IReadOnlyDictionary<ConsoleThemeStyle, SystemConsoleThemeStyle> styles)
         {
-            Styles = styles?.ToDictionary(kv => kv.Key, kv => kv.Value) ?? throw new ArgumentNullException(nameof(styles));
+            if (styles == null) throw new ArgumentNullException(nameof(styles));
+            Styles = styles.ToDictionary(kv => kv.Key, kv => kv.Value);
         }
 
         /// <inheritdoc/>
