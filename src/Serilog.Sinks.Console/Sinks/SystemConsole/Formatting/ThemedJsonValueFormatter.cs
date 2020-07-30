@@ -154,7 +154,7 @@ namespace Serilog.Sinks.SystemConsole.Formatting
                         : ConsoleThemeStyle.Scalar;
 
                 using (ApplyStyle(state.Output, style, ref count))
-                    JsonValueFormatter.WriteQuotedJsonString((element.Key.Value?.ToString() ?? "null"), state.Output);
+                    JsonValueFormatter.WriteQuotedJsonString((element.Key.Value ?? "null").ToString() ?? "", state.Output);
 
                 using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                     state.Output.Write(": ");
@@ -248,7 +248,7 @@ namespace Serilog.Sinks.SystemConsole.Formatting
             }
 
             using (ApplyStyle(output, ConsoleThemeStyle.Scalar, ref count))
-                JsonValueFormatter.WriteQuotedJsonString(value.ToString() ?? "null", output);
+                JsonValueFormatter.WriteQuotedJsonString(value.ToString() ?? "", output);
 
             return count;
         }
