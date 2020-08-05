@@ -4,7 +4,7 @@
     <Description>A Serilog sink that writes log events to the console/terminal.</Description>
     <VersionPrefix>4.0.0</VersionPrefix>
     <Authors>Serilog Contributors</Authors>
-    <TargetFrameworks>net45;netstandard1.3;netstandard2.0;netcoreapp1.1;netcoreapp2.0</TargetFrameworks>
+    <TargetFrameworks>net45;netstandard1.3;netstandard2.0;</TargetFrameworks>
     <AssemblyName>Serilog.Sinks.Console</AssemblyName>
     <AssemblyOriginatorKeyFile>../../assets/Serilog.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
@@ -20,14 +20,10 @@
     <GenerateAssemblyFileVersionAttribute>true</GenerateAssemblyFileVersionAttribute>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <!-- Don't reference the full NETStandard.Library -->
-    <DisableImplicitFrameworkReferences Condition=" '$(TargetFramework)' != 'netstandard2.0' And '$(TargetFramework)' != 'netcoreapp2.0' ">true</DisableImplicitFrameworkReferences>
+    <DisableImplicitFrameworkReferences Condition=" '$(TargetFramework)' != 'netstandard2.0' ">true</DisableImplicitFrameworkReferences>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <TreatSpecificWarningsAsErrors />
     <RootNamespace>Serilog</RootNamespace>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net45' OR '$(TargetFramework)' == 'netcoreapp1.1' OR '$(TargetFramework)' == 'netcoreapp2.0' ">
-    <DefineConstants>$(DefineConstants);PINVOKE</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' != 'net45' ">
