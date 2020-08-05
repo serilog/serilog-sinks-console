@@ -2,7 +2,6 @@ version: '{build}'
 skip_tags: true
 image:
   - Visual Studio 2019
-  - Ubuntu
 configuration: Release
 test: off
 build_script:
