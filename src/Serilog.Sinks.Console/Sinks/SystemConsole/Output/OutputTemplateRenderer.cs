@@ -27,7 +27,7 @@ namespace Serilog.Sinks.SystemConsole.Output
     {
         readonly OutputTemplateTokenRenderer[] _renderers;
 
-        public OutputTemplateRenderer(ConsoleTheme theme, string outputTemplate, IFormatProvider formatProvider)
+        public OutputTemplateRenderer(ConsoleTheme theme, string outputTemplate, IFormatProvider formatProvider, bool jsonMultiline)
         {
             if (outputTemplate == null) throw new ArgumentNullException(nameof(outputTemplate));
             var template = new MessageTemplateParser().Parse(outputTemplate);

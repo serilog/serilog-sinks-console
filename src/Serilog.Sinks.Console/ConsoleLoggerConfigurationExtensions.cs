@@ -44,6 +44,7 @@ namespace Serilog
         /// <param name="standardErrorFromLevel">Specifies the level at which events will be written to standard error.</param>
         /// <param name="theme">The theme to apply to the styled output. If not specified,
         /// uses <see cref="SystemConsoleTheme.Literate"/>.</param>
+        /// <param name="jsonMultiline">Enables json multiline output.</param>
         /// <returns>Configuration object allowing method chaining.</returns>
         public static LoggerConfiguration Console(
             this LoggerSinkConfiguration sinkConfiguration,
@@ -52,7 +53,8 @@ namespace Serilog
             IFormatProvider formatProvider = null,
             LoggingLevelSwitch levelSwitch = null,
             LogEventLevel? standardErrorFromLevel = null,
-            ConsoleTheme theme = null)
+            ConsoleTheme theme = null,
+            bool jsonMultiline = false)
         {
             if (sinkConfiguration == null) throw new ArgumentNullException(nameof(sinkConfiguration));
             if (outputTemplate == null) throw new ArgumentNullException(nameof(outputTemplate));
@@ -61,7 +63,7 @@ namespace Serilog
                 ConsoleTheme.None :
                 theme ?? SystemConsoleThemes.Literate;
 
-            var formatter = new OutputTemplateRenderer(appliedTheme, outputTemplate, formatProvider);
+            var formatter = new OutputTemplateRenderer(appliedTheme, outputTemplate, formatProvider, jsonMultiline);
             return sinkConfiguration.Sink(new ConsoleSink(appliedTheme, formatter, standardErrorFromLevel), restrictedToMinimumLevel, levelSwitch);
         }
 

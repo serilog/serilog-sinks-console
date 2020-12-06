@@ -19,12 +19,13 @@ namespace Serilog.Sinks.SystemConsole.Formatting
     struct ThemedValueFormatterState
     {
         public TextWriter Output;
+        public int Depth;
         public string Format;
         public bool IsTopLevel;
 
         public ThemedValueFormatterState Nest()
         {
-            return new ThemedValueFormatterState {Output = Output};
+            return new ThemedValueFormatterState {Output = Output, Depth = Depth};
         }
     }
 }
