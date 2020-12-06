@@ -56,7 +56,7 @@ namespace Serilog.Sinks.SystemConsole.Output
                 }
                 else if (pt.PropertyName == OutputProperties.MessagePropertyName)
                 {
-                    renderers.Add(new MessageTemplateOutputTokenRenderer(theme, pt, formatProvider));
+                    renderers.Add(new MessageTemplateOutputTokenRenderer(theme, pt, formatProvider, jsonMultiline));
                 }
                 else if (pt.PropertyName == OutputProperties.TimestampPropertyName)
                 {
