@@ -12,16 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#if PINVOKE
 using System;
 using System.Runtime.InteropServices;
-#endif
 
 namespace Serilog.Sinks.SystemConsole.Platform
 {
     static class WindowsConsole
     {
-#if PINVOKE
         public static void EnableVirtualTerminalProcessing()
         {
 #if RUNTIME_INFORMATION
@@ -50,10 +47,6 @@ namespace Serilog.Sinks.SystemConsole.Platform
 
         [DllImport("kernel32.dll", SetLastError = true)]
         static extern bool SetConsoleMode(IntPtr handle, uint mode);
-#else
-        public static void EnableVirtualTerminalProcessing()
-        {
-        }
-#endif
+
     }
 }
