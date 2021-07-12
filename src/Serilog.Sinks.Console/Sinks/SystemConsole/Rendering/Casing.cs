@@ -23,7 +23,7 @@ namespace Serilog.Sinks.SystemConsole.Rendering
         /// <param name="value">Provided string for formatting.</param>
         /// <param name="format">Format string.</param>
         /// <returns>The provided <paramref name="value"/> with formatting applied.</returns>
-        public static string Format(string value, string format = null)
+        public static string Format(string value, string? format = null)
         {
             switch (format)
             {

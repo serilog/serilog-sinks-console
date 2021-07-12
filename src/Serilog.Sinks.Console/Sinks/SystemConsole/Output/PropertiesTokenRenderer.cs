@@ -31,11 +31,12 @@ namespace Serilog.Sinks.SystemConsole.Output
         readonly PropertyToken _token;
         readonly ThemedValueFormatter _valueFormatter;
 
-        public PropertiesTokenRenderer(ConsoleTheme theme, PropertyToken token, MessageTemplate outputTemplate, IFormatProvider formatProvider)
+        public PropertiesTokenRenderer(ConsoleTheme theme, PropertyToken token, MessageTemplate outputTemplate, IFormatProvider? formatProvider)
         {
             _outputTemplate = outputTemplate;
             _theme = theme ?? throw new ArgumentNullException(nameof(theme));
             _token = token ?? throw new ArgumentNullException(nameof(token));
+
             var isJson = false;
 
             if (token.Format != null)

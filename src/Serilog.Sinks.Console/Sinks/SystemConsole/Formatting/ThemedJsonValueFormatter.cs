@@ -24,9 +24,9 @@ namespace Serilog.Sinks.SystemConsole.Formatting
     class ThemedJsonValueFormatter : ThemedValueFormatter
     {
         readonly ThemedDisplayValueFormatter _displayFormatter;
-        readonly IFormatProvider _formatProvider;
+        readonly IFormatProvider? _formatProvider;
 
-        public ThemedJsonValueFormatter(ConsoleTheme theme, IFormatProvider formatProvider)
+        public ThemedJsonValueFormatter(ConsoleTheme theme, IFormatProvider? formatProvider)
             : base(theme)
         {
             _displayFormatter = new ThemedDisplayValueFormatter(theme, formatProvider);
@@ -154,7 +154,7 @@ namespace Serilog.Sinks.SystemConsole.Formatting
                         : ConsoleThemeStyle.Scalar;
 
                 using (ApplyStyle(state.Output, style, ref count))
-                    JsonValueFormatter.WriteQuotedJsonString((element.Key.Value ?? "null").ToString(), state.Output);
+                    JsonValueFormatter.WriteQuotedJsonString((element.Key.Value ?? "null").ToString() ?? "", state.Output);
 
                 using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                     state.Output.Write(": ");
@@ -248,7 +248,7 @@ namespace Serilog.Sinks.SystemConsole.Formatting
             }
 
             using (ApplyStyle(output, ConsoleThemeStyle.Scalar, ref count))
-                JsonValueFormatter.WriteQuotedJsonString(value.ToString(), output);
+                JsonValueFormatter.WriteQuotedJsonString(value.ToString() ?? "", output);
 
             return count;
         }

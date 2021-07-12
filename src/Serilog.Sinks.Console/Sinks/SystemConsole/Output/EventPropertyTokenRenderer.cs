@@ -25,9 +25,9 @@ namespace Serilog.Sinks.SystemConsole.Output
     {
         readonly ConsoleTheme _theme;
         readonly PropertyToken _token;
-        readonly IFormatProvider _formatProvider;
+        readonly IFormatProvider? _formatProvider;
 
-        public EventPropertyTokenRenderer(ConsoleTheme theme, PropertyToken token, IFormatProvider formatProvider)
+        public EventPropertyTokenRenderer(ConsoleTheme theme, PropertyToken token, IFormatProvider? formatProvider)
         {
             _theme = theme;
             _token = token;
@@ -62,7 +62,7 @@ namespace Serilog.Sinks.SystemConsole.Output
 
                 if (_token.Alignment.HasValue)
                 {
-                    var str = writer.ToString();
+                    var str = writer.ToString()!;
                     Padding.Apply(output, str, _token.Alignment);
                 }
             }

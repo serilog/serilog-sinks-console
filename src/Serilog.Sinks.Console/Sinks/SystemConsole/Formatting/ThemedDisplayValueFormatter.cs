@@ -22,9 +22,9 @@ namespace Serilog.Sinks.SystemConsole.Formatting
 {
     class ThemedDisplayValueFormatter : ThemedValueFormatter
     {
-        readonly IFormatProvider _formatProvider;
+        readonly IFormatProvider? _formatProvider;
 
-        public ThemedDisplayValueFormatter(ConsoleTheme theme, IFormatProvider formatProvider)
+        public ThemedDisplayValueFormatter(ConsoleTheme theme, IFormatProvider? formatProvider)
             : base(theme)
         {
             _formatProvider = formatProvider;
@@ -150,7 +150,7 @@ namespace Serilog.Sinks.SystemConsole.Formatting
             return count;
         }
 
-        public int FormatLiteralValue(ScalarValue scalar, TextWriter output, string format)
+        public int FormatLiteralValue(ScalarValue scalar, TextWriter output, string? format)
         {
             var value = scalar.Value;
             var count = 0;

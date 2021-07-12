@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1;net452;net462;net472;net48</TargetFrameworks>
@@ -16,6 +16,11 @@
     <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\src\Serilog.Sinks.Console\Serilog.Sinks.Console.csproj" />
   </ItemGroup>
@@ -28,10 +33,6 @@
     </PackageReference>
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
   </ItemGroup>
 
 </Project>

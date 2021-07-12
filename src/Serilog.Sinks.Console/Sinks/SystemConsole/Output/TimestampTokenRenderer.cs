@@ -25,9 +25,9 @@ namespace Serilog.Sinks.SystemConsole.Output
     {
         readonly ConsoleTheme _theme;
         readonly PropertyToken _token;
-        readonly IFormatProvider _formatProvider;
+        readonly IFormatProvider? _formatProvider;
 
-        public TimestampTokenRenderer(ConsoleTheme theme, PropertyToken token, IFormatProvider formatProvider)
+        public TimestampTokenRenderer(ConsoleTheme theme, PropertyToken token, IFormatProvider? formatProvider)
         {
             _theme = theme;
             _token = token;

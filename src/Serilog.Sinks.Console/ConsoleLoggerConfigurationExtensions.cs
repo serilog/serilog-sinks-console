@@ -56,12 +56,12 @@ namespace Serilog
             this LoggerSinkConfiguration sinkConfiguration,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
             string outputTemplate = DefaultConsoleOutputTemplate,
-            IFormatProvider formatProvider = null,
-            LoggingLevelSwitch levelSwitch = null,
+            IFormatProvider? formatProvider = null,
+            LoggingLevelSwitch? levelSwitch = null,
             LogEventLevel? standardErrorFromLevel = null,
-            ConsoleTheme theme = null, 
+            ConsoleTheme? theme = null, 
             bool applyThemeToRedirectedOutput = false,
-            object syncRoot = null)
+            object? syncRoot = null)
         {
             if (sinkConfiguration is null) throw new ArgumentNullException(nameof(sinkConfiguration));
             if (outputTemplate is null) throw new ArgumentNullException(nameof(outputTemplate));
@@ -70,7 +70,7 @@ namespace Serilog
                 ConsoleTheme.None :
                 theme ?? SystemConsoleThemes.Literate;
 
-            syncRoot = syncRoot ?? DefaultSyncRoot;
+            syncRoot ??= DefaultSyncRoot;
 
             var formatter = new OutputTemplateRenderer(appliedTheme, outputTemplate, formatProvider);
             return sinkConfiguration.Sink(new ConsoleSink(appliedTheme, formatter, standardErrorFromLevel, syncRoot), restrictedToMinimumLevel, levelSwitch);
@@ -97,14 +97,15 @@ namespace Serilog
             this LoggerSinkConfiguration sinkConfiguration,
             ITextFormatter formatter,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
-            LoggingLevelSwitch levelSwitch = null,
+            LoggingLevelSwitch? levelSwitch = null,
             LogEventLevel? standardErrorFromLevel = null,
-            object syncRoot = null)
+            object? syncRoot = null)
         {
             if (sinkConfiguration is null) throw new ArgumentNullException(nameof(sinkConfiguration));
             if (formatter is null) throw new ArgumentNullException(nameof(formatter));
 
-            syncRoot = syncRoot ?? DefaultSyncRoot;
+            syncRoot ??= DefaultSyncRoot;
+
             return sinkConfiguration.Sink(new ConsoleSink(ConsoleTheme.None, formatter, standardErrorFromLevel, syncRoot), restrictedToMinimumLevel, levelSwitch);
         }
     }

@@ -121,10 +121,12 @@ namespace Serilog.Sinks.Console.Tests.Rendering
             return Render(null, messageTemplate, properties);
         }
 
-        static string Render(IFormatProvider formatProvider, string messageTemplate, params object[] properties)
+        static string Render(IFormatProvider? formatProvider, string messageTemplate, params object[] properties)
         {
             var binder = new LoggerConfiguration().CreateLogger();
-            binder.BindMessageTemplate(messageTemplate, properties, out var mt, out var props);
+            if (binder.BindMessageTemplate(messageTemplate, properties, out var mt, out var props) == false)
+                throw new InvalidOperationException();
+
             var output = new StringBuilder();
             var writer = new StringWriter(output);
             var renderer = new ThemedMessageTemplateRenderer(ConsoleTheme.None,

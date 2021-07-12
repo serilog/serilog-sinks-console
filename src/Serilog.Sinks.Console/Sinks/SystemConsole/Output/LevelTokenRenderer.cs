@@ -42,10 +42,6 @@ namespace Serilog.Sinks.SystemConsole.Output
             _levelToken = levelToken;
         }
 
-        protected LevelTokenRenderer()
-        {
-        }
-
         public override void Render(LogEvent logEvent, TextWriter output)
         {
             var moniker = LevelOutputFormat.GetLevelMoniker(logEvent.Level, _levelToken.Format);
