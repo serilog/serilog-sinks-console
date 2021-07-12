@@ -47,6 +47,5 @@ namespace Serilog.Sinks.SystemConsole.Platform
 
         [DllImport("kernel32.dll", SetLastError = true)]
         static extern bool SetConsoleMode(IntPtr handle, uint mode);
-
     }
 }

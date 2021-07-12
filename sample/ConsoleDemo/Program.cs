@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace ConsoleDemo
 {
-    public class Program
+    public static class Program
     {
         public static void Main()
         {
