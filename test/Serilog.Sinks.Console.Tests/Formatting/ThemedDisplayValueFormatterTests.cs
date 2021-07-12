@@ -11,11 +11,11 @@ namespace Serilog.Sinks.Console.Tests.Formatting
         [Theory]
         [InlineData("Hello", null, "\"Hello\"")]
         [InlineData("Hello", "l", "Hello")]
-        public void StringFormattingIsApplied(string s, string format, string expected)
+        public void StringFormattingIsApplied(string value, string format, string expected)
         {
-            var f = new ThemedDisplayValueFormatter(ConsoleTheme.None, null);
+            var formatter = new ThemedDisplayValueFormatter(ConsoleTheme.None, null);
             var sw = new StringWriter();
-            f.FormatLiteralValue(new ScalarValue(s), sw, format);
+            formatter.FormatLiteralValue(new ScalarValue(value), sw, format);
             var actual = sw.ToString();
             Assert.Equal(expected, actual);
         }

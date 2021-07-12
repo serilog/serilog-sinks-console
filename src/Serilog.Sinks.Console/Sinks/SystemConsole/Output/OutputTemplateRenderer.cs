@@ -27,9 +27,9 @@ namespace Serilog.Sinks.SystemConsole.Output
     {
         readonly OutputTemplateTokenRenderer[] _renderers;
 
-        public OutputTemplateRenderer(ConsoleTheme theme, string outputTemplate, IFormatProvider formatProvider)
+        public OutputTemplateRenderer(ConsoleTheme theme, string outputTemplate, IFormatProvider? formatProvider)
         {
-            if (outputTemplate == null) throw new ArgumentNullException(nameof(outputTemplate));
+            if (outputTemplate is null) throw new ArgumentNullException(nameof(outputTemplate));
             var template = new MessageTemplateParser().Parse(outputTemplate);
 
             var renderers = new List<OutputTemplateTokenRenderer>();
@@ -77,8 +77,8 @@ namespace Serilog.Sinks.SystemConsole.Output
 
         public void Format(LogEvent logEvent, TextWriter output)
         {
-            if (logEvent == null) throw new ArgumentNullException(nameof(logEvent));
-            if (output == null) throw new ArgumentNullException(nameof(output));
+            if (logEvent is null) throw new ArgumentNullException(nameof(logEvent));
+            if (output is null) throw new ArgumentNullException(nameof(output));
 
             foreach (var renderer in _renderers)
                 renderer.Render(logEvent, output);

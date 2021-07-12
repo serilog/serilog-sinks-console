@@ -37,13 +37,13 @@ namespace Serilog.Sinks.SystemConsole.Themes
         /// </summary>
         /// <param name="output">Output destination.</param>
         /// <param name="style">Style to apply.</param>
-        /// <returns></returns>
+        /// <returns> The number of characters written to <paramref name="output"/>. </returns>
         public abstract int Set(TextWriter output, ConsoleThemeStyle style);
 
         /// <summary>
         /// Reset the output to un-styled colors.
         /// </summary>
-        /// <param name="output">The output.</param>
+        /// <param name="output">Output destination.</param>
         public abstract void Reset(TextWriter output);
 
         /// <summary>

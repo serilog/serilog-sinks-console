@@ -25,9 +25,9 @@ namespace Serilog.Sinks.SystemConsole.Output
     {
         readonly ConsoleTheme _theme;
         readonly PropertyToken _token;
-        readonly IFormatProvider _formatProvider;
+        readonly IFormatProvider? _formatProvider;
 
-        public TimestampTokenRenderer(ConsoleTheme theme, PropertyToken token, IFormatProvider formatProvider)
+        public TimestampTokenRenderer(ConsoleTheme theme, PropertyToken token, IFormatProvider? formatProvider)
         {
             _theme = theme;
             _token = token;
@@ -43,8 +43,10 @@ namespace Serilog.Sinks.SystemConsole.Output
             var _ = 0;
             using (_theme.Apply(output, ConsoleThemeStyle.SecondaryText, ref _))
             {
-                if (_token.Alignment == null)
+                if (_token.Alignment is null)
+                {
                     sv.Render(output, _token.Format, _formatProvider);
+                }
                 else
                 {
                     var buffer = new StringWriter();

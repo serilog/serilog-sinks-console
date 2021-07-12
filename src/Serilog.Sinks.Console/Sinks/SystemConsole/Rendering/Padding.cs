@@ -24,9 +24,12 @@ namespace Serilog.Sinks.SystemConsole.Rendering
         /// <summary>
         /// Writes the provided value to the output, applying direction-based padding when <paramref name="alignment"/> is provided.
         /// </summary>
+        /// <param name="output">Output object to write result.</param>
+        /// <param name="value">Provided value.</param>
+        /// <param name="alignment">The alignment settings to apply when rendering <paramref name="value"/>.</param>
         public static void Apply(TextWriter output, string value, Alignment? alignment)
         {
-            if (!alignment.HasValue || value.Length >= alignment.Value.Width)
+            if (alignment is null || value.Length >= alignment.Value.Width)
             {
                 output.Write(value);
                 return;

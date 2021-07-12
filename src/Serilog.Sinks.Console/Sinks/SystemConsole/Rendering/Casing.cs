@@ -18,10 +18,12 @@ namespace Serilog.Sinks.SystemConsole.Rendering
     {
         /// <summary>
         /// Apply upper or lower casing to <paramref name="value"/> when <paramref name="format"/> is provided.
-        /// Returns <paramref name="value"/> when no or invalid format provided
+        /// Returns <paramref name="value"/> when no or invalid format provided.
         /// </summary>
-        /// <returns>The provided <paramref name="value"/> with formatting applied</returns>
-        public static string Format(string value, string format = null)
+        /// <param name="value">Provided string for formatting.</param>
+        /// <param name="format">Format string.</param>
+        /// <returns>The provided <paramref name="value"/> with formatting applied.</returns>
+        public static string Format(string value, string? format = null)
         {
             switch (format)
             {

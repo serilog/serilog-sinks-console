@@ -12,14 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Serilog.Core;
+using Serilog.Events;
+using Serilog.Formatting;
+using Serilog.Sinks.SystemConsole.Platform;
+using Serilog.Sinks.SystemConsole.Themes;
 using System;
 using System.IO;
 using System.Text;
-using Serilog.Core;
-using Serilog.Events;
-using Serilog.Sinks.SystemConsole.Themes;
-using Serilog.Formatting;
-using Serilog.Sinks.SystemConsole.Platform;
 
 namespace Serilog.Sinks.SystemConsole
 {
@@ -28,9 +28,9 @@ namespace Serilog.Sinks.SystemConsole
         readonly LogEventLevel? _standardErrorFromLevel;
         readonly ConsoleTheme _theme;
         readonly ITextFormatter _formatter;
-        readonly object _syncRoot = new object();
+        readonly object _syncRoot;
 
-        const int DefaultWriteBuffer = 256;
+        const int DefaultWriteBufferCapacity = 256;
 
         static ConsoleSink()
         {
@@ -40,11 +40,13 @@ namespace Serilog.Sinks.SystemConsole
         public ConsoleSink(
             ConsoleTheme theme,
             ITextFormatter formatter,
-            LogEventLevel? standardErrorFromLevel)
+            LogEventLevel? standardErrorFromLevel,
+            object syncRoot)
         {
             _standardErrorFromLevel = standardErrorFromLevel;
             _theme = theme ?? throw new ArgumentNullException(nameof(theme));
             _formatter = formatter;
+            _syncRoot = syncRoot ?? throw new ArgumentNullException(nameof(syncRoot));
         }
 
         public void Emit(LogEvent logEvent)
@@ -56,11 +58,12 @@ namespace Serilog.Sinks.SystemConsole
             // buffered write here and have no effect when the line is actually written out.
             if (_theme.CanBuffer)
             {
-                var buffer = new StringWriter(new StringBuilder(DefaultWriteBuffer));
+                var buffer = new StringWriter(new StringBuilder(DefaultWriteBufferCapacity));
                 _formatter.Format(logEvent, buffer);
+                var formattedLogEventText = buffer.ToString();
                 lock (_syncRoot)
                 {
-                    output.Write(buffer.ToString());
+                    output.Write(formattedLogEventText);
                     output.Flush();
                 }
             }
@@ -76,7 +79,7 @@ namespace Serilog.Sinks.SystemConsole
 
         TextWriter SelectOutputStream(LogEventLevel logEventLevel)
         {
-            if (!_standardErrorFromLevel.HasValue)
+            if (_standardErrorFromLevel is null)
                 return Console.Out;
 
             return logEventLevel < _standardErrorFromLevel ? Console.Out : Console.Error;

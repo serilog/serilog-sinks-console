@@ -24,9 +24,9 @@ namespace Serilog.Sinks.SystemConsole.Formatting
     class ThemedJsonValueFormatter : ThemedValueFormatter
     {
         readonly ThemedDisplayValueFormatter _displayFormatter;
-        readonly IFormatProvider _formatProvider;
+        readonly IFormatProvider? _formatProvider;
 
-        public ThemedJsonValueFormatter(ConsoleTheme theme, IFormatProvider formatProvider)
+        public ThemedJsonValueFormatter(ConsoleTheme theme, IFormatProvider? formatProvider)
             : base(theme)
         {
             _displayFormatter = new ThemedDisplayValueFormatter(theme, formatProvider);
@@ -40,7 +40,7 @@ namespace Serilog.Sinks.SystemConsole.Formatting
 
         protected override int VisitScalarValue(ThemedValueFormatterState state, ScalarValue scalar)
         {
-            if (scalar == null)
+            if (scalar is null)
                 throw new ArgumentNullException(nameof(scalar));
 
             // At the top level, for scalar values, use "display" rendering.
@@ -60,12 +60,14 @@ namespace Serilog.Sinks.SystemConsole.Formatting
             using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                 state.Output.Write('[');
 
-            var delim = "";
+            var delim = string.Empty;
             for (var index = 0; index < sequence.Elements.Count; ++index)
             {
                 if (delim.Length != 0)
+                {
                     using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                         state.Output.Write(delim);
+                }
 
                 delim = ", ";
                 Visit(state.Nest(), sequence.Elements[index]);
@@ -84,12 +86,14 @@ namespace Serilog.Sinks.SystemConsole.Formatting
             using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                 state.Output.Write('{');
 
-            var delim = "";
+            var delim = string.Empty;
             for (var index = 0; index < structure.Properties.Count; ++index)
             {
                 if (delim.Length != 0)
+                {
                     using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                         state.Output.Write(delim);
+                }
 
                 delim = ", ";
 
@@ -132,12 +136,14 @@ namespace Serilog.Sinks.SystemConsole.Formatting
             using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                 state.Output.Write('{');
 
-            var delim = "";
+            var delim = string.Empty;
             foreach (var element in dictionary.Elements)
             {
                 if (delim.Length != 0)
+                {
                     using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                         state.Output.Write(delim);
+                }
 
                 delim = ", ";
 
@@ -148,7 +154,7 @@ namespace Serilog.Sinks.SystemConsole.Formatting
                         : ConsoleThemeStyle.Scalar;
 
                 using (ApplyStyle(state.Output, style, ref count))
-                    JsonValueFormatter.WriteQuotedJsonString((element.Key.Value ?? "null").ToString(), state.Output);
+                    JsonValueFormatter.WriteQuotedJsonString((element.Key.Value ?? "null").ToString() ?? "", state.Output);
 
                 using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                     state.Output.Write(": ");
@@ -242,7 +248,7 @@ namespace Serilog.Sinks.SystemConsole.Formatting
             }
 
             using (ApplyStyle(output, ConsoleThemeStyle.Scalar, ref count))
-                JsonValueFormatter.WriteQuotedJsonString(value.ToString(), output);
+                JsonValueFormatter.WriteQuotedJsonString(value.ToString() ?? "", output);
 
             return count;
         }

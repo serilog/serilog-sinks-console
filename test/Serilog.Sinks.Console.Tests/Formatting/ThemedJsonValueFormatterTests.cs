@@ -20,7 +20,7 @@ namespace Serilog.Sinks.Console.Tests.Formatting
             public string Format(object literal)
             {
                 var output = new StringWriter();
-                Format(new SequenceValue(new [] {new ScalarValue(literal)}), output, null);
+                Format(new SequenceValue(new[] { new ScalarValue(literal) }), output, null);
                 var o = output.ToString();
                 return o.Substring(1, o.Length - 2);
             }
@@ -114,8 +114,9 @@ namespace Serilog.Sinks.Console.Tests.Formatting
         [Fact]
         public void DictionaryWithScalarKeyFormatsAsAnObject()
         {
-            var dict = new DictionaryValue(new Dictionary<ScalarValue, LogEventPropertyValue> {
-                { new ScalarValue(12), new ScalarValue(345) }
+            var dict = new DictionaryValue(new Dictionary<ScalarValue, LogEventPropertyValue>
+            {
+                { new ScalarValue(12), new ScalarValue(345) },
             });
 
             var f = Format(dict);

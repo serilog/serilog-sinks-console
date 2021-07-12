@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Serilog.Sinks.SystemConsole.Formatting;
+using Serilog.Sinks.SystemConsole.Rendering;
+using Serilog.Sinks.SystemConsole.Themes;
+using System;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
 using Xunit;
-using Serilog.Sinks.SystemConsole.Themes;
-using Serilog.Sinks.SystemConsole.Formatting;
-using Serilog.Sinks.SystemConsole.Rendering;
 
 namespace Serilog.Sinks.Console.Tests.Rendering
 {
@@ -18,25 +18,20 @@ namespace Serilog.Sinks.Console.Tests.Rendering
             public string Back => "straight";
 
             public int[] Legs => new[] { 1, 2, 3, 4 };
+
             // ReSharper restore UnusedMember.Local
-            public override string ToString()
-            {
-                return "a chair";
-            }
+            public override string ToString() => "a chair";
         }
 
         class Receipt
         {
             // ReSharper disable UnusedMember.Local
             public decimal Sum => 12.345m;
-       
-            public DateTime When => new DateTime(2013, 5, 20, 16, 39, 0);
-            // ReSharper restore UnusedMember.Local
 
-            public override string ToString()
-            {
-                return "a receipt";
-            }
+            public DateTime When => new DateTime(2013, 5, 20, 16, 39, 0);
+
+            // ReSharper restore UnusedMember.Local
+            public override string ToString() => "a receipt";
         }
 
         [Fact]
@@ -126,10 +121,12 @@ namespace Serilog.Sinks.Console.Tests.Rendering
             return Render(null, messageTemplate, properties);
         }
 
-        static string Render(IFormatProvider formatProvider, string messageTemplate, params object[] properties)
+        static string Render(IFormatProvider? formatProvider, string messageTemplate, params object[] properties)
         {
             var binder = new LoggerConfiguration().CreateLogger();
-            binder.BindMessageTemplate(messageTemplate, properties, out var mt, out var props);
+            if (binder.BindMessageTemplate(messageTemplate, properties, out var mt, out var props) == false)
+                throw new InvalidOperationException();
+
             var output = new StringBuilder();
             var writer = new StringWriter(output);
             var renderer = new ThemedMessageTemplateRenderer(ConsoleTheme.None,

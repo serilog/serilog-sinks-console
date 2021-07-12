@@ -22,9 +22,9 @@ namespace Serilog.Sinks.SystemConsole.Formatting
 {
     class ThemedDisplayValueFormatter : ThemedValueFormatter
     {
-        readonly IFormatProvider _formatProvider;
+        readonly IFormatProvider? _formatProvider;
 
-        public ThemedDisplayValueFormatter(ConsoleTheme theme, IFormatProvider formatProvider)
+        public ThemedDisplayValueFormatter(ConsoleTheme theme, IFormatProvider? formatProvider)
             : base(theme)
         {
             _formatProvider = formatProvider;
@@ -37,14 +37,14 @@ namespace Serilog.Sinks.SystemConsole.Formatting
 
         protected override int VisitScalarValue(ThemedValueFormatterState state, ScalarValue scalar)
         {
-            if (scalar == null)
+            if (scalar is null)
                 throw new ArgumentNullException(nameof(scalar));
             return FormatLiteralValue(scalar, state.Output, state.Format);
         }
 
         protected override int VisitSequenceValue(ThemedValueFormatterState state, SequenceValue sequence)
         {
-            if (sequence == null)
+            if (sequence is null)
                 throw new ArgumentNullException(nameof(sequence));
 
             var count = 0;
@@ -52,12 +52,14 @@ namespace Serilog.Sinks.SystemConsole.Formatting
             using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                 state.Output.Write('[');
 
-            var delim = "";
+            var delim = string.Empty;
             for (var index = 0; index < sequence.Elements.Count; ++index)
             {
                 if (delim.Length != 0)
+                {
                     using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                         state.Output.Write(delim);
+                }
 
                 delim = ", ";
                 Visit(state, sequence.Elements[index]);
@@ -84,12 +86,14 @@ namespace Serilog.Sinks.SystemConsole.Formatting
             using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                 state.Output.Write('{');
 
-            var delim = "";
+            var delim = string.Empty;
             for (var index = 0; index < structure.Properties.Count; ++index)
             {
                 if (delim.Length != 0)
+                {
                     using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                         state.Output.Write(delim);
+                }
 
                 delim = ", ";
 
@@ -117,12 +121,14 @@ namespace Serilog.Sinks.SystemConsole.Formatting
             using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                 state.Output.Write('{');
 
-            var delim = "";
+            var delim = string.Empty;
             foreach (var element in dictionary.Elements)
             {
                 if (delim.Length != 0)
+                {
                     using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
                         state.Output.Write(delim);
+                }
 
                 delim = ", ";
 
@@ -144,12 +150,12 @@ namespace Serilog.Sinks.SystemConsole.Formatting
             return count;
         }
 
-        public int FormatLiteralValue(ScalarValue scalar, TextWriter output, string format)
+        public int FormatLiteralValue(ScalarValue scalar, TextWriter output, string? format)
         {
             var value = scalar.Value;
             var count = 0;
 
-            if (value == null)
+            if (value is null)
             {
                 using (ApplyStyle(output, ConsoleThemeStyle.Null, ref count))
                     output.Write("null");

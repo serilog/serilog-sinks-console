@@ -28,10 +28,11 @@ namespace Serilog.Sinks.SystemConsole.Output
         readonly PropertyToken _token;
         readonly ThemedMessageTemplateRenderer _renderer;
 
-        public MessageTemplateOutputTokenRenderer(ConsoleTheme theme, PropertyToken token, IFormatProvider formatProvider)
+        public MessageTemplateOutputTokenRenderer(ConsoleTheme theme, PropertyToken token, IFormatProvider? formatProvider)
         {
             _theme = theme ?? throw new ArgumentNullException(nameof(theme));
             _token = token ?? throw new ArgumentNullException(nameof(token));
+
             bool isLiteral = false, isJson = false;
 
             if (token.Format != null)
@@ -54,7 +55,7 @@ namespace Serilog.Sinks.SystemConsole.Output
 
         public override void Render(LogEvent logEvent, TextWriter output)
         {
-            if (_token.Alignment == null || !_theme.CanBuffer)
+            if (_token.Alignment is null || !_theme.CanBuffer)
             {
                 _renderer.Render(logEvent.MessageTemplate, logEvent.Properties, output);
                 return;

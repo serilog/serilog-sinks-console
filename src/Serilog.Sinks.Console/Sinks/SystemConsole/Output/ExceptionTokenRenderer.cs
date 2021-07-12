@@ -34,11 +34,11 @@ namespace Serilog.Sinks.SystemConsole.Output
         {
             // Padding is never applied by this renderer.
 
-            if (logEvent.Exception == null)
+            if (logEvent.Exception is null)
                 return;
 
             var lines = new StringReader(logEvent.Exception.ToString());
-            string nextLine;
+            string? nextLine;
             while ((nextLine = lines.ReadLine()) != null)
             {
                 var style = nextLine.StartsWith(StackFrameLinePrefix) ? ConsoleThemeStyle.SecondaryText : ConsoleThemeStyle.Text;

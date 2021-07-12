@@ -6,8 +6,8 @@ A Serilog sink that writes log events to the Windows Console or an ANSI terminal
 
 To use the console sink, first install the [NuGet package](https://nuget.org/packages/serilog.sinks.console):
 
-```powershell
-Install-Package Serilog.Sinks.Console
+```shell
+dotnet add package Serilog.Sinks.Console
 ```
 
 Then enable the sink using `WriteTo.Console()`:
@@ -64,14 +64,14 @@ The default template, shown in the example above, uses built-in properties like 
 
 The sink can write JSON  output instead of plain text. `CompactJsonFormatter` or `RenderedCompactJsonFormatter` from [Serilog.Formatting.Compact](https://github.com/serilog/serilog-formatting-compact) is recommended:
 
-```powershell
-Install-Package Serilog.Formatting.Compact
+```shell
+dotnet add package Serilog.Formatting.Compact
 ```
 
 Pass a formatter to the `Console()` configuration method:
 
 ```csharp
-    .WriteTo.Console(new CompactJsonFormatter())
+    .WriteTo.Console(new RenderedCompactJsonFormatter())
 ```
 
 Output theming is not available when custom formatters are used.
@@ -80,8 +80,8 @@ Output theming is not available when custom formatters are used.
 
 To use the console sink with the [Serilog.Settings.AppSettings](https://github.com/serilog/serilog-settings-appsettings) package, first install that package if you haven't already done so:
 
-```powershell
-Install-Package Serilog.Settings.AppSettings
+```shell
+dotnet add package Serilog.Settings.AppSettings
 ```
 
 Instead of configuring the logger in code, call `ReadFrom.AppSettings()`:
@@ -101,12 +101,21 @@ In your application's `App.config` or `Web.config` file, specify the console sin
     <add key="serilog:write-to:Console" />
 ```
 
+To configure the console sink with a different theme and include the `SourceContext` in the output, change your `App.config`/`Web.config` to:
+```xml
+<configuration>
+  <appSettings>
+    <add key="serilog:using:Console" value="Serilog.Sinks.Console" />
+    <add key="serilog:write-to:Console.theme" value="Serilog.Sinks.SystemConsole.Themes.AnsiConsoleTheme::Code, Serilog.Sinks.Console" />
+    <add key="serilog:write-to:Console.outputTemplate" value="[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} &lt;s:{SourceContext}&gt;{NewLine}{Exception}" />
+```
+
 ### JSON `appsettings.json` configuration
 
 To use the console sink with _Microsoft.Extensions.Configuration_, for example with ASP.NET Core or .NET Core, use the [Serilog.Settings.Configuration](https://github.com/serilog/serilog-settings-configuration) package. First install that package if you have not already done so:
 
-```powershell
-Install-Package Serilog.Settings.Configuration
+```shell
+dotnet add package Serilog.Settings.Configuration
 ```
 
 Instead of configuring the sink directly in code, call `ReadFrom.Configuration()`:
@@ -122,7 +131,6 @@ var logger = new LoggerConfiguration()
 ```
 
 In your `appsettings.json` file, under the `Serilog` node, :
-
 ```json
 {
   "Serilog": {
@@ -131,17 +139,22 @@ In your `appsettings.json` file, under the `Serilog` node, :
 }
 ```
 
-### Upgrading from _Serilog.Sinks.Console_ 2.x
-
-To achieve output identical to version 2 of this sink, specify a formatter and output template explicitly:
-
-```csharp
-    .WriteTo.Console(new MessageTemplateTextFormatter(
-        "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level}] {Message}{NewLine}{Exception}",
-        null))
+To configure the console sink with a different theme and include the `SourceContext` in the output, change your `appsettings.json` to:
+```json
+{
+  "Serilog": {
+    "WriteTo": [
+      {
+          "Name": "Console",
+          "Args": {
+            "theme": "Serilog.Sinks.SystemConsole.Themes.AnsiConsoleTheme::Code, Serilog.Sinks.Console",
+            "outputTemplate": "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} <s:{SourceContext}>{NewLine}{Exception}"
+          }
+      }
+    ]
+  }
+}
 ```
-
-This will bypass theming and use Serilog's built-in message template formatting.
 
 ### Contributing
 
@@ -155,7 +168,7 @@ When contributing please keep in mind our [Code of Conduct](CODE_OF_CONDUCT.md).
 Branch  | AppVeyor | Travis
 ------------- | ------------- |-------------
 dev | [![Build status](https://ci.appveyor.com/api/projects/status/w1w3m1wyk3in1c96/branch/dev?svg=true)](https://ci.appveyor.com/project/serilog/serilog-sinks-console/branch/dev)  | [![Build Status](https://travis-ci.org/serilog/serilog-sinks-console.svg?branch=dev)](https://travis-ci.org/serilog/serilog-sinks-console) 
-master | [![Build status](https://ci.appveyor.com/api/projects/status/w1w3m1wyk3in1c96/branch/master?svg=true)](https://ci.appveyor.com/project/serilog/serilog-sinks-console/branch/master) | [![Build Status](https://travis-ci.org/serilog/serilog-sinks-console.svg?branch=master)](https://travis-ci.org/serilog/serilog-sinks-console) 
+main | [![Build status](https://ci.appveyor.com/api/projects/status/w1w3m1wyk3in1c96/branch/main?svg=true)](https://ci.appveyor.com/project/serilog/serilog-sinks-console/branch/main) | [![Build Status](https://travis-ci.org/serilog/serilog-sinks-console.svg?branch=main)](https://travis-ci.org/serilog/serilog-sinks-console) 
 
 
-_Copyright &copy; 2017 Serilog Contributors - Provided under the [Apache License, Version 2.0](http://apache.org/licenses/LICENSE-2.0.html)._
+_Copyright &copy; Serilog Contributors - Provided under the [Apache License, Version 2.0](http://apache.org/licenses/LICENSE-2.0.html)._
