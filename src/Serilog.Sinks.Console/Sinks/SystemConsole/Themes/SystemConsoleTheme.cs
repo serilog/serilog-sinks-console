@@ -44,6 +44,7 @@ namespace Serilog.Sinks.SystemConsole.Themes
         /// Construct a theme given a set of styles.
         /// </summary>
         /// <param name="styles">Styles to apply within the theme.</param>
+        /// <exception cref="ArgumentNullException">When <paramref name="styles"/> is <code>null</code></exception>
         public SystemConsoleTheme(IReadOnlyDictionary<ConsoleThemeStyle, SystemConsoleThemeStyle> styles)
         {
             if (styles is null) throw new ArgumentNullException(nameof(styles));
