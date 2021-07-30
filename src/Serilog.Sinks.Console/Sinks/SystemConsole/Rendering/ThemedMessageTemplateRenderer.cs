@@ -102,7 +102,7 @@ namespace Serilog.Sinks.SystemConsole.Rendering
 
         int RenderAlignedPropertyTokenUnbuffered(PropertyToken pt, TextWriter output, LogEventPropertyValue propertyValue)
         {
-            if(pt.Alignment == null) throw new ArgumentException("The PropertyToken should have a non-null Alignment.", nameof(pt));
+            if (pt.Alignment == null) throw new ArgumentException("The PropertyToken should have a non-null Alignment.", nameof(pt));
 
             var valueOutput = new StringWriter();
             RenderValue(NoTheme, _unthemedValueFormatter, propertyValue, valueOutput, pt.Format);
