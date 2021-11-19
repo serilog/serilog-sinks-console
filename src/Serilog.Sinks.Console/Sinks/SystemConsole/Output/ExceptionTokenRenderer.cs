@@ -44,7 +44,8 @@ namespace Serilog.Sinks.SystemConsole.Output
                 var style = nextLine.StartsWith(StackFrameLinePrefix) ? ConsoleThemeStyle.SecondaryText : ConsoleThemeStyle.Text;
                 var _ = 0;
                 using (_theme.Apply(output, style, ref _))
-                    output.WriteLine(nextLine);
+                    output.Write(nextLine);
+                output.WriteLine();
             }
         }
     }
