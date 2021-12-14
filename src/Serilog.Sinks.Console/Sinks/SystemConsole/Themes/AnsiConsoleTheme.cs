@@ -31,11 +31,6 @@ namespace Serilog.Sinks.SystemConsole.Themes
         public static AnsiConsoleTheme Code { get; } = AnsiConsoleThemes.Code;
 
         /// <summary>
-        /// A 16-color theme along the lines of Visual Studio Code that should work on light backgrounds.
-        /// </summary>
-        public static AnsiConsoleTheme Code16Color { get; } = AnsiConsoleThemes.Code16Color;
-
-        /// <summary>
         /// A theme using only gray, black and white.
         /// </summary>
         public static AnsiConsoleTheme Grayscale { get; } = AnsiConsoleThemes.Grayscale;
@@ -48,7 +43,7 @@ namespace Serilog.Sinks.SystemConsole.Themes
         /// <summary>
         /// A theme in the style of the original <i>Serilog.Sinks.Literate</i> using only standard 16 terminal colors that will work on light backgrounds.
         /// </summary>
-        public static AnsiConsoleTheme Literate16Color { get; } = AnsiConsoleThemes.Literate16Color;
+        public static AnsiConsoleTheme Sixteen { get; } = AnsiConsoleThemes.Sixteen;
 
         readonly IReadOnlyDictionary<ConsoleThemeStyle, string> _styles;
         const string AnsiStyleReset = "\x1b[0m";

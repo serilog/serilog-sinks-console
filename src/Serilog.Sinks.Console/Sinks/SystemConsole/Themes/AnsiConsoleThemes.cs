@@ -60,27 +60,6 @@ namespace Serilog.Sinks.SystemConsole.Themes
                 [ConsoleThemeStyle.LevelFatal] = "\x1b[38;5;0015m\x1b[48;5;0196m",
             });
 
-        public static AnsiConsoleTheme Literate16Color { get; } = new AnsiConsoleTheme(
-            new Dictionary<ConsoleThemeStyle, string>
-            {
-                [ConsoleThemeStyle.Text] = Reset,
-                [ConsoleThemeStyle.SecondaryText] = Reset,
-                [ConsoleThemeStyle.TertiaryText] = Reset,
-                [ConsoleThemeStyle.Invalid] = Yellow,
-                [ConsoleThemeStyle.Null] = Blue,
-                [ConsoleThemeStyle.Name] = Reset,
-                [ConsoleThemeStyle.String] = Cyan,
-                [ConsoleThemeStyle.Number] = Magenta,
-                [ConsoleThemeStyle.Boolean] = Blue,
-                [ConsoleThemeStyle.Scalar] = Green,
-                [ConsoleThemeStyle.LevelVerbose] = Reset,
-                [ConsoleThemeStyle.LevelDebug] = Bold,
-                [ConsoleThemeStyle.LevelInformation] = BrightCyan,
-                [ConsoleThemeStyle.LevelWarning] = BrightYellow,
-                [ConsoleThemeStyle.LevelError] = "\x1b[38;5;0015m\x1b[48;5;0196m",
-                [ConsoleThemeStyle.LevelFatal] = "\x1b[38;5;0015m\x1b[48;5;0196m",
-            });
-
         public static AnsiConsoleTheme Grayscale { get; } = new AnsiConsoleTheme(
             new Dictionary<ConsoleThemeStyle, string>
             {
@@ -123,25 +102,25 @@ namespace Serilog.Sinks.SystemConsole.Themes
                 [ConsoleThemeStyle.LevelFatal] = "\x1b[38;5;0197m\x1b[48;5;0238m",
             });
 
-        public static AnsiConsoleTheme Code16Color { get; } = new AnsiConsoleTheme(
+        public static AnsiConsoleTheme Sixteen { get; } = new AnsiConsoleTheme(
             new Dictionary<ConsoleThemeStyle, string>
             {
                 [ConsoleThemeStyle.Text] = Reset,
                 [ConsoleThemeStyle.SecondaryText] = Reset,
                 [ConsoleThemeStyle.TertiaryText] = Reset,
-                [ConsoleThemeStyle.Invalid] = BrightYellow,
-                [ConsoleThemeStyle.Null] = Cyan,
-                [ConsoleThemeStyle.Name] = Cyan,
-                [ConsoleThemeStyle.String] = Yellow,
-                [ConsoleThemeStyle.Number] = BrightYellow,
-                [ConsoleThemeStyle.Boolean] = Cyan,
+                [ConsoleThemeStyle.Invalid] = Yellow,
+                [ConsoleThemeStyle.Null] = Blue,
+                [ConsoleThemeStyle.Name] = Reset,
+                [ConsoleThemeStyle.String] = Cyan,
+                [ConsoleThemeStyle.Number] = Magenta,
+                [ConsoleThemeStyle.Boolean] = Blue,
                 [ConsoleThemeStyle.Scalar] = Green,
                 [ConsoleThemeStyle.LevelVerbose] = Reset,
-                [ConsoleThemeStyle.LevelDebug] = Reset,
-                [ConsoleThemeStyle.LevelInformation] = Bold,
+                [ConsoleThemeStyle.LevelDebug] = Bold,
+                [ConsoleThemeStyle.LevelInformation] = BrightCyan,
                 [ConsoleThemeStyle.LevelWarning] = BrightYellow,
-                [ConsoleThemeStyle.LevelError] = "\x1b[38;5;0197m\x1b[48;5;0238m",
-                [ConsoleThemeStyle.LevelFatal] = "\x1b[38;5;0197m\x1b[48;5;0238m",
+                [ConsoleThemeStyle.LevelError] = BrightRed,
+                [ConsoleThemeStyle.LevelFatal] = "\x1b[38;5;0015m\x1b[48;5;0196m",
             });
     }
 }
