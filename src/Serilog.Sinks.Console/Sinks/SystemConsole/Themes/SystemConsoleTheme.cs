@@ -39,11 +39,6 @@ namespace Serilog.Sinks.SystemConsole.Themes
         /// A theme based on the original Serilog "colored console" sink.
         /// </summary>
         public static SystemConsoleTheme Colored { get; } = SystemConsoleThemes.Colored;
-        
-        /// <summary>
-        /// A theme in the style of the original <i>Serilog.Sinks.Literate</i> using only standard 16 terminal colors that will work on light backgrounds.
-        /// </summary>
-        public static SystemConsoleTheme Sixteen { get; } = SystemConsoleThemes.Sixteen;
 
         /// <summary>
         /// Construct a theme given a set of styles.

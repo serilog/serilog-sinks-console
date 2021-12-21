@@ -43,7 +43,6 @@ The following built-in themes are available:
  * `ConsoleTheme.None` - no styling
  * `SystemConsoleTheme.Literate` - styled to replicate _Serilog.Sinks.Literate_, using the `System.Console` coloring modes supported on all Windows/.NET targets; **this is the default when no theme is specified**
  * `SystemConsoleTheme.Grayscale` - a theme using only shades of gray, white, and black
- * `SystemConsoleTheme.Sixteen` - a version of the "literate" theme that works with light and dark backgrounds
  * `AnsiConsoleTheme.Literate` - an ANSI 256-color version of the "literate" theme
  * `AnsiConsoleTheme.Grayscale` - an ANSI 256-color version of the "grayscale" theme
  * `AnsiConsoleTheme.Code` - an ANSI 256-color Visual Studio Code-inspired theme
