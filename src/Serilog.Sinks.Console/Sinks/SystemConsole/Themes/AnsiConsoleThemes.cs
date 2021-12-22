@@ -80,5 +80,26 @@ namespace Serilog.Sinks.SystemConsole.Themes
                 [ConsoleThemeStyle.LevelError] = "\x1b[38;5;0197m\x1b[48;5;0238m",
                 [ConsoleThemeStyle.LevelFatal] = "\x1b[38;5;0197m\x1b[48;5;0238m",
             });
+
+        public static AnsiConsoleTheme Sixteen { get; } = new AnsiConsoleTheme(
+            new Dictionary<ConsoleThemeStyle, string>
+            {
+                [ConsoleThemeStyle.Text] = AnsiEscapeSequence.Unthemed,
+                [ConsoleThemeStyle.SecondaryText] = AnsiEscapeSequence.Unthemed,
+                [ConsoleThemeStyle.TertiaryText] = AnsiEscapeSequence.Unthemed,
+                [ConsoleThemeStyle.Invalid] = AnsiEscapeSequence.Yellow,
+                [ConsoleThemeStyle.Null] = AnsiEscapeSequence.Blue,
+                [ConsoleThemeStyle.Name] = AnsiEscapeSequence.Unthemed,
+                [ConsoleThemeStyle.String] = AnsiEscapeSequence.Cyan,
+                [ConsoleThemeStyle.Number] = AnsiEscapeSequence.Magenta,
+                [ConsoleThemeStyle.Boolean] = AnsiEscapeSequence.Blue,
+                [ConsoleThemeStyle.Scalar] = AnsiEscapeSequence.Green,
+                [ConsoleThemeStyle.LevelVerbose] = AnsiEscapeSequence.Unthemed,
+                [ConsoleThemeStyle.LevelDebug] = AnsiEscapeSequence.Bold,
+                [ConsoleThemeStyle.LevelInformation] = AnsiEscapeSequence.BrightCyan,
+                [ConsoleThemeStyle.LevelWarning] = AnsiEscapeSequence.BrightYellow,
+                [ConsoleThemeStyle.LevelError] = AnsiEscapeSequence.BrightRed,
+                [ConsoleThemeStyle.LevelFatal] = AnsiEscapeSequence.BrightRed,
+            });
     }
 }
