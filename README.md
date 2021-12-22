@@ -46,7 +46,7 @@ The following built-in themes are available:
  * `AnsiConsoleTheme.Literate` - an ANSI 256-color version of the "literate" theme
  * `AnsiConsoleTheme.Grayscale` - an ANSI 256-color version of the "grayscale" theme
  * `AnsiConsoleTheme.Code` - an ANSI 256-color Visual Studio Code-inspired theme
- * `AnsiConsoleTheme.Sixteen` - an ANSI 16-color version of the "literate" theme that works with light and dark backgrounds
+ * `AnsiConsoleTheme.Sixteen` - an ANSI 16-color theme that works well with both light and dark backgrounds
 
  Adding a new theme is straightforward; examples can be found in the [`SystemConsoleThemes`](https://github.com/serilog/serilog-sinks-console/blob/dev/src/Serilog.Sinks.Console/Sinks/SystemConsole/Themes/SystemConsoleThemes.cs) and [`AnsiConsoleThemes`](https://github.com/serilog/serilog-sinks-console/blob/dev/src/Serilog.Sinks.Console/Sinks/SystemConsole/Themes/AnsiConsoleThemes.cs) classes.
 
