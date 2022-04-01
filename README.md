@@ -157,6 +157,18 @@ To configure the console sink with a different theme and include the `SourceCont
 }
 ```
 
+### Performance
+
+Console logging is synchronous and this can cause bottlenecks in some deployment scenarios. For high-volume console logging, consider using [_Serilog.Sinks.Async_](https://github.com/serilog/serilog-sinks-async) to move console writes to a background thread:
+
+```csharp
+// dotnet add package serilog.sinks.async
+
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Async(wt => wt.Console())
+    .CreateLogger();
+```
+
 ### Contributing
 
 Would you like to help make the Serilog console sink even better? We keep a list of issues that are approachable for newcomers under the [up-for-grabs](https://github.com/serilog/serilog-sinks-console/issues?labels=up-for-grabs&state=open) label. Before starting work on a pull request, we suggest commenting on, or raising, an issue on the issue tracker so that we can help and coordinate efforts.  For more details check out our [contributing guide](CONTRIBUTING.md).
