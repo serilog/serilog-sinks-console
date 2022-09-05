@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Description>A Serilog sink that writes log events to the console/terminal.</Description>
-    <VersionPrefix>4.0.2</VersionPrefix>
+    <VersionPrefix>4.1.0</VersionPrefix>
     <Authors>Serilog Contributors</Authors>
     <TargetFrameworks>net45;netstandard1.3;netstandard2.0;net5.0</TargetFrameworks>
     <LangVersion>8.0</LangVersion>
