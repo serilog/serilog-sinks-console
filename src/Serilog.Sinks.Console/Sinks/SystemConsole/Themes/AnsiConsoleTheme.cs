@@ -40,6 +40,11 @@ namespace Serilog.Sinks.SystemConsole.Themes
         /// </summary>
         public static AnsiConsoleTheme Literate { get; } = AnsiConsoleThemes.Literate;
 
+        /// <summary>
+        /// A theme in the style of the original <i>Serilog.Sinks.Literate</i> using only standard 16 terminal colors that will work on light backgrounds.
+        /// </summary>
+        public static AnsiConsoleTheme Sixteen { get; } = AnsiConsoleThemes.Sixteen;
+
         readonly IReadOnlyDictionary<ConsoleThemeStyle, string> _styles;
         const string AnsiStyleReset = "\x1b[0m";
 
