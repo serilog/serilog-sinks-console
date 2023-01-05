@@ -74,7 +74,7 @@ namespace Serilog.Sinks.SystemConsole.Output
                     return;
                 }
 
-#if NET5_0_OR_GREATER
+#if FEATURE_SPAN
                 Span<char> buffer = stackalloc char[32];
                 if (Value.TryFormat(buffer, out int written, format, formatProvider ?? CultureInfo.InvariantCulture))
                     output.Write(buffer.Slice(0, written));
