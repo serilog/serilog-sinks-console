@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System;
+using System.Globalization;
 using System.IO;
 using Serilog.Events;
 using Serilog.Parsing;
@@ -36,9 +37,7 @@ namespace Serilog.Sinks.SystemConsole.Output
 
         public override void Render(LogEvent logEvent, TextWriter output)
         {
-            // We need access to ScalarValue.Render() to avoid this alloc; just ensures
-            // that custom format providers are supported properly.
-            var sv = new ScalarValue(logEvent.Timestamp);
+            var sv = new DateTimeOffsetValue(logEvent.Timestamp);
 
             var _ = 0;
             using (_theme.Apply(output, ConsoleThemeStyle.SecondaryText, ref _))
@@ -54,6 +53,36 @@ namespace Serilog.Sinks.SystemConsole.Output
                     var str = buffer.ToString();
                     Padding.Apply(output, str, _token.Alignment);
                 }
+            }
+        }
+
+        readonly struct DateTimeOffsetValue
+        {
+            public DateTimeOffsetValue(DateTimeOffset value)
+            {
+                Value = value;
+            }
+
+            public DateTimeOffset Value { get; }
+
+            public void Render(TextWriter output, string? format = null, IFormatProvider? formatProvider = null)
+            {
+                var custom = (ICustomFormatter?)formatProvider?.GetFormat(typeof(ICustomFormatter));
+                if (custom != null)
+                {
+                    output.Write(custom.Format(format, Value, formatProvider));
+                    return;
+                }
+
+#if FEATURE_SPAN
+                Span<char> buffer = stackalloc char[32];
+                if (Value.TryFormat(buffer, out int written, format, formatProvider ?? CultureInfo.InvariantCulture))
+                    output.Write(buffer.Slice(0, written));
+                else
+                    output.Write(Value.ToString(format, formatProvider ?? CultureInfo.InvariantCulture));
+#else
+                output.Write(Value.ToString(format, formatProvider ?? CultureInfo.InvariantCulture));
+#endif
             }
         }
     }
