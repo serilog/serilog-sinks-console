@@ -52,7 +52,7 @@ namespace Serilog.Sinks.SystemConsole.Output
                 }
                 else if (pt.PropertyName == OutputProperties.ExceptionPropertyName)
                 {
-                    renderers.Add(new ExceptionTokenRenderer(theme, pt));
+                    renderers.Add(new ExceptionTokenRenderer(theme));
                 }
                 else if (pt.PropertyName == OutputProperties.MessagePropertyName)
                 {

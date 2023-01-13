@@ -25,7 +25,7 @@ namespace Serilog.Sinks.SystemConsole.Output
 
         readonly ConsoleTheme _theme;
 
-        public ExceptionTokenRenderer(ConsoleTheme theme, PropertyToken pt)
+        public ExceptionTokenRenderer(ConsoleTheme theme)
         {
             _theme = theme;
         }

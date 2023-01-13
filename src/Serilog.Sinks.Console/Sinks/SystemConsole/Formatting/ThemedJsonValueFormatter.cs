@@ -70,7 +70,7 @@ namespace Serilog.Sinks.SystemConsole.Formatting
                 }
 
                 delim = ", ";
-                Visit(state.Nest(), sequence.Elements[index]);
+                count += Visit(state.Nest(), sequence.Elements[index]);
             }
 
             using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
