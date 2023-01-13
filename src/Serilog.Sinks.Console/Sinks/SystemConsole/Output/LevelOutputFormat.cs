@@ -77,7 +77,14 @@ namespace Serilog.Sinks.SystemConsole.Output
                 var stringValue = value.ToString();
                 if (stringValue.Length > width)
                     stringValue = stringValue.Substring(0, width);
-                return Casing.Format(stringValue);
+                return Casing.Format(stringValue, format is null ? format : FormatByChar(format[0]));
+
+                static string? FormatByChar(char format) => format switch
+                {
+                    'u' => "u",
+                    'w' => "w",
+                    _ => null,
+                };
             }
 
             var index = (int)value;

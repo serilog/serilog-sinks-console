@@ -33,7 +33,7 @@ namespace Serilog.Sinks.Console.Tests.Configuration
                 }
             }
         }
-        
+
         [Fact]
         public void OutputFormattingIsPresent()
         {
