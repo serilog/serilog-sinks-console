@@ -131,6 +131,16 @@ namespace Serilog.Sinks.Console.Tests.Output
             formatter.Format(evt, sw);
             Assert.Equal("inf", sw.ToString());
         }
+        
+        [Fact]
+        public void FixedLengthLevelSupportsCasingForWideNames()
+        {
+            var formatter = new OutputTemplateRenderer(ConsoleTheme.None, "{Level:w6}", CultureInfo.InvariantCulture);
+            var evt = DelegatingSink.GetLogEvent(l => l.Information("Hello"));
+            var sw = new StringWriter();
+            formatter.Format(evt, sw);
+            Assert.Equal("inform", sw.ToString());
+        }
 
         [Fact]
         public void DefaultLevelLengthIsFullText()
