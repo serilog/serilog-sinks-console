@@ -106,13 +106,9 @@ namespace Serilog.Sinks.Console.Tests.Output
             string expected)
         {
             var formatter1 = new OutputTemplateRenderer(ConsoleTheme.None, $"{{Level:t{width}}}", CultureInfo.InvariantCulture);
-            var evt = DelegatingSink.GetLogEvent(l => l.Write(level, "Hello"));
             var evt1 = DelegatingSink.GetLogEvent(l => l.Write(level, "Hello"));
-            var sw = new StringWriter();
             var sw1 = new StringWriter();
-            formatter.Format(evt, sw);
             formatter1.Format(evt1, sw1);
-            Assert.Equal(expected, sw.ToString());
             Assert.Equal(expected, sw1.ToString());
 
             var formatter2 = new OutputTemplateRenderer(ConsoleTheme.None, $"{{Level:u{width}}}", CultureInfo.InvariantCulture);
