@@ -7,7 +7,7 @@ using Serilog.Sinks.SystemConsole.Themes;
 namespace Serilog.Sinks.Console.Tests.Configuration
 {
     [Collection("ConsoleSequentialTests")]
-    public class ConsoleLoggerConfigurationExtensionsTests
+    public class ConsoleAuditLoggerConfigurationExtensionsTests
     {
         [Fact]
         public void OutputFormattingIsIgnored()
@@ -18,7 +18,7 @@ namespace Serilog.Sinks.Console.Tests.Configuration
 
                 System.Console.SetOut(sw);
                 var config = new LoggerConfiguration()
-                    .WriteTo.Console(theme: AnsiConsoleTheme.Literate,
+                    .AuditTo.Console(theme: AnsiConsoleTheme.Literate,
                         applyThemeToRedirectedOutput: false);
 
                 var logger = config.CreateLogger();
@@ -44,7 +44,7 @@ namespace Serilog.Sinks.Console.Tests.Configuration
 
                 System.Console.SetOut(sw);
                 var config = new LoggerConfiguration()
-                    .WriteTo.Console(theme: AnsiConsoleTheme.Literate,
+                    .AuditTo.Console(theme: AnsiConsoleTheme.Literate,
                         applyThemeToRedirectedOutput: true);
 
                 var logger = config.CreateLogger();
