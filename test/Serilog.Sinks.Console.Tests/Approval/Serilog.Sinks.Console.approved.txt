@@ -1,0 +1,70 @@
+namespace Serilog
+{
+    public static class ConsoleLoggerConfigurationExtensions
+    {
+        public static Serilog.LoggerConfiguration Console(this Serilog.Configuration.LoggerSinkConfiguration sinkConfiguration, Serilog.Formatting.ITextFormatter formatter, Serilog.Events.LogEventLevel restrictedToMinimumLevel = 0, Serilog.Core.LoggingLevelSwitch? levelSwitch = null, Serilog.Events.LogEventLevel? standardErrorFromLevel = default, object? syncRoot = null) { }
+        public static Serilog.LoggerConfiguration Console(this Serilog.Configuration.LoggerSinkConfiguration sinkConfiguration, Serilog.Events.LogEventLevel restrictedToMinimumLevel = 0, string outputTemplate = "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}", System.IFormatProvider? formatProvider = null, Serilog.Core.LoggingLevelSwitch? levelSwitch = null, Serilog.Events.LogEventLevel? standardErrorFromLevel = default, Serilog.Sinks.SystemConsole.Themes.ConsoleTheme? theme = null, bool applyThemeToRedirectedOutput = false, object? syncRoot = null) { }
+    }
+}
+namespace Serilog.Sinks.SystemConsole.Themes
+{
+    public class AnsiConsoleTheme : Serilog.Sinks.SystemConsole.Themes.ConsoleTheme
+    {
+        public AnsiConsoleTheme(System.Collections.Generic.IReadOnlyDictionary<Serilog.Sinks.SystemConsole.Themes.ConsoleThemeStyle, string> styles) { }
+        public override bool CanBuffer { get; }
+        protected override int ResetCharCount { get; }
+        public static Serilog.Sinks.SystemConsole.Themes.AnsiConsoleTheme Code { get; }
+        public static Serilog.Sinks.SystemConsole.Themes.AnsiConsoleTheme Grayscale { get; }
+        public static Serilog.Sinks.SystemConsole.Themes.AnsiConsoleTheme Literate { get; }
+        public static Serilog.Sinks.SystemConsole.Themes.AnsiConsoleTheme Sixteen { get; }
+        public override void Reset(System.IO.TextWriter output) { }
+        public override int Set(System.IO.TextWriter output, Serilog.Sinks.SystemConsole.Themes.ConsoleThemeStyle style) { }
+    }
+    public abstract class ConsoleTheme
+    {
+        protected ConsoleTheme() { }
+        public abstract bool CanBuffer { get; }
+        protected abstract int ResetCharCount { get; }
+        public static Serilog.Sinks.SystemConsole.Themes.ConsoleTheme None { get; }
+        public abstract void Reset(System.IO.TextWriter output);
+        public abstract int Set(System.IO.TextWriter output, Serilog.Sinks.SystemConsole.Themes.ConsoleThemeStyle style);
+    }
+    public enum ConsoleThemeStyle
+    {
+        Text = 0,
+        SecondaryText = 1,
+        TertiaryText = 2,
+        Invalid = 3,
+        Null = 4,
+        Name = 5,
+        String = 6,
+        Number = 7,
+        Boolean = 8,
+        Scalar = 9,
+        [System.Obsolete("Use ConsoleThemeStyle.Scalar instead")]
+        Object = 9,
+        LevelVerbose = 10,
+        LevelDebug = 11,
+        LevelInformation = 12,
+        LevelWarning = 13,
+        LevelError = 14,
+        LevelFatal = 15,
+    }
+    public class SystemConsoleTheme : Serilog.Sinks.SystemConsole.Themes.ConsoleTheme
+    {
+        public SystemConsoleTheme(System.Collections.Generic.IReadOnlyDictionary<Serilog.Sinks.SystemConsole.Themes.ConsoleThemeStyle, Serilog.Sinks.SystemConsole.Themes.SystemConsoleThemeStyle> styles) { }
+        public override bool CanBuffer { get; }
+        protected override int ResetCharCount { get; }
+        public System.Collections.Generic.IReadOnlyDictionary<Serilog.Sinks.SystemConsole.Themes.ConsoleThemeStyle, Serilog.Sinks.SystemConsole.Themes.SystemConsoleThemeStyle> Styles { get; }
+        public static Serilog.Sinks.SystemConsole.Themes.SystemConsoleTheme Colored { get; }
+        public static Serilog.Sinks.SystemConsole.Themes.SystemConsoleTheme Grayscale { get; }
+        public static Serilog.Sinks.SystemConsole.Themes.SystemConsoleTheme Literate { get; }
+        public override void Reset(System.IO.TextWriter output) { }
+        public override int Set(System.IO.TextWriter output, Serilog.Sinks.SystemConsole.Themes.ConsoleThemeStyle style) { }
+    }
+    public struct SystemConsoleThemeStyle
+    {
+        public System.ConsoleColor? Background;
+        public System.ConsoleColor? Foreground;
+    }
+}

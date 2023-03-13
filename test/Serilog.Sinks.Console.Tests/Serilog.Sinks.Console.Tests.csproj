@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1;net452;net462;net472;net48;net5.0</TargetFrameworks>
@@ -19,6 +19,8 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3" PrivateAssets="all" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+    <PackageReference Include="Shouldly" Version="4.1.0" />
+    <PackageReference Include="PublicApiGenerator" Version="11.0.0" Condition="'$(TargetFramework)' == 'net5.0'" />
   </ItemGroup>
 
 </Project>
