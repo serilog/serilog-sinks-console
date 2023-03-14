@@ -12,29 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.IO;
 using Serilog.Events;
 using Serilog.Parsing;
 using Serilog.Sinks.SystemConsole.Rendering;
 
-namespace Serilog.Sinks.SystemConsole.Output
+namespace Serilog.Sinks.SystemConsole.Output;
+
+class NewLineTokenRenderer : OutputTemplateTokenRenderer
 {
-    class NewLineTokenRenderer : OutputTemplateTokenRenderer
+    readonly Alignment? _alignment;
+
+    public NewLineTokenRenderer(Alignment? alignment)
     {
-        readonly Alignment? _alignment;
+        _alignment = alignment;
+    }
 
-        public NewLineTokenRenderer(Alignment? alignment)
-        {
-            _alignment = alignment;
-        }
-
-        public override void Render(LogEvent logEvent, TextWriter output)
-        {
-            if (_alignment.HasValue)
-                Padding.Apply(output, Environment.NewLine, _alignment.Value.Widen(Environment.NewLine.Length));
-            else
-                output.WriteLine();
-        }
+    public override void Render(LogEvent logEvent, TextWriter output)
+    {
+        if (_alignment.HasValue)
+            Padding.Apply(output, Environment.NewLine, _alignment.Value.Widen(Environment.NewLine.Length));
+        else
+            output.WriteLine();
     }
 }

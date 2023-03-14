@@ -19,7 +19,7 @@ $commitHash = $(git rev-parse --short HEAD)
 $buildSuffix = @{ $true = "$($suffix)-$($commitHash)"; $false = "$($branch)-$($commitHash)" }[$suffix -ne ""]
 
 Write-Output "build: Package version suffix is $suffix"
-Write-Output "build: Build version suffix is $buildSuffix" 
+Write-Output "build: Build version suffix is $buildSuffix"
 
 foreach ($src in Get-ChildItem src/*) {
     Push-Location $src
@@ -32,7 +32,7 @@ foreach ($src in Get-ChildItem src/*) {
     } else {
         & dotnet pack -c Release --include-source -o ..\..\artifacts --no-build
     }
-    if($LASTEXITCODE -ne 0) { exit 1 }    
+    if($LASTEXITCODE -ne 0) { exit 1 }
 
     Pop-Location
 }

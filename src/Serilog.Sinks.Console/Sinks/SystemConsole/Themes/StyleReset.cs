@@ -12,25 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.IO;
+namespace Serilog.Sinks.SystemConsole.Themes;
 
-namespace Serilog.Sinks.SystemConsole.Themes
+struct StyleReset : IDisposable
 {
-    struct StyleReset : IDisposable
+    readonly ConsoleTheme _theme;
+    readonly TextWriter _output;
+
+    public StyleReset(ConsoleTheme theme, TextWriter output)
     {
-        readonly ConsoleTheme _theme;
-        readonly TextWriter _output;
+        _theme = theme;
+        _output = output;
+    }
 
-        public StyleReset(ConsoleTheme theme, TextWriter output)
-        {
-            _theme = theme;
-            _output = output;
-        }
-
-        public void Dispose()
-        {
-            _theme.Reset(_output);
-        }
+    public void Dispose()
+    {
+        _theme.Reset(_output);
     }
 }

@@ -1,17 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.12
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{037440DE-440B-4129-9F7A-09B42D00397E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{E9D1B5E1-DEB9-4A04-8BAB-24EC7240ADAF}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		appveyor.yml = appveyor.yml
 		Build.ps1 = Build.ps1
 		CHANGES.md = CHANGES.md
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
 		LICENSE = LICENSE
 		README.md = README.md
 		assets\Serilog.snk = assets\Serilog.snk
@@ -27,7 +30,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{CF8176
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleDemo", "sample\ConsoleDemo\ConsoleDemo.csproj", "{DBF4907A-63A2-4895-8DEF-59F90C20380B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncWritesDemo", "sample\SyncWritesDemo\SyncWritesDemo.csproj", "{633AE0AD-C9D4-440D-874A-C0F4632DB75F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SyncWritesDemo", "sample\SyncWritesDemo\SyncWritesDemo.csproj", "{633AE0AD-C9D4-440D-874A-C0F4632DB75F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

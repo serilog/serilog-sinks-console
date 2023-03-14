@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Rendering;
 
@@ -74,17 +73,13 @@ static class LevelOutputFormat
         if (width < 1)
             return string.Empty;
 
-        switch (format[0])
+        return format[0] switch
         {
-            case 'w':
-                return GetLevelMoniker(LowerCaseLevelMap, index, width);
-            case 'u':
-                return GetLevelMoniker(UpperCaseLevelMap, index, width);
-            case 't':
-                return GetLevelMoniker(TitleCaseLevelMap, index, width);
-            default:
-                return Casing.Format(GetLevelMoniker(TitleCaseLevelMap, index), format);
-        }
+            'w' => GetLevelMoniker(LowerCaseLevelMap, index, width),
+            'u' => GetLevelMoniker(UpperCaseLevelMap, index, width),
+            't' => GetLevelMoniker(TitleCaseLevelMap, index, width),
+            _ => Casing.Format(GetLevelMoniker(TitleCaseLevelMap, index), format),
+        };
     }
 
     static string GetLevelMoniker(string[][] caseLevelMap, int index, int width)

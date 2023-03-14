@@ -12,51 +12,48 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.IO;
+namespace Serilog.Sinks.SystemConsole.Themes;
 
-namespace Serilog.Sinks.SystemConsole.Themes
+/// <summary>
+/// The base class for styled terminal output.
+/// </summary>
+public abstract class ConsoleTheme
 {
     /// <summary>
-    /// The base class for styled terminal output.
+    /// No styling applied.
     /// </summary>
-    public abstract class ConsoleTheme
+    public static ConsoleTheme None { get; } = new EmptyConsoleTheme();
+
+    /// <summary>
+    /// True if styling applied by the theme is written into the output, and can thus be
+    /// buffered and measured.
+    /// </summary>
+    public abstract bool CanBuffer { get; }
+
+    /// <summary>
+    /// Begin a span of text in the specified <paramref name="style"/>.
+    /// </summary>
+    /// <param name="output">Output destination.</param>
+    /// <param name="style">Style to apply.</param>
+    /// <returns> The number of characters written to <paramref name="output"/>. </returns>
+    public abstract int Set(TextWriter output, ConsoleThemeStyle style);
+
+    /// <summary>
+    /// Reset the output to un-styled colors.
+    /// </summary>
+    /// <param name="output">Output destination.</param>
+    public abstract void Reset(TextWriter output);
+
+    /// <summary>
+    /// The number of characters written by the <see cref="Reset(TextWriter)"/> method.
+    /// </summary>
+    protected abstract int ResetCharCount { get; }
+
+    internal StyleReset Apply(TextWriter output, ConsoleThemeStyle style, ref int invisibleCharacterCount)
     {
-        /// <summary>
-        /// No styling applied.
-        /// </summary>
-        public static ConsoleTheme None { get; } = new EmptyConsoleTheme();
+        invisibleCharacterCount += Set(output, style);
+        invisibleCharacterCount += ResetCharCount;
 
-        /// <summary>
-        /// True if styling applied by the theme is written into the output, and can thus be
-        /// buffered and measured.
-        /// </summary>
-        public abstract bool CanBuffer { get; }
-
-        /// <summary>
-        /// Begin a span of text in the specified <paramref name="style"/>.
-        /// </summary>
-        /// <param name="output">Output destination.</param>
-        /// <param name="style">Style to apply.</param>
-        /// <returns> The number of characters written to <paramref name="output"/>. </returns>
-        public abstract int Set(TextWriter output, ConsoleThemeStyle style);
-
-        /// <summary>
-        /// Reset the output to un-styled colors.
-        /// </summary>
-        /// <param name="output">Output destination.</param>
-        public abstract void Reset(TextWriter output);
-
-        /// <summary>
-        /// The number of characters written by the <see cref="Reset(TextWriter)"/> method.
-        /// </summary>
-        protected abstract int ResetCharCount { get; }
-
-        internal StyleReset Apply(TextWriter output, ConsoleThemeStyle style, ref int invisibleCharacterCount)
-        {
-            invisibleCharacterCount += Set(output, style);
-            invisibleCharacterCount += ResetCharCount;
-
-            return new StyleReset(this, output);
-        }
+        return new StyleReset(this, output);
     }
 }

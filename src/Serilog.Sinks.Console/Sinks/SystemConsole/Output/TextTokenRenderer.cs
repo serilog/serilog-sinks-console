@@ -12,28 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.IO;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
 
-namespace Serilog.Sinks.SystemConsole.Output
+namespace Serilog.Sinks.SystemConsole.Output;
+
+class TextTokenRenderer : OutputTemplateTokenRenderer
 {
-    class TextTokenRenderer : OutputTemplateTokenRenderer
+    readonly ConsoleTheme _theme;
+    readonly string _text;
+
+    public TextTokenRenderer(ConsoleTheme theme, string text)
     {
-        readonly ConsoleTheme _theme;
-        readonly string _text;
+        _theme = theme;
+        _text = text;
+    }
 
-        public TextTokenRenderer(ConsoleTheme theme, string text)
-        {
-            _theme = theme;
-            _text = text;
-        }
-
-        public override void Render(LogEvent logEvent, TextWriter output)
-        {
-            var _ = 0;
-            using (_theme.Apply(output, ConsoleThemeStyle.TertiaryText, ref _))
-                output.Write(_text);
-        }
+    public override void Render(LogEvent logEvent, TextWriter output)
+    {
+        var _ = 0;
+        using (_theme.Apply(output, ConsoleThemeStyle.TertiaryText, ref _))
+            output.Write(_text);
     }
 }
