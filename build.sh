@@ -1,18 +1,10 @@
 #!/bin/bash
 
 set -e
-dotnet --info
-dotnet restore
 
-for path in src/**/*.csproj; do
-    dotnet build -f netstandard2.0 -c Release ${path}
-done
+echo "🤖 Attempting to build..."
 
-for path in test/*.Tests/*.csproj; do
-    dotnet test -f netcoreapp2.2 -c Release ${path}
-done
+dotnet build --configuration Release
 
-for path in sample/ConsoleDemo/*.csproj; do
-    dotnet build -f netcoreapp2.2 -c Release ${path}
-    dotnet run -f netcoreapp2.2 --project ${path}
-done
+echo "🤖 Running tests..."
+dotnet test test/Serilog.Sinks.Console.Tests --configuration Release --no-build --no-restore
