@@ -28,8 +28,8 @@ namespace Serilog
     /// </summary>
     public static class ConsoleLoggerConfigurationExtensions
     {
-        static readonly object DefaultSyncRoot = new object();
-        const string DefaultConsoleOutputTemplate = "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}";
+        internal static readonly object DefaultSyncRoot = new object();
+        internal const string DefaultConsoleOutputTemplate = "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}";
 
         /// <summary>
         /// Writes log events to <see cref="System.Console"/>.

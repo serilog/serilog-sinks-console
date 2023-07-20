@@ -28,9 +28,6 @@ namespace Serilog
     /// </summary>
     public static class ConsoleAuditLoggerConfigurationExtensions
     {
-        static readonly object DefaultSyncRoot = new object();
-        const string DefaultConsoleOutputTemplate = "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}";
-
         /// <summary>
         /// Writes log events to <see cref="System.Console"/>.
         /// </summary>
@@ -55,11 +52,11 @@ namespace Serilog
         public static LoggerConfiguration Console(
             this LoggerAuditSinkConfiguration sinkConfiguration,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
-            string outputTemplate = DefaultConsoleOutputTemplate,
+            string outputTemplate = ConsoleLoggerConfigurationExtensions.DefaultConsoleOutputTemplate,
             IFormatProvider? formatProvider = null,
             LoggingLevelSwitch? levelSwitch = null,
             LogEventLevel? standardErrorFromLevel = null,
-            ConsoleTheme? theme = null, 
+            ConsoleTheme? theme = null,
             bool applyThemeToRedirectedOutput = false,
             object? syncRoot = null)
         {
@@ -70,7 +67,7 @@ namespace Serilog
                 ConsoleTheme.None :
                 theme ?? SystemConsoleThemes.Literate;
 
-            syncRoot ??= DefaultSyncRoot;
+            syncRoot ??= ConsoleLoggerConfigurationExtensions.DefaultSyncRoot;
 
             var formatter = new OutputTemplateRenderer(appliedTheme, outputTemplate, formatProvider);
             return sinkConfiguration.Sink(new ConsoleSink(appliedTheme, formatter, standardErrorFromLevel, syncRoot), restrictedToMinimumLevel, levelSwitch);
@@ -104,7 +101,7 @@ namespace Serilog
             if (sinkConfiguration is null) throw new ArgumentNullException(nameof(sinkConfiguration));
             if (formatter is null) throw new ArgumentNullException(nameof(formatter));
 
-            syncRoot ??= DefaultSyncRoot;
+            syncRoot ??= ConsoleLoggerConfigurationExtensions.DefaultSyncRoot;
 
             return sinkConfiguration.Sink(new ConsoleSink(ConsoleTheme.None, formatter, standardErrorFromLevel, syncRoot), restrictedToMinimumLevel, levelSwitch);
         }
