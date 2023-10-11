@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using Serilog.Events;
+using Serilog.Parsing;
 using Serilog.Sinks.Console.Tests.Support;
 using Serilog.Sinks.SystemConsole.Output;
 using Serilog.Sinks.SystemConsole.Themes;
@@ -188,7 +190,7 @@ namespace Serilog.Sinks.Console.Tests.Output
                 _innerFormatProvider = innerFormatProvider;
             }
 
-            public object? GetFormat(Type? formatType)
+            public object GetFormat(Type? formatType)
             {
                 return formatType == typeof(ICustomFormatter) ? this : _innerFormatProvider.GetFormat(formatType) ?? this;
             }
@@ -373,6 +375,30 @@ namespace Serilog.Sinks.Console.Tests.Output
 
             Assert.Contains(expectedFormattedDate, sw.ToString());
             Assert.Contains(expectedFormattedNumber, sw.ToString());
+        }
+        
+        [Fact]
+        public void TraceAndSpanAreEmptyWhenAbsent()
+        {
+            var formatter = new OutputTemplateRenderer(ConsoleTheme.None, "{TraceId}/{SpanId}", CultureInfo.InvariantCulture);
+            var evt = DelegatingSink.GetLogEvent(l => l.Information("Hello, world"));
+            var sw = new StringWriter();
+            formatter.Format(evt, sw);
+            Assert.Equal("/", sw.ToString());
+        }
+
+        [Fact]
+        public void TraceAndSpanAreIncludedWhenPresent()
+        {
+            var traceId = ActivityTraceId.CreateRandom();
+            var spanId = ActivitySpanId.CreateRandom();
+            var formatter = new OutputTemplateRenderer(ConsoleTheme.None, "{TraceId}/{SpanId}", CultureInfo.InvariantCulture);
+            var evt = new LogEvent(DateTimeOffset.Now, LogEventLevel.Debug, null,
+                new MessageTemplate(Enumerable.Empty<MessageTemplateToken>()), Enumerable.Empty<LogEventProperty>(),
+                traceId, spanId);
+            var sw = new StringWriter();
+            formatter.Format(evt, sw);
+            Assert.Equal($"{traceId}/{spanId}", sw.ToString());
         }
     }
 }
