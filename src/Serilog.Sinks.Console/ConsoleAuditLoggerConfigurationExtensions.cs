@@ -24,13 +24,10 @@ using System;
 namespace Serilog
 {
     /// <summary>
-    /// Adds the WriteTo.Console() extension method to <see cref="LoggerConfiguration"/>.
+    /// Adds the AuditTo.Console() extension method to <see cref="LoggerAuditSinkConfiguration"/>.
     /// </summary>
-    public static class ConsoleLoggerConfigurationExtensions
+    public static class ConsoleAuditLoggerConfigurationExtensions
     {
-        internal static readonly object DefaultSyncRoot = new object();
-        internal const string DefaultConsoleOutputTemplate = "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}";
-
         /// <summary>
         /// Writes log events to <see cref="System.Console"/>.
         /// </summary>
@@ -53,13 +50,13 @@ namespace Serilog
         /// <exception cref="ArgumentNullException">When <paramref name="sinkConfiguration"/> is <code>null</code></exception>
         /// <exception cref="ArgumentNullException">When <paramref name="outputTemplate"/> is <code>null</code></exception>
         public static LoggerConfiguration Console(
-            this LoggerSinkConfiguration sinkConfiguration,
+            this LoggerAuditSinkConfiguration sinkConfiguration,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
-            string outputTemplate = DefaultConsoleOutputTemplate,
+            string outputTemplate = ConsoleLoggerConfigurationExtensions.DefaultConsoleOutputTemplate,
             IFormatProvider? formatProvider = null,
             LoggingLevelSwitch? levelSwitch = null,
             LogEventLevel? standardErrorFromLevel = null,
-            ConsoleTheme? theme = null, 
+            ConsoleTheme? theme = null,
             bool applyThemeToRedirectedOutput = false,
             object? syncRoot = null)
         {
@@ -70,7 +67,7 @@ namespace Serilog
                 ConsoleTheme.None :
                 theme ?? SystemConsoleThemes.Literate;
 
-            syncRoot ??= DefaultSyncRoot;
+            syncRoot ??= ConsoleLoggerConfigurationExtensions.DefaultSyncRoot;
 
             var formatter = new OutputTemplateRenderer(appliedTheme, outputTemplate, formatProvider);
             return sinkConfiguration.Sink(new ConsoleSink(appliedTheme, formatter, standardErrorFromLevel, syncRoot), restrictedToMinimumLevel, levelSwitch);
@@ -94,7 +91,7 @@ namespace Serilog
         /// <exception cref="ArgumentNullException">When <paramref name="sinkConfiguration"/> is <code>null</code></exception>
         /// <exception cref="ArgumentNullException">When <paramref name="formatter"/> is <code>null</code></exception>
         public static LoggerConfiguration Console(
-            this LoggerSinkConfiguration sinkConfiguration,
+            this LoggerAuditSinkConfiguration sinkConfiguration,
             ITextFormatter formatter,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
             LoggingLevelSwitch? levelSwitch = null,
@@ -104,7 +101,7 @@ namespace Serilog
             if (sinkConfiguration is null) throw new ArgumentNullException(nameof(sinkConfiguration));
             if (formatter is null) throw new ArgumentNullException(nameof(formatter));
 
-            syncRoot ??= DefaultSyncRoot;
+            syncRoot ??= ConsoleLoggerConfigurationExtensions.DefaultSyncRoot;
 
             return sinkConfiguration.Sink(new ConsoleSink(ConsoleTheme.None, formatter, standardErrorFromLevel, syncRoot), restrictedToMinimumLevel, levelSwitch);
         }

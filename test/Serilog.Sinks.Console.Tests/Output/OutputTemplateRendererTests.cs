@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using Serilog.Events;
+using Serilog.Parsing;
 using Serilog.Sinks.Console.Tests.Support;
 using Serilog.Sinks.SystemConsole.Output;
 using Serilog.Sinks.SystemConsole.Themes;
@@ -105,11 +107,23 @@ namespace Serilog.Sinks.Console.Tests.Output
             int width,
             string expected)
         {
-            var formatter = new OutputTemplateRenderer(ConsoleTheme.None, $"{{Level:t{width}}}", CultureInfo.InvariantCulture);
-            var evt = DelegatingSink.GetLogEvent(l => l.Write(level, "Hello"));
-            var sw = new StringWriter();
-            formatter.Format(evt, sw);
-            Assert.Equal(expected, sw.ToString());
+            var formatter1 = new OutputTemplateRenderer(ConsoleTheme.None, $"{{Level:t{width}}}", CultureInfo.InvariantCulture);
+            var evt1 = DelegatingSink.GetLogEvent(l => l.Write(level, "Hello"));
+            var sw1 = new StringWriter();
+            formatter1.Format(evt1, sw1);
+            Assert.Equal(expected, sw1.ToString());
+
+            var formatter2 = new OutputTemplateRenderer(ConsoleTheme.None, $"{{Level:u{width}}}", CultureInfo.InvariantCulture);
+            var evt2 = DelegatingSink.GetLogEvent(l => l.Write(level, "Hello"));
+            var sw2 = new StringWriter();
+            formatter2.Format(evt2, sw2);
+            Assert.Equal(expected.ToUpper(), sw2.ToString());
+
+            var formatter3 = new OutputTemplateRenderer(ConsoleTheme.None, $"{{Level:w{width}}}", CultureInfo.InvariantCulture);
+            var evt3 = DelegatingSink.GetLogEvent(l => l.Write(level, "Hello"));
+            var sw3 = new StringWriter();
+            formatter3.Format(evt3, sw3);
+            Assert.Equal(expected.ToLower(), sw3.ToString());
         }
 
         [Fact]
@@ -130,6 +144,16 @@ namespace Serilog.Sinks.Console.Tests.Output
             var sw = new StringWriter();
             formatter.Format(evt, sw);
             Assert.Equal("inf", sw.ToString());
+        }
+        
+        [Fact]
+        public void FixedLengthLevelSupportsCasingForWideNames()
+        {
+            var formatter = new OutputTemplateRenderer(ConsoleTheme.None, "{Level:w6}", CultureInfo.InvariantCulture);
+            var evt = DelegatingSink.GetLogEvent(l => l.Information("Hello"));
+            var sw = new StringWriter();
+            formatter.Format(evt, sw);
+            Assert.Equal("inform", sw.ToString());
         }
 
         [Fact]
@@ -166,7 +190,7 @@ namespace Serilog.Sinks.Console.Tests.Output
                 _innerFormatProvider = innerFormatProvider;
             }
 
-            public object? GetFormat(Type? formatType)
+            public object GetFormat(Type? formatType)
             {
                 return formatType == typeof(ICustomFormatter) ? this : _innerFormatProvider.GetFormat(formatType) ?? this;
             }
@@ -351,6 +375,30 @@ namespace Serilog.Sinks.Console.Tests.Output
 
             Assert.Contains(expectedFormattedDate, sw.ToString());
             Assert.Contains(expectedFormattedNumber, sw.ToString());
+        }
+        
+        [Fact]
+        public void TraceAndSpanAreEmptyWhenAbsent()
+        {
+            var formatter = new OutputTemplateRenderer(ConsoleTheme.None, "{TraceId}/{SpanId}", CultureInfo.InvariantCulture);
+            var evt = DelegatingSink.GetLogEvent(l => l.Information("Hello, world"));
+            var sw = new StringWriter();
+            formatter.Format(evt, sw);
+            Assert.Equal("/", sw.ToString());
+        }
+
+        [Fact]
+        public void TraceAndSpanAreIncludedWhenPresent()
+        {
+            var traceId = ActivityTraceId.CreateRandom();
+            var spanId = ActivitySpanId.CreateRandom();
+            var formatter = new OutputTemplateRenderer(ConsoleTheme.None, "{TraceId}/{SpanId}", CultureInfo.InvariantCulture);
+            var evt = new LogEvent(DateTimeOffset.Now, LogEventLevel.Debug, null,
+                new MessageTemplate(Enumerable.Empty<MessageTemplateToken>()), Enumerable.Empty<LogEventProperty>(),
+                traceId, spanId);
+            var sw = new StringWriter();
+            formatter.Format(evt, sw);
+            Assert.Equal($"{traceId}/{spanId}", sw.ToString());
         }
     }
 }

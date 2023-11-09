@@ -50,6 +50,14 @@ namespace Serilog.Sinks.SystemConsole.Output
                 {
                     renderers.Add(new NewLineTokenRenderer(pt.Alignment));
                 }
+                else if (pt.PropertyName == OutputProperties.TraceIdPropertyName)
+                {
+                    renderers.Add(new TraceIdTokenRenderer(theme, pt));
+                }
+                else if (pt.PropertyName == OutputProperties.SpanIdPropertyName)
+                {
+                    renderers.Add(new SpanIdTokenRenderer(theme, pt));
+                }
                 else if (pt.PropertyName == OutputProperties.ExceptionPropertyName)
                 {
                     renderers.Add(new ExceptionTokenRenderer(theme, pt));
@@ -62,7 +70,7 @@ namespace Serilog.Sinks.SystemConsole.Output
                 {
                     renderers.Add(new TimestampTokenRenderer(theme, pt, formatProvider));
                 }
-                else if (pt.PropertyName == "Properties")
+                else if (pt.PropertyName == OutputProperties.PropertiesPropertyName)
                 {
                     renderers.Add(new PropertiesTokenRenderer(theme, pt, template, formatProvider));
                 }
