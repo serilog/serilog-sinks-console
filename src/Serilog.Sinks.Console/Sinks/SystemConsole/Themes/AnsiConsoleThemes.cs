@@ -80,22 +80,22 @@ internal static class AnsiConsoleThemes
 
     public static AnsiConsoleTheme Dracula { get; } = new(new Dictionary<ConsoleThemeStyle, string>
     {
-        [ConsoleThemeStyle.Text] = "\u001B[38;5;151m",                       // Dracula Theme: Lighter gray
-        [ConsoleThemeStyle.SecondaryText] = "\u001B[38;5;245m",              // Dracula Theme: Darker gray
-        [ConsoleThemeStyle.TertiaryText] = "\u001B[38;5;244m",               // Dracula Theme: Even darker gray
-        [ConsoleThemeStyle.Invalid] = "\u001B[38;5;214m",                    // Dracula Theme: Orange
-        [ConsoleThemeStyle.Null] = "\u001B[38;5;248m",                       // Dracula Theme: Light gray
-        [ConsoleThemeStyle.Name] = "\u001B[38;5;141m",                       // Dracula Theme: Pink
-        [ConsoleThemeStyle.String] = "\u001B[38;5;168m",                     // Dracula Theme: Light purple
-        [ConsoleThemeStyle.Number] = "\u001B[38;5;141m",                     // Dracula Theme: Pink
-        [ConsoleThemeStyle.Boolean] = "\u001B[38;5;248m",                    // Dracula Theme: Light gray
-        [ConsoleThemeStyle.Scalar] = "\u001B[38;5;119m",                     // Dracula Theme: Green
-        [ConsoleThemeStyle.LevelVerbose] = "\u001B[37m",                     // Dracula Theme: White
-        [ConsoleThemeStyle.LevelDebug] = "\u001B[37m",                       // Dracula Theme: White
-        [ConsoleThemeStyle.LevelInformation] = "\u001B[37;1m",               // Dracula Theme: Bold white
-        [ConsoleThemeStyle.LevelWarning] = "\u001B[38;5;208m",               // Dracula Theme: Yellow
-        [ConsoleThemeStyle.LevelError] = "\u001B[38;5;197m\u001B[48;5;238m", // Dracula Theme: Red on light gray background
-        [ConsoleThemeStyle.LevelFatal] = "\u001B[38;5;197m\u001B[48;5;238m"  // Dracula Theme: Red on light gray background
+        [ConsoleThemeStyle.Text] = "\x1b[38;5;151m",                       // Dracula Theme: Lighter gray
+        [ConsoleThemeStyle.SecondaryText] = "\x1b[38;5;245m",              // Dracula Theme: Darker gray
+        [ConsoleThemeStyle.TertiaryText] = "\x1b[38;5;244m",               // Dracula Theme: Even darker gray
+        [ConsoleThemeStyle.Invalid] = "\x1b[38;5;214m",                    // Dracula Theme: Orange
+        [ConsoleThemeStyle.Null] = "\x1b[38;5;248m",                       // Dracula Theme: Light gray
+        [ConsoleThemeStyle.Name] = "\x1b[38;5;141m",                       // Dracula Theme: Pink
+        [ConsoleThemeStyle.String] = "\x1b[38;5;168m",                     // Dracula Theme: Light purple
+        [ConsoleThemeStyle.Number] = "\x1b[38;5;141m",                     // Dracula Theme: Pink
+        [ConsoleThemeStyle.Boolean] = "\x1b[38;5;248m",                    // Dracula Theme: Light gray
+        [ConsoleThemeStyle.Scalar] = "\x1b[38;5;119m",                     // Dracula Theme: Green
+        [ConsoleThemeStyle.LevelVerbose] = "\x1b[37m",                     // Dracula Theme: White
+        [ConsoleThemeStyle.LevelDebug] = "\x1b[37m",                       // Dracula Theme: White
+        [ConsoleThemeStyle.LevelInformation] = "\x1b[37;1m",               // Dracula Theme: Bold white
+        [ConsoleThemeStyle.LevelWarning] = "\x1b[38;5;208m",               // Dracula Theme: Yellow
+        [ConsoleThemeStyle.LevelError] = "\x1b[38;5;197m\x1b[48;5;238m", // Dracula Theme: Red on light gray background
+        [ConsoleThemeStyle.LevelFatal] = "\x1b[38;5;197m\x1b[48;5;238m"  // Dracula Theme: Red on light gray background
     });
 
     public static AnsiConsoleTheme Sixteen { get; } = new(new Dictionary<ConsoleThemeStyle, string>
