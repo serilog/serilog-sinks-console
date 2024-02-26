@@ -41,9 +41,14 @@ namespace Serilog.Sinks.SystemConsole.Themes
         public static AnsiConsoleTheme Literate { get; } = AnsiConsoleThemes.Literate;
 
         /// <summary>
-        /// A theme in the style of the original <i>Serilog.Sinks.Literate</i> using only standard 16 terminal colors that will work on light backgrounds.
+        /// A theme in the style of the original <i>Serilog.Sinks.Sixteen</i> using only standard 16 terminal colors that will work on light backgrounds.
         /// </summary>
         public static AnsiConsoleTheme Sixteen { get; } = AnsiConsoleThemes.Sixteen;
+
+        /// <summary>
+        /// A theme in the style of the original <i>Serilog.Sinks.Dracula</i>.
+        /// </summary>
+        public static AnsiConsoleTheme Dracula { get; } = AnsiConsoleThemes.Dracula;
 
         readonly IReadOnlyDictionary<ConsoleThemeStyle, string> _styles;
         const string AnsiStyleReset = "\x1b[0m";
