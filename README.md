@@ -16,7 +16,7 @@ Then enable the sink using `WriteTo.Console()`:
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateLogger();
-
+    
 Log.Information("Hello, world!");
 ```
 
@@ -53,7 +53,7 @@ The following built-in themes are available:
 -   `AnsiConsoleTheme.Sixteen` - an ANSI 16-color theme that works well with both light and dark backgrounds
 -   `AnsiConsoleTheme.Dracula` - a dark theme based on the popular [Dracula theme](https://draculatheme.com)
 
-Adding a new theme is straightforward; examples can be found in the [`SystemConsoleThemes`](https://github.com/serilog/serilog-sinks-console/blob/dev/src/Serilog.Sinks.Console/Sinks/SystemConsole/Themes/SystemConsoleThemes.cs) and [`AnsiConsoleThemes`](https://github.com/serilog/serilog-sinks-console/blob/dev/src/Serilog.Sinks.Console/Sinks/SystemConsole/Themes/AnsiConsoleThemes.cs) classes.
+ Adding a new theme is straightforward; examples can be found in the [`SystemConsoleThemes`](https://github.com/serilog/serilog-sinks-console/blob/dev/src/Serilog.Sinks.Console/Sinks/SystemConsole/Themes/SystemConsoleThemes.cs) and [`AnsiConsoleThemes`](https://github.com/serilog/serilog-sinks-console/blob/dev/src/Serilog.Sinks.Console/Sinks/SystemConsole/Themes/AnsiConsoleThemes.cs) classes.
 
 ### Output templates
 
@@ -68,7 +68,7 @@ The default template, shown in the example above, uses built-in properties like 
 
 ### JSON output
 
-The sink can write JSON output instead of plain text. `CompactJsonFormatter` or `RenderedCompactJsonFormatter` from [Serilog.Formatting.Compact](https://github.com/serilog/serilog-formatting-compact) is recommended:
+The sink can write JSON  output instead of plain text. `CompactJsonFormatter` or `RenderedCompactJsonFormatter` from [Serilog.Formatting.Compact](https://github.com/serilog/serilog-formatting-compact) is recommended:
 
 ```shell
 dotnet add package Serilog.Formatting.Compact
@@ -108,7 +108,6 @@ In your application's `App.config` or `Web.config` file, specify the console sin
 ```
 
 To configure the console sink with a different theme and include the `SourceContext` in the output, change your `App.config`/`Web.config` to:
-
 ```xml
 <configuration>
   <appSettings>
@@ -138,30 +137,28 @@ var logger = new LoggerConfiguration()
 ```
 
 In your `appsettings.json` file, under the `Serilog` node, :
-
 ```json
 {
-    "Serilog": {
-        "WriteTo": [{ "Name": "Console" }]
-    }
+  "Serilog": {
+    "WriteTo": [{"Name": "Console"}]
+  }
 }
 ```
 
 To configure the console sink with a different theme and include the `SourceContext` in the output, change your `appsettings.json` to:
-
 ```json
 {
-    "Serilog": {
-        "WriteTo": [
-            {
-                "Name": "Console",
-                "Args": {
-                    "theme": "Serilog.Sinks.SystemConsole.Themes.AnsiConsoleTheme::Code, Serilog.Sinks.Console",
-                    "outputTemplate": "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} <s:{SourceContext}>{NewLine}{Exception}"
-                }
-            }
-        ]
-    }
+  "Serilog": {
+    "WriteTo": [
+      {
+          "Name": "Console",
+          "Args": {
+            "theme": "Serilog.Sinks.SystemConsole.Themes.AnsiConsoleTheme::Code, Serilog.Sinks.Console",
+            "outputTemplate": "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} <s:{SourceContext}>{NewLine}{Exception}"
+          }
+      }
+    ]
+  }
 }
 ```
 
@@ -179,15 +176,17 @@ Log.Logger = new LoggerConfiguration()
 
 ### Contributing
 
-Would you like to help make the Serilog console sink even better? We keep a list of issues that are approachable for newcomers under the [up-for-grabs](https://github.com/serilog/serilog-sinks-console/issues?labels=up-for-grabs&state=open) label. Before starting work on a pull request, we suggest commenting on, or raising, an issue on the issue tracker so that we can help and coordinate efforts. For more details check out our [contributing guide](CONTRIBUTING.md).
+Would you like to help make the Serilog console sink even better? We keep a list of issues that are approachable for newcomers under the [up-for-grabs](https://github.com/serilog/serilog-sinks-console/issues?labels=up-for-grabs&state=open) label. Before starting work on a pull request, we suggest commenting on, or raising, an issue on the issue tracker so that we can help and coordinate efforts.  For more details check out our [contributing guide](CONTRIBUTING.md).
 
 When contributing please keep in mind our [Code of Conduct](CODE_OF_CONDUCT.md).
 
+
 ### Detailed build status
 
-| Branch | AppVeyor                                                                                                                                                                        | Travis                                                                                                                                      |
-| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| dev    | [![Build status](https://ci.appveyor.com/api/projects/status/w1w3m1wyk3in1c96/branch/dev?svg=true)](https://ci.appveyor.com/project/serilog/serilog-sinks-console/branch/dev)   | [![Build Status](https://travis-ci.org/serilog/serilog-sinks-console.svg?branch=dev)](https://travis-ci.org/serilog/serilog-sinks-console)  |
-| main   | [![Build status](https://ci.appveyor.com/api/projects/status/w1w3m1wyk3in1c96/branch/main?svg=true)](https://ci.appveyor.com/project/serilog/serilog-sinks-console/branch/main) | [![Build Status](https://travis-ci.org/serilog/serilog-sinks-console.svg?branch=main)](https://travis-ci.org/serilog/serilog-sinks-console) |
+Branch  | AppVeyor | Travis
+------------- | ------------- |-------------
+dev | [![Build status](https://ci.appveyor.com/api/projects/status/w1w3m1wyk3in1c96/branch/dev?svg=true)](https://ci.appveyor.com/project/serilog/serilog-sinks-console/branch/dev)  | [![Build Status](https://travis-ci.org/serilog/serilog-sinks-console.svg?branch=dev)](https://travis-ci.org/serilog/serilog-sinks-console) 
+main | [![Build status](https://ci.appveyor.com/api/projects/status/w1w3m1wyk3in1c96/branch/main?svg=true)](https://ci.appveyor.com/project/serilog/serilog-sinks-console/branch/main) | [![Build Status](https://travis-ci.org/serilog/serilog-sinks-console.svg?branch=main)](https://travis-ci.org/serilog/serilog-sinks-console) 
+
 
 _Copyright &copy; Serilog Contributors - Provided under the [Apache License, Version 2.0](http://apache.org/licenses/LICENSE-2.0.html)._
