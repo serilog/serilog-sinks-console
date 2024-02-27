@@ -32,10 +32,6 @@ The sink will colorize output by default:
 
 ![Colorized Console](https://raw.githubusercontent.com/serilog/serilog-sinks-console/dev/assets/Screenshot.png)
 
-The sink will colorize output by Dracula:
-
-![Dracula Theme](https://raw.githubusercontent.com/serilog/serilog-sinks-console/dev/assets/DraculaTheme.png)
-
 Themes can be specified when configuring the sink:
 
 ```csharp
