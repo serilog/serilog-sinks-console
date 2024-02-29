@@ -105,22 +105,22 @@ namespace Serilog.Sinks.SystemConsole.Themes
         public static AnsiConsoleTheme Dracula { get; } = new AnsiConsoleTheme(
             new Dictionary<ConsoleThemeStyle, string>
             {
-                [ConsoleThemeStyle.Text] = "\x1b[38;5;151m",                     // Dracula Theme: Lighter gray
-                [ConsoleThemeStyle.SecondaryText] = "\x1b[38;5;245m",            // Dracula Theme: Darker gray
-                [ConsoleThemeStyle.TertiaryText] = "\x1b[38;5;244m",             // Dracula Theme: Even darker gray
-                [ConsoleThemeStyle.Invalid] = "\x1b[38;5;214m",                  // Dracula Theme: Orange
-                [ConsoleThemeStyle.Null] = "\x1b[38;5;248m",                     // Dracula Theme: Light gray
-                [ConsoleThemeStyle.Name] = "\x1b[38;5;141m",                     // Dracula Theme: Pink
-                [ConsoleThemeStyle.String] = "\x1b[38;5;168m",                   // Dracula Theme: Light purple
-                [ConsoleThemeStyle.Number] = "\x1b[38;5;141m",                   // Dracula Theme: Pink
-                [ConsoleThemeStyle.Boolean] = "\x1b[38;5;248m",                  // Dracula Theme: Light gray
-                [ConsoleThemeStyle.Scalar] = "\x1b[38;5;119m",                   // Dracula Theme: Green
-                [ConsoleThemeStyle.LevelVerbose] = "\x1b[37m",                   // Dracula Theme: White
-                [ConsoleThemeStyle.LevelDebug] = "\x1b[37m",                     // Dracula Theme: White
-                [ConsoleThemeStyle.LevelInformation] = "\x1b[37;1m",             // Dracula Theme: Bold white
-                [ConsoleThemeStyle.LevelWarning] = "\x1b[38;5;208m",             // Dracula Theme: Yellow
-                [ConsoleThemeStyle.LevelError] = "\x1b[38;5;197m\x1b[48;5;238m", // Dracula Theme: Red on light gray background
-                [ConsoleThemeStyle.LevelFatal] = "\x1b[38;5;197m\x1b[48;5;238m"  // Dracula Theme: Red on light gray background
+                [ConsoleThemeStyle.Text] = "\x1b[38;5;159m",                         // Dracula Theme: Cyan
+                [ConsoleThemeStyle.SecondaryText] = "\x1b[38;5;59m",                 // Dracula Theme: Background
+                [ConsoleThemeStyle.TertiaryText] = "\x1b[38;5;60m",                  // Dracula Theme: Current Line
+                [ConsoleThemeStyle.Invalid] = "\x1b[38;5;222m",                      // Dracula Theme: Orange
+                [ConsoleThemeStyle.Null] = "\x1b[38;5;60m",                          // Dracula Theme: Current Line
+                [ConsoleThemeStyle.Name] = "\x1b[38;5;212m",                         // Dracula Theme: Pink
+                [ConsoleThemeStyle.String] = "\x1b[38;5;183m",                       // Dracula Theme: Purple
+                [ConsoleThemeStyle.Number] = "\x1b[38;5;212m",                       // Dracula Theme: Pink
+                [ConsoleThemeStyle.Boolean] = "\x1b[38;5;60m",                       // Dracula Theme: Current Line
+                [ConsoleThemeStyle.Scalar] = "\x1b[38;5;120m",                       // Dracula Theme: Green
+                [ConsoleThemeStyle.LevelVerbose] = "\x1b[231m",                      // Dracula Theme: Foreground
+                [ConsoleThemeStyle.LevelDebug] = "\x1b[38;5;222m\x1b[48;5;238m",     // Dracula Theme: Orange on light gray background
+                [ConsoleThemeStyle.LevelInformation] = "\x1b[231;1m",                // Dracula Theme: Bold Foreground
+                [ConsoleThemeStyle.LevelWarning] = "\x1b[38;5;229m\x1b[48;5;238m",   // Dracula Theme: Yellow on light gray background
+                [ConsoleThemeStyle.LevelError] = "\x1b[38;5;210m\x1b[48;5;238m",     // Dracula Theme: Red on light gray background
+                [ConsoleThemeStyle.LevelFatal] = "\x1b[38;5;210m\x1b[48;5;238m"      // Dracula Theme: Red on light gray background
             });
     }
 }
