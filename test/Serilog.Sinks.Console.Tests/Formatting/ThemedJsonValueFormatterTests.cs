@@ -1,4 +1,4 @@
-﻿using Serilog.Events;
+using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Formatting;
 using Serilog.Sinks.SystemConsole.Themes;
 using Xunit;
@@ -14,7 +14,7 @@ public class ThemedJsonValueFormatterTests
         {
         }
 
-        public string Format(object literal)
+        public string Format(object? literal)
         {
             var output = new StringWriter();
             Format(new SequenceValue(new[] { new ScalarValue(literal) }), output, null);
@@ -32,7 +32,7 @@ public class ThemedJsonValueFormatterTests
     [InlineData("\u0001", "\"\\u0001\"")]
     [InlineData("a\nb", "\"a\\nb\"")]
     [InlineData(null, "null")]
-    public void JsonLiteralTypesAreFormatted(object value, string expectedJson)
+    public void JsonLiteralTypesAreFormatted(object? value, string expectedJson)
     {
         var formatter = new TestThemedJsonValueFormatter();
         Assert.Equal(expectedJson, formatter.Format(value));

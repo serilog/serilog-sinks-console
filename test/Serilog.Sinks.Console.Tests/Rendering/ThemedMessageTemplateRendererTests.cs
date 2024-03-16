@@ -14,7 +14,7 @@ public class ThemedMessageTemplateRendererTests
         // ReSharper disable UnusedMember.Local
         public string Back => "straight";
 
-        public int[] Legs => new[] { 1, 2, 3, 4 };
+        public int[] Legs => [1, 2, 3, 4];
 
         // ReSharper restore UnusedMember.Local
         public override string ToString() => "a chair";

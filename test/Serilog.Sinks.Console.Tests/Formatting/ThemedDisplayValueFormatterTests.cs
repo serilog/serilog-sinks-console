@@ -1,4 +1,4 @@
-﻿using Serilog.Events;
+using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Formatting;
 using Serilog.Sinks.SystemConsole.Themes;
 using Xunit;
@@ -10,7 +10,7 @@ public class ThemedDisplayValueFormatterTests
     [Theory]
     [InlineData("Hello", null, "\"Hello\"")]
     [InlineData("Hello", "l", "Hello")]
-    public void StringFormattingIsApplied(string value, string format, string expected)
+    public void StringFormattingIsApplied(string value, string? format, string expected)
     {
         var formatter = new ThemedDisplayValueFormatter(ConsoleTheme.None, null);
         var sw = new StringWriter();
