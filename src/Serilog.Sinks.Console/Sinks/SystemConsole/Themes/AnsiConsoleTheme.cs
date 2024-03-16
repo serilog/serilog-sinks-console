@@ -46,7 +46,7 @@ namespace Serilog.Sinks.SystemConsole.Themes
         public static AnsiConsoleTheme Sixteen { get; } = AnsiConsoleThemes.Sixteen;
 
         /// <summary>
-        /// A dark theme based on the popular Dracula Theme
+        /// A dark theme based on the popular Dracula Theme.
         /// </summary>
         public static AnsiConsoleTheme Dracula { get; } = AnsiConsoleThemes.Dracula;
 
