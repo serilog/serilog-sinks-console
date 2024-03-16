@@ -1,10 +1,10 @@
+﻿using Xunit;
 using Serilog.Sinks.SystemConsole.Themes;
-using Xunit;
 
 namespace Serilog.Sinks.Console.Tests.Configuration;
 
 [Collection("ConsoleSequentialTests")]
-public class ConsoleLoggerConfigurationExtensionsTests
+public class ConsoleAuditLoggerConfigurationExtensionsTests
 {
     [Fact]
     public void OutputFormattingIsIgnored()
@@ -15,7 +15,7 @@ public class ConsoleLoggerConfigurationExtensionsTests
 
             System.Console.SetOut(sw);
             var config = new LoggerConfiguration()
-                .WriteTo.Console(theme: AnsiConsoleTheme.Literate,
+                .AuditTo.Console(theme: AnsiConsoleTheme.Literate,
                     applyThemeToRedirectedOutput: false);
 
             var logger = config.CreateLogger();
@@ -31,7 +31,7 @@ public class ConsoleLoggerConfigurationExtensionsTests
             }
         }
     }
-
+    
     [Fact]
     public void OutputFormattingIsPresent()
     {
@@ -41,7 +41,7 @@ public class ConsoleLoggerConfigurationExtensionsTests
 
             System.Console.SetOut(sw);
             var config = new LoggerConfiguration()
-                .WriteTo.Console(theme: AnsiConsoleTheme.Literate,
+                .AuditTo.Console(theme: AnsiConsoleTheme.Literate,
                     applyThemeToRedirectedOutput: true);
 
             var logger = config.CreateLogger();

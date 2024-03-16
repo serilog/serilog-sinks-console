@@ -1,5 +1,10 @@
 namespace Serilog
 {
+    public static class ConsoleAuditLoggerConfigurationExtensions
+    {
+        public static Serilog.LoggerConfiguration Console(this Serilog.Configuration.LoggerAuditSinkConfiguration sinkConfiguration, Serilog.Formatting.ITextFormatter formatter, Serilog.Events.LogEventLevel restrictedToMinimumLevel = 0, Serilog.Core.LoggingLevelSwitch? levelSwitch = null, Serilog.Events.LogEventLevel? standardErrorFromLevel = default, object? syncRoot = null) { }
+        public static Serilog.LoggerConfiguration Console(this Serilog.Configuration.LoggerAuditSinkConfiguration sinkConfiguration, Serilog.Events.LogEventLevel restrictedToMinimumLevel = 0, string outputTemplate = "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}", System.IFormatProvider? formatProvider = null, Serilog.Core.LoggingLevelSwitch? levelSwitch = null, Serilog.Events.LogEventLevel? standardErrorFromLevel = default, Serilog.Sinks.SystemConsole.Themes.ConsoleTheme? theme = null, bool applyThemeToRedirectedOutput = false, object? syncRoot = null) { }
+    }
     public static class ConsoleLoggerConfigurationExtensions
     {
         public static Serilog.LoggerConfiguration Console(this Serilog.Configuration.LoggerSinkConfiguration sinkConfiguration, Serilog.Formatting.ITextFormatter formatter, Serilog.Events.LogEventLevel restrictedToMinimumLevel = 0, Serilog.Core.LoggingLevelSwitch? levelSwitch = null, Serilog.Events.LogEventLevel? standardErrorFromLevel = default, object? syncRoot = null) { }
