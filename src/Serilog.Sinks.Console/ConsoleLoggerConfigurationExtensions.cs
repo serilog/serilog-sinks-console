@@ -59,14 +59,15 @@ namespace Serilog
             IFormatProvider? formatProvider = null,
             LoggingLevelSwitch? levelSwitch = null,
             LogEventLevel? standardErrorFromLevel = null,
-            ConsoleTheme? theme = null, 
+            ConsoleTheme? theme = null,
             bool applyThemeToRedirectedOutput = false,
             object? syncRoot = null)
         {
             if (sinkConfiguration is null) throw new ArgumentNullException(nameof(sinkConfiguration));
             if (outputTemplate is null) throw new ArgumentNullException(nameof(outputTemplate));
 
-            var appliedTheme = !applyThemeToRedirectedOutput && (System.Console.IsOutputRedirected || System.Console.IsErrorRedirected) ?
+            // see https://no-color.org/
+            var appliedTheme = !applyThemeToRedirectedOutput && (System.Console.IsOutputRedirected || System.Console.IsErrorRedirected) || !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("NO_COLOR")) ?
                 ConsoleTheme.None :
                 theme ?? SystemConsoleThemes.Literate;
 
