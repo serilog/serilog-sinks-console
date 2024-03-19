@@ -1,4 +1,4 @@
-﻿// Copyright 2013-2017 Serilog Contributors
+// Copyright 2013-2017 Serilog Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,28 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Serilog.Sinks.SystemConsole.Rendering
+namespace Serilog.Sinks.SystemConsole.Rendering;
+
+static class Casing
 {
-    static class Casing
+    /// <summary>
+    /// Apply upper or lower casing to <paramref name="value"/> when <paramref name="format"/> is provided.
+    /// Returns <paramref name="value"/> when no or invalid format provided.
+    /// </summary>
+    /// <param name="value">Provided string for formatting.</param>
+    /// <param name="format">Format string.</param>
+    /// <returns>The provided <paramref name="value"/> with formatting applied.</returns>
+    public static string Format(string value, string? format = null)
     {
-        /// <summary>
-        /// Apply upper or lower casing to <paramref name="value"/> when <paramref name="format"/> is provided.
-        /// Returns <paramref name="value"/> when no or invalid format provided.
-        /// </summary>
-        /// <param name="value">Provided string for formatting.</param>
-        /// <param name="format">Format string.</param>
-        /// <returns>The provided <paramref name="value"/> with formatting applied.</returns>
-        public static string Format(string value, string? format = null)
+        return format switch
         {
-            switch (format)
-            {
-                case "u":
-                    return value.ToUpperInvariant();
-                case "w":
-                    return value.ToLowerInvariant();
-                default:
-                    return value;
-            }
-        }
+            "u" => value.ToUpperInvariant(),
+            "w" => value.ToLowerInvariant(),
+            _ => value,
+        };
     }
 }

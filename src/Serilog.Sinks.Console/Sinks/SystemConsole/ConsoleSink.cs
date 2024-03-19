@@ -17,72 +17,69 @@ using Serilog.Events;
 using Serilog.Formatting;
 using Serilog.Sinks.SystemConsole.Platform;
 using Serilog.Sinks.SystemConsole.Themes;
-using System;
-using System.IO;
 using System.Text;
 
-namespace Serilog.Sinks.SystemConsole
+namespace Serilog.Sinks.SystemConsole;
+
+class ConsoleSink : ILogEventSink
 {
-    class ConsoleSink : ILogEventSink
+    readonly LogEventLevel? _standardErrorFromLevel;
+    readonly ConsoleTheme _theme;
+    readonly ITextFormatter _formatter;
+    readonly object _syncRoot;
+
+    const int DefaultWriteBufferCapacity = 256;
+
+    static ConsoleSink()
     {
-        readonly LogEventLevel? _standardErrorFromLevel;
-        readonly ConsoleTheme _theme;
-        readonly ITextFormatter _formatter;
-        readonly object _syncRoot;
+        WindowsConsole.EnableVirtualTerminalProcessing();
+    }
 
-        const int DefaultWriteBufferCapacity = 256;
+    public ConsoleSink(
+        ConsoleTheme theme,
+        ITextFormatter formatter,
+        LogEventLevel? standardErrorFromLevel,
+        object syncRoot)
+    {
+        _standardErrorFromLevel = standardErrorFromLevel;
+        _theme = theme ?? throw new ArgumentNullException(nameof(theme));
+        _formatter = formatter;
+        _syncRoot = syncRoot ?? throw new ArgumentNullException(nameof(syncRoot));
+    }
 
-        static ConsoleSink()
+    public void Emit(LogEvent logEvent)
+    {
+        var output = SelectOutputStream(logEvent.Level);
+
+        // ANSI escape codes can be pre-rendered into a buffer; however, if we're on Windows and
+        // using its console coloring APIs, the color switches would happen during the off-screen
+        // buffered write here and have no effect when the line is actually written out.
+        if (_theme.CanBuffer)
         {
-            WindowsConsole.EnableVirtualTerminalProcessing();
-        }
-
-        public ConsoleSink(
-            ConsoleTheme theme,
-            ITextFormatter formatter,
-            LogEventLevel? standardErrorFromLevel,
-            object syncRoot)
-        {
-            _standardErrorFromLevel = standardErrorFromLevel;
-            _theme = theme ?? throw new ArgumentNullException(nameof(theme));
-            _formatter = formatter;
-            _syncRoot = syncRoot ?? throw new ArgumentNullException(nameof(syncRoot));
-        }
-
-        public void Emit(LogEvent logEvent)
-        {
-            var output = SelectOutputStream(logEvent.Level);
-
-            // ANSI escape codes can be pre-rendered into a buffer; however, if we're on Windows and
-            // using its console coloring APIs, the color switches would happen during the off-screen
-            // buffered write here and have no effect when the line is actually written out.
-            if (_theme.CanBuffer)
+            var buffer = new StringWriter(new StringBuilder(DefaultWriteBufferCapacity));
+            _formatter.Format(logEvent, buffer);
+            var formattedLogEventText = buffer.ToString();
+            lock (_syncRoot)
             {
-                var buffer = new StringWriter(new StringBuilder(DefaultWriteBufferCapacity));
-                _formatter.Format(logEvent, buffer);
-                var formattedLogEventText = buffer.ToString();
-                lock (_syncRoot)
-                {
-                    output.Write(formattedLogEventText);
-                    output.Flush();
-                }
-            }
-            else
-            {
-                lock (_syncRoot)
-                {
-                    _formatter.Format(logEvent, output);
-                    output.Flush();
-                }
+                output.Write(formattedLogEventText);
+                output.Flush();
             }
         }
-
-        TextWriter SelectOutputStream(LogEventLevel logEventLevel)
+        else
         {
-            if (_standardErrorFromLevel is null)
-                return Console.Out;
-
-            return logEventLevel < _standardErrorFromLevel ? Console.Out : Console.Error;
+            lock (_syncRoot)
+            {
+                _formatter.Format(logEvent, output);
+                output.Flush();
+            }
         }
+    }
+
+    TextWriter SelectOutputStream(LogEventLevel logEventLevel)
+    {
+        if (_standardErrorFromLevel is null)
+            return Console.Out;
+
+        return logEventLevel < _standardErrorFromLevel ? Console.Out : Console.Error;
     }
 }

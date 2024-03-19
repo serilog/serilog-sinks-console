@@ -12,78 +12,75 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.Globalization;
-using System.IO;
 using Serilog.Events;
 using Serilog.Parsing;
 using Serilog.Sinks.SystemConsole.Rendering;
 using Serilog.Sinks.SystemConsole.Themes;
 
-namespace Serilog.Sinks.SystemConsole.Output
+namespace Serilog.Sinks.SystemConsole.Output;
+
+class TimestampTokenRenderer : OutputTemplateTokenRenderer
 {
-    class TimestampTokenRenderer : OutputTemplateTokenRenderer
+    readonly ConsoleTheme _theme;
+    readonly PropertyToken _token;
+    readonly IFormatProvider? _formatProvider;
+
+    public TimestampTokenRenderer(ConsoleTheme theme, PropertyToken token, IFormatProvider? formatProvider)
     {
-        readonly ConsoleTheme _theme;
-        readonly PropertyToken _token;
-        readonly IFormatProvider? _formatProvider;
+        _theme = theme;
+        _token = token;
+        _formatProvider = formatProvider;
+    }
 
-        public TimestampTokenRenderer(ConsoleTheme theme, PropertyToken token, IFormatProvider? formatProvider)
+    public override void Render(LogEvent logEvent, TextWriter output)
+    {
+        var sv = new DateTimeOffsetValue(logEvent.Timestamp);
+
+        var _ = 0;
+        using (_theme.Apply(output, ConsoleThemeStyle.SecondaryText, ref _))
         {
-            _theme = theme;
-            _token = token;
-            _formatProvider = formatProvider;
-        }
-
-        public override void Render(LogEvent logEvent, TextWriter output)
-        {
-            var sv = new DateTimeOffsetValue(logEvent.Timestamp);
-
-            var _ = 0;
-            using (_theme.Apply(output, ConsoleThemeStyle.SecondaryText, ref _))
+            if (_token.Alignment is null)
             {
-                if (_token.Alignment is null)
-                {
-                    sv.Render(output, _token.Format, _formatProvider);
-                }
-                else
-                {
-                    var buffer = new StringWriter();
-                    sv.Render(buffer, _token.Format, _formatProvider);
-                    var str = buffer.ToString();
-                    Padding.Apply(output, str, _token.Alignment);
-                }
+                sv.Render(output, _token.Format, _formatProvider);
+            }
+            else
+            {
+                var buffer = new StringWriter();
+                sv.Render(buffer, _token.Format, _formatProvider);
+                var str = buffer.ToString();
+                Padding.Apply(output, str, _token.Alignment);
             }
         }
+    }
 
-        readonly struct DateTimeOffsetValue
+    readonly struct DateTimeOffsetValue
+    {
+        public DateTimeOffsetValue(DateTimeOffset value)
         {
-            public DateTimeOffsetValue(DateTimeOffset value)
+            Value = value;
+        }
+
+        public DateTimeOffset Value { get; }
+
+        public void Render(TextWriter output, string? format = null, IFormatProvider? formatProvider = null)
+        {
+            var custom = (ICustomFormatter?)formatProvider?.GetFormat(typeof(ICustomFormatter));
+            if (custom != null)
             {
-                Value = value;
+                output.Write(custom.Format(format, Value, formatProvider));
+                return;
             }
-
-            public DateTimeOffset Value { get; }
-
-            public void Render(TextWriter output, string? format = null, IFormatProvider? formatProvider = null)
-            {
-                var custom = (ICustomFormatter?)formatProvider?.GetFormat(typeof(ICustomFormatter));
-                if (custom != null)
-                {
-                    output.Write(custom.Format(format, Value, formatProvider));
-                    return;
-                }
 
 #if FEATURE_SPAN
-                Span<char> buffer = stackalloc char[32];
-                if (Value.TryFormat(buffer, out int written, format, formatProvider ?? CultureInfo.InvariantCulture))
-                    output.Write(buffer.Slice(0, written));
-                else
-                    output.Write(Value.ToString(format, formatProvider ?? CultureInfo.InvariantCulture));
-#else
+            Span<char> buffer = stackalloc char[32];
+            if (Value.TryFormat(buffer, out int written, format, formatProvider ?? CultureInfo.InvariantCulture))
+                output.Write(buffer.Slice(0, written));
+            else
                 output.Write(Value.ToString(format, formatProvider ?? CultureInfo.InvariantCulture));
+#else
+            output.Write(Value.ToString(format, formatProvider ?? CultureInfo.InvariantCulture));
 #endif
-            }
         }
     }
 }

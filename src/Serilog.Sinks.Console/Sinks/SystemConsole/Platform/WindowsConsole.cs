@@ -12,40 +12,38 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.Runtime.InteropServices;
 
-namespace Serilog.Sinks.SystemConsole.Platform
+namespace Serilog.Sinks.SystemConsole.Platform;
+
+static class WindowsConsole
 {
-    static class WindowsConsole
+    public static void EnableVirtualTerminalProcessing()
     {
-        public static void EnableVirtualTerminalProcessing()
-        {
 #if RUNTIME_INFORMATION
-            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                return;
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            return;
 #else
-            if (Environment.OSVersion.Platform != PlatformID.Win32NT)
-                return;
+        if (Environment.OSVersion.Platform != PlatformID.Win32NT)
+            return;
 #endif
-            var stdout = GetStdHandle(StandardOutputHandleId);
-            if (stdout != (IntPtr)InvalidHandleValue && GetConsoleMode(stdout, out var mode))
-            {
-                SetConsoleMode(stdout, mode | EnableVirtualTerminalProcessingMode);
-            }
+        var stdout = GetStdHandle(StandardOutputHandleId);
+        if (stdout != (IntPtr)InvalidHandleValue && GetConsoleMode(stdout, out var mode))
+        {
+            SetConsoleMode(stdout, mode | EnableVirtualTerminalProcessingMode);
         }
-
-        const int StandardOutputHandleId = -11;
-        const uint EnableVirtualTerminalProcessingMode = 4;
-        const long InvalidHandleValue = -1;
-
-        [DllImport("kernel32.dll", SetLastError = true)]
-        static extern IntPtr GetStdHandle(int handleId);
-
-        [DllImport("kernel32.dll", SetLastError = true)]
-        static extern bool GetConsoleMode(IntPtr handle, out uint mode);
-
-        [DllImport("kernel32.dll", SetLastError = true)]
-        static extern bool SetConsoleMode(IntPtr handle, uint mode);
     }
+
+    const int StandardOutputHandleId = -11;
+    const uint EnableVirtualTerminalProcessingMode = 4;
+    const long InvalidHandleValue = -1;
+
+    [DllImport("kernel32.dll", SetLastError = true)]
+    static extern IntPtr GetStdHandle(int handleId);
+
+    [DllImport("kernel32.dll", SetLastError = true)]
+    static extern bool GetConsoleMode(IntPtr handle, out uint mode);
+
+    [DllImport("kernel32.dll", SetLastError = true)]
+    static extern bool SetConsoleMode(IntPtr handle, uint mode);
 }

@@ -1,5 +1,4 @@
-﻿using System.IO;
-using Serilog.Events;
+﻿using Serilog.Events;
 using Serilog.Parsing;
 using Serilog.Sinks.SystemConsole.Rendering;
 using Serilog.Sinks.SystemConsole.Themes;

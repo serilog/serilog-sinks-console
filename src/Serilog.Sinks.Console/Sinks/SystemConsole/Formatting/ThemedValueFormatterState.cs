@@ -12,16 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.IO;
+namespace Serilog.Sinks.SystemConsole.Formatting;
 
-namespace Serilog.Sinks.SystemConsole.Formatting
+struct ThemedValueFormatterState
 {
-    struct ThemedValueFormatterState
-    {
-        public TextWriter Output;
-        public string? Format;
-        public bool IsTopLevel;
+    public TextWriter Output;
+    public string? Format;
+    public bool IsTopLevel;
 
-        public ThemedValueFormatterState Nest() => new ThemedValueFormatterState { Output = Output };
-    }
+    public ThemedValueFormatterState Nest() => new() { Output = Output };
 }
