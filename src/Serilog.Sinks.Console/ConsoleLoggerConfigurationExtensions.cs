@@ -62,12 +62,13 @@ public static class ConsoleLoggerConfigurationExtensions
         bool applyThemeToRedirectedOutput = false,
         object? syncRoot = null)
     {
-        if (sinkConfiguration is null) throw new ArgumentNullException(nameof(sinkConfiguration));
-        if (outputTemplate is null) throw new ArgumentNullException(nameof(outputTemplate));
+            if (sinkConfiguration is null) throw new ArgumentNullException(nameof(sinkConfiguration));
+            if (outputTemplate is null) throw new ArgumentNullException(nameof(outputTemplate));
 
-        var appliedTheme = !applyThemeToRedirectedOutput && (System.Console.IsOutputRedirected || System.Console.IsErrorRedirected) ?
-            ConsoleTheme.None :
-            theme ?? SystemConsoleThemes.Literate;
+            // see https://no-color.org/
+            var appliedTheme = !applyThemeToRedirectedOutput && (System.Console.IsOutputRedirected || System.Console.IsErrorRedirected) || !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("NO_COLOR")) ?
+                ConsoleTheme.None :
+                theme ?? SystemConsoleThemes.Literate;
 
         syncRoot ??= DefaultSyncRoot;
 
