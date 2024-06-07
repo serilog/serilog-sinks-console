@@ -1,12 +1,9 @@
-Write-Output "build: Build started"
-
-& dotnet --info
-& dotnet --list-sdks
+echo "build: Build started"
 
 Push-Location $PSScriptRoot
 
 if(Test-Path .\artifacts) {
-    Write-Output "build: Cleaning .\artifacts"
+	echo "build: Cleaning .\artifacts"
 	Remove-Item .\artifacts -Force -Recurse
 }
 
@@ -18,43 +15,32 @@ $suffix = @{ $true = ""; $false = "$($branch.Substring(0, [math]::Min(10,$branch
 $commitHash = $(git rev-parse --short HEAD)
 $buildSuffix = @{ $true = "$($suffix)-$($commitHash)"; $false = "$($branch)-$($commitHash)" }[$suffix -ne ""]
 
-Write-Output "build: Package version suffix is $suffix"
-Write-Output "build: Build version suffix is $buildSuffix" 
+echo "build: Package version suffix is $suffix"
+echo "build: Build version suffix is $buildSuffix" 
 
-foreach ($src in Get-ChildItem src/*) {
+foreach ($src in ls src/*) {
     Push-Location $src
 
-    Write-Output "build: Packaging project in $src"
+	echo "build: Packaging project in $src"
 
-    & dotnet build -c Release --version-suffix=$buildSuffix
+    & dotnet build -c Release --version-suffix=$buildSuffix -p:EnableSourceLink=true
     if ($suffix) {
-        & dotnet pack -c Release --include-source -o ..\..\artifacts --version-suffix=$suffix --no-build
+        & dotnet pack -c Release -o ..\..\artifacts --version-suffix=$suffix --no-build
     } else {
-        & dotnet pack -c Release --include-source -o ..\..\artifacts --no-build
+        & dotnet pack -c Release -o ..\..\artifacts --no-build
     }
-    if($LASTEXITCODE -ne 0) { exit 1 }    
+    if($LASTEXITCODE -ne 0) { throw "build failed" }    
 
     Pop-Location
 }
 
-foreach ($sample in Get-ChildItem sample/*) {
-    Push-Location $sample
-
-    Write-Output "build: Testing project in $sample"
-
-    & dotnet build -c Release --version-suffix=$buildSuffix
-    if($LASTEXITCODE -ne 0) { exit 3 }
-
-    Pop-Location
-}
-
-foreach ($test in Get-ChildItem test/*.Tests) {
+foreach ($test in ls test/*.Tests) {
     Push-Location $test
 
-	Write-Output "build: Testing project in $test"
+	echo "build: Testing project in $test"
 
     & dotnet test -c Release
-    if($LASTEXITCODE -ne 0) { exit 3 }
+    if($LASTEXITCODE -ne 0) { throw "tests failed" }    
 
     Pop-Location
 }

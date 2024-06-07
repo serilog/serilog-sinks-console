@@ -14,18 +14,17 @@
 
 using System.IO;
 
-namespace Serilog.Sinks.SystemConsole.Themes
+namespace Serilog.Sinks.SystemConsole.Themes;
+
+class EmptyConsoleTheme : ConsoleTheme
 {
-    class EmptyConsoleTheme : ConsoleTheme
+    public override bool CanBuffer => true;
+
+    protected override int ResetCharCount { get; }
+
+    public override int Set(TextWriter output, ConsoleThemeStyle style) => 0;
+
+    public override void Reset(TextWriter output)
     {
-        public override bool CanBuffer => true;
-
-        protected override int ResetCharCount { get; }
-
-        public override int Set(TextWriter output, ConsoleThemeStyle style) => 0;
-
-        public override void Reset(TextWriter output)
-        {
         }
-    }
 }

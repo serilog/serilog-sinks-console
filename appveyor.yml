@@ -3,13 +3,13 @@ skip_tags: true
 image: Visual Studio 2022
 test: off
 build_script:
-- ps: ./Build.ps1
+- pwsh: ./Build.ps1
 artifacts:
 - path: artifacts/Serilog.*.nupkg
 deploy:
 - provider: NuGet
   api_key:
-    secure: dX4ewxGxhiNURkqJPuZQ8GQNjLvb8oZrHBThVotn+9GSMyQzeKXFpHkN04ykOfgc
+    secure: ZpUO4ECx4c/V0Ecj04cfV1UGd+ZABeEG9DDW2fjG8vITjNYhmbiiJH0qNOnRy2G3
   skip_symbols: true
   on:
     branch: /^(main|dev)$/

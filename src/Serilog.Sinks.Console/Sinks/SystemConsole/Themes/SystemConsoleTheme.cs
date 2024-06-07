@@ -17,52 +17,52 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Serilog.Sinks.SystemConsole.Themes
+namespace Serilog.Sinks.SystemConsole.Themes;
+
+/// <summary>
+/// A console theme using the styling facilities of the <see cref="System.Console"/> class. Recommended
+/// for Windows versions prior to Windows 10.
+/// </summary>
+public class SystemConsoleTheme : ConsoleTheme
 {
     /// <summary>
-    /// A console theme using the styling facilities of the <see cref="System.Console"/> class. Recommended
-    /// for Windows versions prior to Windows 10.
+    /// A theme using only gray, black and white.
     /// </summary>
-    public class SystemConsoleTheme : ConsoleTheme
+    public static SystemConsoleTheme Grayscale { get; } = SystemConsoleThemes.Grayscale;
+
+    /// <summary>
+    /// A theme in the style of the original <i>Serilog.Sinks.Literate</i>.
+    /// </summary>
+    public static SystemConsoleTheme Literate { get; } = SystemConsoleThemes.Literate;
+
+    /// <summary>
+    /// A theme based on the original Serilog "colored console" sink.
+    /// </summary>
+    public static SystemConsoleTheme Colored { get; } = SystemConsoleThemes.Colored;
+
+    /// <summary>
+    /// Construct a theme given a set of styles.
+    /// </summary>
+    /// <param name="styles">Styles to apply within the theme.</param>
+    /// <exception cref="ArgumentNullException">When <paramref name="styles"/> is <code>null</code></exception>
+    public SystemConsoleTheme(IReadOnlyDictionary<ConsoleThemeStyle, SystemConsoleThemeStyle> styles)
     {
-        /// <summary>
-        /// A theme using only gray, black and white.
-        /// </summary>
-        public static SystemConsoleTheme Grayscale { get; } = SystemConsoleThemes.Grayscale;
-
-        /// <summary>
-        /// A theme in the style of the original <i>Serilog.Sinks.Literate</i>.
-        /// </summary>
-        public static SystemConsoleTheme Literate { get; } = SystemConsoleThemes.Literate;
-
-        /// <summary>
-        /// A theme based on the original Serilog "colored console" sink.
-        /// </summary>
-        public static SystemConsoleTheme Colored { get; } = SystemConsoleThemes.Colored;
-
-        /// <summary>
-        /// Construct a theme given a set of styles.
-        /// </summary>
-        /// <param name="styles">Styles to apply within the theme.</param>
-        /// <exception cref="ArgumentNullException">When <paramref name="styles"/> is <code>null</code></exception>
-        public SystemConsoleTheme(IReadOnlyDictionary<ConsoleThemeStyle, SystemConsoleThemeStyle> styles)
-        {
             if (styles is null) throw new ArgumentNullException(nameof(styles));
             Styles = styles.ToDictionary(kv => kv.Key, kv => kv.Value);
         }
 
-        /// <inheritdoc/>
-        public IReadOnlyDictionary<ConsoleThemeStyle, SystemConsoleThemeStyle> Styles { get; }
+    /// <inheritdoc/>
+    public IReadOnlyDictionary<ConsoleThemeStyle, SystemConsoleThemeStyle> Styles { get; }
 
-        /// <inheritdoc/>
-        public override bool CanBuffer => false;
+    /// <inheritdoc/>
+    public override bool CanBuffer => false;
 
-        /// <inheritdoc/>
-        protected override int ResetCharCount { get; }
+    /// <inheritdoc/>
+    protected override int ResetCharCount { get; }
 
-        /// <inheritdoc/>
-        public override int Set(TextWriter output, ConsoleThemeStyle style)
-        {
+    /// <inheritdoc/>
+    public override int Set(TextWriter output, ConsoleThemeStyle style)
+    {
             if (Styles.TryGetValue(style, out var wcts))
             {
                 if (wcts.Foreground.HasValue)
@@ -74,10 +74,9 @@ namespace Serilog.Sinks.SystemConsole.Themes
             return 0;
         }
 
-        /// <inheritdoc/>
-        public override void Reset(TextWriter output)
-        {
+    /// <inheritdoc/>
+    public override void Reset(TextWriter output)
+    {
             Console.ResetColor();
         }
-    }
 }

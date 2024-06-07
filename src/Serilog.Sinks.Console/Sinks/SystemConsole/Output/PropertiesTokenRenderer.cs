@@ -22,17 +22,17 @@ using Serilog.Sinks.SystemConsole.Formatting;
 using Serilog.Sinks.SystemConsole.Rendering;
 using Serilog.Sinks.SystemConsole.Themes;
 
-namespace Serilog.Sinks.SystemConsole.Output
-{
-    class PropertiesTokenRenderer : OutputTemplateTokenRenderer
-    {
-        readonly MessageTemplate _outputTemplate;
-        readonly ConsoleTheme _theme;
-        readonly PropertyToken _token;
-        readonly ThemedValueFormatter _valueFormatter;
+namespace Serilog.Sinks.SystemConsole.Output;
 
-        public PropertiesTokenRenderer(ConsoleTheme theme, PropertyToken token, MessageTemplate outputTemplate, IFormatProvider? formatProvider)
-        {
+class PropertiesTokenRenderer : OutputTemplateTokenRenderer
+{
+    readonly MessageTemplate _outputTemplate;
+    readonly ConsoleTheme _theme;
+    readonly PropertyToken _token;
+    readonly ThemedValueFormatter _valueFormatter;
+
+    public PropertiesTokenRenderer(ConsoleTheme theme, PropertyToken token, MessageTemplate outputTemplate, IFormatProvider? formatProvider)
+    {
             _outputTemplate = outputTemplate;
             _theme = theme ?? throw new ArgumentNullException(nameof(theme));
             _token = token ?? throw new ArgumentNullException(nameof(token));
@@ -53,8 +53,8 @@ namespace Serilog.Sinks.SystemConsole.Output
                 : new ThemedDisplayValueFormatter(theme, formatProvider);
         }
 
-        public override void Render(LogEvent logEvent, TextWriter output)
-        {
+    public override void Render(LogEvent logEvent, TextWriter output)
+    {
             var included = logEvent.Properties
                 .Where(p => !TemplateContainsPropertyName(logEvent.MessageTemplate, p.Key) &&
                             !TemplateContainsPropertyName(_outputTemplate, p.Key))
@@ -74,8 +74,8 @@ namespace Serilog.Sinks.SystemConsole.Output
             Padding.Apply(output, str, _token.Alignment.Value.Widen(invisible));
         }
 
-        static bool TemplateContainsPropertyName(MessageTemplate template, string propertyName)
-        {
+    static bool TemplateContainsPropertyName(MessageTemplate template, string propertyName)
+    {
             foreach (var token in template.Tokens)
             {
                 if (token is PropertyToken namedProperty &&
@@ -87,5 +87,4 @@ namespace Serilog.Sinks.SystemConsole.Output
 
             return false;
         }
-    }
 }
