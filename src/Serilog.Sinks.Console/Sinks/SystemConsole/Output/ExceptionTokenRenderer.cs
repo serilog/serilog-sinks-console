@@ -17,21 +17,21 @@ using Serilog.Events;
 using Serilog.Parsing;
 using Serilog.Sinks.SystemConsole.Themes;
 
-namespace Serilog.Sinks.SystemConsole.Output
+namespace Serilog.Sinks.SystemConsole.Output;
+
+class ExceptionTokenRenderer : OutputTemplateTokenRenderer
 {
-    class ExceptionTokenRenderer : OutputTemplateTokenRenderer
+    const string StackFrameLinePrefix = "   ";
+
+    readonly ConsoleTheme _theme;
+
+    public ExceptionTokenRenderer(ConsoleTheme theme, PropertyToken pt)
     {
-        const string StackFrameLinePrefix = "   ";
-
-        readonly ConsoleTheme _theme;
-
-        public ExceptionTokenRenderer(ConsoleTheme theme, PropertyToken pt)
-        {
             _theme = theme;
         }
 
-        public override void Render(LogEvent logEvent, TextWriter output)
-        {
+    public override void Render(LogEvent logEvent, TextWriter output)
+    {
             // Padding is never applied by this renderer.
 
             if (logEvent.Exception is null)
@@ -48,5 +48,4 @@ namespace Serilog.Sinks.SystemConsole.Output
                 output.WriteLine();
             }
         }
-    }
 }

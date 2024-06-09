@@ -14,14 +14,13 @@
 
 using System.IO;
 
-namespace Serilog.Sinks.SystemConsole.Formatting
-{
-    struct ThemedValueFormatterState
-    {
-        public TextWriter Output;
-        public string? Format;
-        public bool IsTopLevel;
+namespace Serilog.Sinks.SystemConsole.Formatting;
 
-        public ThemedValueFormatterState Nest() => new ThemedValueFormatterState { Output = Output };
-    }
+struct ThemedValueFormatterState
+{
+    public TextWriter Output;
+    public string? Format;
+    public bool IsTopLevel;
+
+    public ThemedValueFormatterState Nest() => new ThemedValueFormatterState { Output = Output };
 }
