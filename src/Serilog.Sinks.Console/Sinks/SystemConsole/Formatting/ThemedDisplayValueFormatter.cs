@@ -18,32 +18,32 @@ using Serilog.Events;
 using Serilog.Formatting.Json;
 using Serilog.Sinks.SystemConsole.Themes;
 
-namespace Serilog.Sinks.SystemConsole.Formatting
-{
-    class ThemedDisplayValueFormatter : ThemedValueFormatter
-    {
-        readonly IFormatProvider? _formatProvider;
+namespace Serilog.Sinks.SystemConsole.Formatting;
 
-        public ThemedDisplayValueFormatter(ConsoleTheme theme, IFormatProvider? formatProvider)
-            : base(theme)
-        {
+class ThemedDisplayValueFormatter : ThemedValueFormatter
+{
+    readonly IFormatProvider? _formatProvider;
+
+    public ThemedDisplayValueFormatter(ConsoleTheme theme, IFormatProvider? formatProvider)
+        : base(theme)
+    {
             _formatProvider = formatProvider;
         }
 
-        public override ThemedValueFormatter SwitchTheme(ConsoleTheme theme)
-        {
+    public override ThemedValueFormatter SwitchTheme(ConsoleTheme theme)
+    {
             return new ThemedDisplayValueFormatter(theme, _formatProvider);
         }
 
-        protected override int VisitScalarValue(ThemedValueFormatterState state, ScalarValue scalar)
-        {
+    protected override int VisitScalarValue(ThemedValueFormatterState state, ScalarValue scalar)
+    {
             if (scalar is null)
                 throw new ArgumentNullException(nameof(scalar));
             return FormatLiteralValue(scalar, state.Output, state.Format);
         }
 
-        protected override int VisitSequenceValue(ThemedValueFormatterState state, SequenceValue sequence)
-        {
+    protected override int VisitSequenceValue(ThemedValueFormatterState state, SequenceValue sequence)
+    {
             if (sequence is null)
                 throw new ArgumentNullException(nameof(sequence));
 
@@ -71,8 +71,8 @@ namespace Serilog.Sinks.SystemConsole.Formatting
             return count;
         }
 
-        protected override int VisitStructureValue(ThemedValueFormatterState state, StructureValue structure)
-        {
+    protected override int VisitStructureValue(ThemedValueFormatterState state, StructureValue structure)
+    {
             var count = 0;
 
             if (structure.TypeTag != null)
@@ -114,8 +114,8 @@ namespace Serilog.Sinks.SystemConsole.Formatting
             return count;
         }
 
-        protected override int VisitDictionaryValue(ThemedValueFormatterState state, DictionaryValue dictionary)
-        {
+    protected override int VisitDictionaryValue(ThemedValueFormatterState state, DictionaryValue dictionary)
+    {
             var count = 0;
 
             using (ApplyStyle(state.Output, ConsoleThemeStyle.TertiaryText, ref count))
@@ -150,8 +150,8 @@ namespace Serilog.Sinks.SystemConsole.Formatting
             return count;
         }
 
-        public int FormatLiteralValue(ScalarValue scalar, TextWriter output, string? format)
-        {
+    public int FormatLiteralValue(ScalarValue scalar, TextWriter output, string? format)
+    {
             var value = scalar.Value;
             var count = 0;
 
@@ -210,5 +210,4 @@ namespace Serilog.Sinks.SystemConsole.Formatting
 
             return count;
         }
-    }
 }

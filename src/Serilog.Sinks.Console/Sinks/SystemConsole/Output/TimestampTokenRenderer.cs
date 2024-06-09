@@ -20,23 +20,23 @@ using Serilog.Parsing;
 using Serilog.Sinks.SystemConsole.Rendering;
 using Serilog.Sinks.SystemConsole.Themes;
 
-namespace Serilog.Sinks.SystemConsole.Output
-{
-    class TimestampTokenRenderer : OutputTemplateTokenRenderer
-    {
-        readonly ConsoleTheme _theme;
-        readonly PropertyToken _token;
-        readonly IFormatProvider? _formatProvider;
+namespace Serilog.Sinks.SystemConsole.Output;
 
-        public TimestampTokenRenderer(ConsoleTheme theme, PropertyToken token, IFormatProvider? formatProvider)
-        {
+class TimestampTokenRenderer : OutputTemplateTokenRenderer
+{
+    readonly ConsoleTheme _theme;
+    readonly PropertyToken _token;
+    readonly IFormatProvider? _formatProvider;
+
+    public TimestampTokenRenderer(ConsoleTheme theme, PropertyToken token, IFormatProvider? formatProvider)
+    {
             _theme = theme;
             _token = token;
             _formatProvider = formatProvider;
         }
 
-        public override void Render(LogEvent logEvent, TextWriter output)
-        {
+    public override void Render(LogEvent logEvent, TextWriter output)
+    {
             var sv = new DateTimeOffsetValue(logEvent.Timestamp);
 
             var _ = 0;
@@ -56,23 +56,23 @@ namespace Serilog.Sinks.SystemConsole.Output
             }
         }
 
-        readonly struct DateTimeOffsetValue
+    readonly struct DateTimeOffsetValue
+    {
+        public DateTimeOffsetValue(DateTimeOffset value)
         {
-            public DateTimeOffsetValue(DateTimeOffset value)
-            {
                 Value = value;
             }
 
-            public DateTimeOffset Value { get; }
+        public DateTimeOffset Value { get; }
 
-            public void Render(TextWriter output, string? format = null, IFormatProvider? formatProvider = null)
+        public void Render(TextWriter output, string? format = null, IFormatProvider? formatProvider = null)
+        {
+            var custom = (ICustomFormatter?)formatProvider?.GetFormat(typeof(ICustomFormatter));
+            if (custom != null)
             {
-                var custom = (ICustomFormatter?)formatProvider?.GetFormat(typeof(ICustomFormatter));
-                if (custom != null)
-                {
-                    output.Write(custom.Format(format, Value, formatProvider));
-                    return;
-                }
+                output.Write(custom.Format(format, Value, formatProvider));
+                return;
+            }
 
 #if FEATURE_SPAN
                 Span<char> buffer = stackalloc char[32];
@@ -81,9 +81,8 @@ namespace Serilog.Sinks.SystemConsole.Output
                 else
                     output.Write(Value.ToString(format, formatProvider ?? CultureInfo.InvariantCulture));
 #else
-                output.Write(Value.ToString(format, formatProvider ?? CultureInfo.InvariantCulture));
+            output.Write(Value.ToString(format, formatProvider ?? CultureInfo.InvariantCulture));
 #endif
-            }
         }
     }
 }

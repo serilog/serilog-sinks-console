@@ -15,20 +15,20 @@
 using System.IO;
 using Serilog.Parsing;
 
-namespace Serilog.Sinks.SystemConsole.Rendering
-{
-    static class Padding
-    {
-        static readonly char[] PaddingChars = new string(' ', 80).ToCharArray();
+namespace Serilog.Sinks.SystemConsole.Rendering;
 
-        /// <summary>
-        /// Writes the provided value to the output, applying direction-based padding when <paramref name="alignment"/> is provided.
-        /// </summary>
-        /// <param name="output">Output object to write result.</param>
-        /// <param name="value">Provided value.</param>
-        /// <param name="alignment">The alignment settings to apply when rendering <paramref name="value"/>.</param>
-        public static void Apply(TextWriter output, string value, Alignment? alignment)
-        {
+static class Padding
+{
+    static readonly char[] PaddingChars = new string(' ', 80).ToCharArray();
+
+    /// <summary>
+    /// Writes the provided value to the output, applying direction-based padding when <paramref name="alignment"/> is provided.
+    /// </summary>
+    /// <param name="output">Output object to write result.</param>
+    /// <param name="value">Provided value.</param>
+    /// <param name="alignment">The alignment settings to apply when rendering <paramref name="value"/>.</param>
+    public static void Apply(TextWriter output, string value, Alignment? alignment)
+    {
             if (alignment is null || value.Length >= alignment.Value.Width)
             {
                 output.Write(value);
@@ -52,5 +52,4 @@ namespace Serilog.Sinks.SystemConsole.Rendering
             if (alignment.Value.Direction == AlignmentDirection.Right)
                 output.Write(value);
         }
-    }
 }
