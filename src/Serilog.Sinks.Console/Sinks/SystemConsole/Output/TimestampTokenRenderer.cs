@@ -27,17 +27,22 @@ class TimestampTokenRenderer : OutputTemplateTokenRenderer
     readonly ConsoleTheme _theme;
     readonly PropertyToken _token;
     readonly IFormatProvider? _formatProvider;
+    readonly bool _convertToUtc;
 
-    public TimestampTokenRenderer(ConsoleTheme theme, PropertyToken token, IFormatProvider? formatProvider)
+    public TimestampTokenRenderer(ConsoleTheme theme, PropertyToken token, IFormatProvider? formatProvider, bool convertToUtc)
     {
             _theme = theme;
             _token = token;
             _formatProvider = formatProvider;
-        }
+            _convertToUtc = convertToUtc;
+    }
 
     public override void Render(LogEvent logEvent, TextWriter output)
     {
-            var sv = new DateTimeOffsetValue(logEvent.Timestamp);
+        var timestamp = _convertToUtc
+            ? logEvent.Timestamp.ToUniversalTime()
+            : logEvent.Timestamp;
+        var sv = new DateTimeOffsetValue(timestamp);
 
             var _ = 0;
             using (_theme.Apply(output, ConsoleThemeStyle.SecondaryText, ref _))
