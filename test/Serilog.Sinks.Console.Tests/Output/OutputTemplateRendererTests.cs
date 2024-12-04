@@ -405,25 +405,29 @@ public class OutputTemplateRendererTests
     public void TimestampTokenRendersLocalTime()
     {
         var logTimestampWithTimeZoneOffset = DateTimeOffset.Parse("2024-09-03T14:15:16.079+02:00", CultureInfo.InvariantCulture);
-        var formatter = new OutputTemplateRenderer(ConsoleTheme.None, "{Timestamp:yyyy-MM-dd HH:mm:ss}", CultureInfo.InvariantCulture);
+        var formatter = new OutputTemplateRenderer(ConsoleTheme.None,
+            "Default Format: {Timestamp} / Custom Format String: {Timestamp:yyyy-MM-dd HH:mm:ss}",
+            CultureInfo.InvariantCulture);
         var evt = new LogEvent(logTimestampWithTimeZoneOffset, LogEventLevel.Debug, null,
             new MessageTemplate(Enumerable.Empty<MessageTemplateToken>()), Enumerable.Empty<LogEventProperty>());
         var sw = new StringWriter();
         formatter.Format(evt, sw);
         // expect time in local time, unchanged from the input, the +02:00 offset should not affect the output
-        Assert.Equal("2024-09-03 14:15:16", sw.ToString());
+        Assert.Equal("Default Format: 09/03/2024 14:15:16 +02:00 / Custom Format String: 2024-09-03 14:15:16", sw.ToString());
     }
 
     [Fact]
     public void UtcTimestampTokenRendersUtcTime()
     {
         var logTimestampWithTimeZoneOffset = DateTimeOffset.Parse("2024-09-03T14:15:16.079+02:00", CultureInfo.InvariantCulture);
-        var formatter = new OutputTemplateRenderer(ConsoleTheme.None, "{UtcTimestamp:yyyy-MM-dd HH:mm:ss}", CultureInfo.InvariantCulture);
+        var formatter = new OutputTemplateRenderer(ConsoleTheme.None,
+            "Default Format: {UtcTimestamp} / Custom Format String: {UtcTimestamp:yyyy-MM-dd HH:mm:ss}",
+            CultureInfo.InvariantCulture);
         var evt = new LogEvent(logTimestampWithTimeZoneOffset, LogEventLevel.Debug, null,
             new MessageTemplate(Enumerable.Empty<MessageTemplateToken>()), Enumerable.Empty<LogEventProperty>());
         var sw = new StringWriter();
         formatter.Format(evt, sw);
         // expect time in UTC, the +02:00 offset must be applied to adjust the hour
-        Assert.Equal("2024-09-03 12:15:16", sw.ToString());
+        Assert.Equal("Default Format: 09/03/2024 12:15:16 / Custom Format String: 2024-09-03 12:15:16", sw.ToString());
     }
 }
