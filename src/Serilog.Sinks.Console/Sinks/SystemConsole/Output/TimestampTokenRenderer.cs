@@ -26,6 +26,7 @@ class TimestampTokenRenderer : OutputTemplateTokenRenderer
 {
     readonly ConsoleTheme _theme;
     readonly PropertyToken _token;
+    readonly string? _format;
     readonly IFormatProvider? _formatProvider;
     readonly bool _convertToUtc;
 
@@ -33,61 +34,77 @@ class TimestampTokenRenderer : OutputTemplateTokenRenderer
     {
         _theme = theme;
         _token = token;
+        _format = token.Format;
         _formatProvider = formatProvider;
         _convertToUtc = convertToUtc;
     }
 
     public override void Render(LogEvent logEvent, TextWriter output)
     {
-        var timestamp = _convertToUtc
-            ? logEvent.Timestamp.ToUniversalTime()
-            : logEvent.Timestamp;
-        var sv = new DateTimeOffsetValue(timestamp);
-
         var _ = 0;
         using (_theme.Apply(output, ConsoleThemeStyle.SecondaryText, ref _))
         {
             if (_token.Alignment is null)
             {
-                sv.Render(output, _token.Format, _formatProvider);
+                Render(output, logEvent.Timestamp);
             }
             else
             {
                 var buffer = new StringWriter();
-                sv.Render(buffer, _token.Format, _formatProvider);
+                Render(buffer, logEvent.Timestamp);
                 var str = buffer.ToString();
                 Padding.Apply(output, str, _token.Alignment);
             }
         }
     }
 
-    readonly struct DateTimeOffsetValue
+    private void Render(TextWriter output, DateTimeOffset timestamp)
     {
-        public DateTimeOffsetValue(DateTimeOffset value)
+        // When a DateTimeOffset is converted to a string, the default format automatically adds the "+00:00" explicit offset to the output string.
+        // As the TimestampTokenRenderer is also used for rendering the UtcTimestamp which is always in UTC by definition, the +00:00 suffix should be avoided.
+        // This is done using the same approach as Serilog's MessageTemplateTextFormatter. In case output should be converted to UTC, in order to avoid a zone specifier,
+        // the DateTimeOffset is converted to a DateTime which then renders as expected.
+
+        var custom = (ICustomFormatter?)_formatProvider?.GetFormat(typeof(ICustomFormatter));
+        if (custom != null)
         {
-            Value = value;
+            output.Write(custom.Format(_format, _convertToUtc ? timestamp.UtcDateTime : timestamp, _formatProvider));
+            return;
         }
 
-        public DateTimeOffset Value { get; }
-
-        public void Render(TextWriter output, string? format = null, IFormatProvider? formatProvider = null)
+        if (_convertToUtc)
         {
-            var custom = (ICustomFormatter?)formatProvider?.GetFormat(typeof(ICustomFormatter));
-            if (custom != null)
-            {
-                output.Write(custom.Format(format, Value, formatProvider));
-                return;
-            }
+            RenderDateTime(output, timestamp.UtcDateTime);
+        }
+        else
+        {
+            RenderDateTimeOffset(output, timestamp);
+        }
+    }
 
+    private void RenderDateTimeOffset(TextWriter output, DateTimeOffset timestamp)
+    {
 #if FEATURE_SPAN
-            Span<char> buffer = stackalloc char[32];
-            if (Value.TryFormat(buffer, out int written, format, formatProvider ?? CultureInfo.InvariantCulture))
-                output.Write(buffer.Slice(0, written));
-            else
-                output.Write(Value.ToString(format, formatProvider ?? CultureInfo.InvariantCulture));
+        Span<char> buffer = stackalloc char[32];
+        if (timestamp.TryFormat(buffer, out int written, _format, _formatProvider ?? CultureInfo.InvariantCulture))
+            output.Write(buffer.Slice(0, written));
+        else
+            output.Write(timestamp.ToString(_format, _formatProvider ?? CultureInfo.InvariantCulture));
 #else
-            output.Write(Value.ToString(format, formatProvider ?? CultureInfo.InvariantCulture));
+            output.Write(timestamp.ToString(_format, _formatProvider ?? CultureInfo.InvariantCulture));
 #endif
-        }
+    }
+
+    private void RenderDateTime(TextWriter output, DateTime utcTimestamp)
+    {
+#if FEATURE_SPAN
+        Span<char> buffer = stackalloc char[32];
+        if (utcTimestamp.TryFormat(buffer, out int written, _format, _formatProvider ?? CultureInfo.InvariantCulture))
+            output.Write(buffer.Slice(0, written));
+        else
+            output.Write(utcTimestamp.ToString(_format, _formatProvider ?? CultureInfo.InvariantCulture));
+#else
+            output.Write(utcTimestamp.ToString(_format, _formatProvider ?? CultureInfo.InvariantCulture));
+#endif
     }
 }
