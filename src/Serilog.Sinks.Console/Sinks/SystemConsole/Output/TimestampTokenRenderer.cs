@@ -31,10 +31,10 @@ class TimestampTokenRenderer : OutputTemplateTokenRenderer
 
     public TimestampTokenRenderer(ConsoleTheme theme, PropertyToken token, IFormatProvider? formatProvider, bool convertToUtc)
     {
-            _theme = theme;
-            _token = token;
-            _formatProvider = formatProvider;
-            _convertToUtc = convertToUtc;
+        _theme = theme;
+        _token = token;
+        _formatProvider = formatProvider;
+        _convertToUtc = convertToUtc;
     }
 
     public override void Render(LogEvent logEvent, TextWriter output)
@@ -44,29 +44,29 @@ class TimestampTokenRenderer : OutputTemplateTokenRenderer
             : logEvent.Timestamp;
         var sv = new DateTimeOffsetValue(timestamp);
 
-            var _ = 0;
-            using (_theme.Apply(output, ConsoleThemeStyle.SecondaryText, ref _))
+        var _ = 0;
+        using (_theme.Apply(output, ConsoleThemeStyle.SecondaryText, ref _))
+        {
+            if (_token.Alignment is null)
             {
-                if (_token.Alignment is null)
-                {
-                    sv.Render(output, _token.Format, _formatProvider);
-                }
-                else
-                {
-                    var buffer = new StringWriter();
-                    sv.Render(buffer, _token.Format, _formatProvider);
-                    var str = buffer.ToString();
-                    Padding.Apply(output, str, _token.Alignment);
-                }
+                sv.Render(output, _token.Format, _formatProvider);
+            }
+            else
+            {
+                var buffer = new StringWriter();
+                sv.Render(buffer, _token.Format, _formatProvider);
+                var str = buffer.ToString();
+                Padding.Apply(output, str, _token.Alignment);
             }
         }
+    }
 
     readonly struct DateTimeOffsetValue
     {
         public DateTimeOffsetValue(DateTimeOffset value)
         {
-                Value = value;
-            }
+            Value = value;
+        }
 
         public DateTimeOffset Value { get; }
 
@@ -80,11 +80,11 @@ class TimestampTokenRenderer : OutputTemplateTokenRenderer
             }
 
 #if FEATURE_SPAN
-                Span<char> buffer = stackalloc char[32];
-                if (Value.TryFormat(buffer, out int written, format, formatProvider ?? CultureInfo.InvariantCulture))
-                    output.Write(buffer.Slice(0, written));
-                else
-                    output.Write(Value.ToString(format, formatProvider ?? CultureInfo.InvariantCulture));
+            Span<char> buffer = stackalloc char[32];
+            if (Value.TryFormat(buffer, out int written, format, formatProvider ?? CultureInfo.InvariantCulture))
+                output.Write(buffer.Slice(0, written));
+            else
+                output.Write(Value.ToString(format, formatProvider ?? CultureInfo.InvariantCulture));
 #else
             output.Write(Value.ToString(format, formatProvider ?? CultureInfo.InvariantCulture));
 #endif
