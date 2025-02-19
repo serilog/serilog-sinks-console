@@ -68,7 +68,11 @@ class OutputTemplateRenderer : ITextFormatter
                 }
                 else if (pt.PropertyName == OutputProperties.TimestampPropertyName)
                 {
-                    renderers.Add(new TimestampTokenRenderer(theme, pt, formatProvider));
+                    renderers.Add(new TimestampTokenRenderer(theme, pt, formatProvider, convertToUtc: false));
+                }
+                else if (pt.PropertyName == OutputProperties.UtcTimestampPropertyName)
+                {
+                    renderers.Add(new TimestampTokenRenderer(theme, pt, formatProvider, convertToUtc: true));
                 }
                 else if (pt.PropertyName == OutputProperties.PropertiesPropertyName)
                 {

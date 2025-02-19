@@ -400,4 +400,36 @@ public class OutputTemplateRendererTests
         formatter.Format(evt, sw);
         Assert.Equal($"{traceId}/{spanId}", sw.ToString());
     }
+
+    [Theory]
+    [InlineData("{Timestamp}", "09/03/2024 14:15:16 +02:00")] // Default Format
+    [InlineData("{Timestamp:o}", "2024-09-03T14:15:16.0790000+02:00")] // Round-trip Standard Format String
+    [InlineData("{Timestamp:yyyy-MM-dd HH:mm:ss}", "2024-09-03 14:15:16")] // Custom Format String
+    public void TimestampTokenRendersLocalTime(string actualToken, string expectedOutput)
+    {
+        var logTimestampWithTimeZoneOffset = DateTimeOffset.Parse("2024-09-03T14:15:16.079+02:00", CultureInfo.InvariantCulture);
+        var formatter = new OutputTemplateRenderer(ConsoleTheme.None, actualToken, CultureInfo.InvariantCulture);
+        var evt = new LogEvent(logTimestampWithTimeZoneOffset, LogEventLevel.Debug, null,
+            new MessageTemplate(Enumerable.Empty<MessageTemplateToken>()), Enumerable.Empty<LogEventProperty>());
+        var sw = new StringWriter();
+        formatter.Format(evt, sw);
+        // expect time in local time, unchanged from the input, the +02:00 offset should not affect the output
+        Assert.Equal(expectedOutput, sw.ToString());
+    }
+
+    [Theory]
+    [InlineData("{UtcTimestamp}", "09/03/2024 12:15:16")] // Default Format
+    [InlineData("{UtcTimestamp:o}", "2024-09-03T12:15:16.0790000Z")] // Round-trip Standard Format String
+    [InlineData("{UtcTimestamp:yyyy-MM-dd HH:mm:ss}", "2024-09-03 12:15:16")] // Custom Format String
+    public void UtcTimestampTokenRendersUtcTime(string actualToken, string expectedOutput)
+    {
+        var logTimestampWithTimeZoneOffset = DateTimeOffset.Parse("2024-09-03T14:15:16.079+02:00", CultureInfo.InvariantCulture);
+        var formatter = new OutputTemplateRenderer(ConsoleTheme.None, actualToken, CultureInfo.InvariantCulture);
+        var evt = new LogEvent(logTimestampWithTimeZoneOffset, LogEventLevel.Debug, null,
+            new MessageTemplate(Enumerable.Empty<MessageTemplateToken>()), Enumerable.Empty<LogEventProperty>());
+        var sw = new StringWriter();
+        formatter.Format(evt, sw);
+        // expect time in UTC, the +02:00 offset must be applied to adjust the hour
+        Assert.Equal(expectedOutput, sw.ToString());
+    }
 }
