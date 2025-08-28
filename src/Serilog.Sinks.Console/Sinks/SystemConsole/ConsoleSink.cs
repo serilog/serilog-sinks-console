@@ -27,15 +27,16 @@ class ConsoleSink : ILogEventSink
 {
     readonly LogEventLevel? _standardErrorFromLevel;
     readonly ConsoleTheme _theme;
-    readonly ITextFormatter _formatter;
+    readonly ITextFormatter? _formatter;
+    readonly IConsoleFormatter? _consoleFormatter;
     readonly object _syncRoot;
 
     const int DefaultWriteBufferCapacity = 256;
 
     static ConsoleSink()
     {
-            WindowsConsole.EnableVirtualTerminalProcessing();
-        }
+        WindowsConsole.EnableVirtualTerminalProcessing();
+    }
 
     public ConsoleSink(
         ConsoleTheme theme,
@@ -43,45 +44,75 @@ class ConsoleSink : ILogEventSink
         LogEventLevel? standardErrorFromLevel,
         object syncRoot)
     {
-            _standardErrorFromLevel = standardErrorFromLevel;
-            _theme = theme ?? throw new ArgumentNullException(nameof(theme));
-            _formatter = formatter;
-            _syncRoot = syncRoot ?? throw new ArgumentNullException(nameof(syncRoot));
-        }
+        _standardErrorFromLevel = standardErrorFromLevel;
+        _theme = theme ?? throw new ArgumentNullException(nameof(theme));
+        _formatter = formatter ?? throw new ArgumentNullException(nameof(formatter));
+        _consoleFormatter = null;
+        _syncRoot = syncRoot ?? throw new ArgumentNullException(nameof(syncRoot));
+    }
+
+    public ConsoleSink(
+        ConsoleTheme theme,
+        IConsoleFormatter consoleFormatter,
+        LogEventLevel? standardErrorFromLevel,
+        object syncRoot)
+    {
+        _standardErrorFromLevel = standardErrorFromLevel;
+        _theme = theme ?? throw new ArgumentNullException(nameof(theme));
+        _formatter = null;
+        _consoleFormatter = consoleFormatter ?? throw new ArgumentNullException(nameof(consoleFormatter));
+        _syncRoot = syncRoot ?? throw new ArgumentNullException(nameof(syncRoot));
+    }
 
     public void Emit(LogEvent logEvent)
     {
-            var output = SelectOutputStream(logEvent.Level);
+        var output = SelectOutputStream(logEvent.Level);
 
-            // ANSI escape codes can be pre-rendered into a buffer; however, if we're on Windows and
-            // using its console coloring APIs, the color switches would happen during the off-screen
-            // buffered write here and have no effect when the line is actually written out.
-            if (_theme.CanBuffer)
+        // ANSI escape codes can be pre-rendered into a buffer; however, if we're on Windows and
+        // using its console coloring APIs, the color switches would happen during the off-screen
+        // buffered write here and have no effect when the line is actually written out.
+        if (_theme.CanBuffer)
+        {
+            var buffer = new StringWriter(new StringBuilder(DefaultWriteBufferCapacity));
+            FormatLogEvent(logEvent, buffer);
+            var formattedLogEventText = buffer.ToString();
+            lock (_syncRoot)
             {
-                var buffer = new StringWriter(new StringBuilder(DefaultWriteBufferCapacity));
-                _formatter.Format(logEvent, buffer);
-                var formattedLogEventText = buffer.ToString();
-                lock (_syncRoot)
-                {
-                    output.Write(formattedLogEventText);
-                    output.Flush();
-                }
-            }
-            else
-            {
-                lock (_syncRoot)
-                {
-                    _formatter.Format(logEvent, output);
-                    output.Flush();
-                }
+                output.Write(formattedLogEventText);
+                output.Flush();
             }
         }
+        else
+        {
+            lock (_syncRoot)
+            {
+                FormatLogEvent(logEvent, output);
+                output.Flush();
+            }
+        }
+    }
+
+    void FormatLogEvent(LogEvent logEvent, TextWriter output)
+    {
+        if (_consoleFormatter != null)
+        {
+            _consoleFormatter.Format(logEvent, _theme, output);
+        }
+        else if (_formatter != null)
+        {
+            _formatter.Format(logEvent, output);
+        }
+        else
+        {
+            throw new InvalidOperationException("No formatter available.");
+        }
+    }
 
     TextWriter SelectOutputStream(LogEventLevel logEventLevel)
     {
-            if (_standardErrorFromLevel is null)
-                return Console.Out;
+        if (_standardErrorFromLevel is null)
+            return Console.Out;
 
-            return logEventLevel < _standardErrorFromLevel ? Console.Out : Console.Error;
-        }
+        return logEventLevel < _standardErrorFromLevel ? Console.Out : Console.Error;
+    }
 }

@@ -63,19 +63,19 @@ public static class ConsoleLoggerConfigurationExtensions
         bool applyThemeToRedirectedOutput = false,
         object? syncRoot = null)
     {
-            if (sinkConfiguration is null) throw new ArgumentNullException(nameof(sinkConfiguration));
-            if (outputTemplate is null) throw new ArgumentNullException(nameof(outputTemplate));
+        if (sinkConfiguration is null) throw new ArgumentNullException(nameof(sinkConfiguration));
+        if (outputTemplate is null) throw new ArgumentNullException(nameof(outputTemplate));
 
-            // see https://no-color.org/
-            var appliedTheme = !applyThemeToRedirectedOutput && (System.Console.IsOutputRedirected || System.Console.IsErrorRedirected) || !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("NO_COLOR")) ?
-                ConsoleTheme.None :
-                theme ?? SystemConsoleThemes.Literate;
+        // see https://no-color.org/
+        var appliedTheme = !applyThemeToRedirectedOutput && (System.Console.IsOutputRedirected || System.Console.IsErrorRedirected) || !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("NO_COLOR")) ?
+            ConsoleTheme.None :
+            theme ?? SystemConsoleThemes.Literate;
 
-            syncRoot ??= DefaultSyncRoot;
+        syncRoot ??= DefaultSyncRoot;
 
-            var formatter = new OutputTemplateRenderer(appliedTheme, outputTemplate, formatProvider);
-            return sinkConfiguration.Sink(new ConsoleSink(appliedTheme, formatter, standardErrorFromLevel, syncRoot), restrictedToMinimumLevel, levelSwitch);
-        }
+        var formatter = new OutputTemplateRenderer(appliedTheme, outputTemplate, formatProvider);
+        return sinkConfiguration.Sink(new ConsoleSink(appliedTheme, formatter, standardErrorFromLevel, syncRoot), restrictedToMinimumLevel, levelSwitch);
+    }
 
     /// <summary>
     /// Writes log events to <see cref="System.Console"/>.
@@ -102,11 +102,52 @@ public static class ConsoleLoggerConfigurationExtensions
         LogEventLevel? standardErrorFromLevel = null,
         object? syncRoot = null)
     {
-            if (sinkConfiguration is null) throw new ArgumentNullException(nameof(sinkConfiguration));
-            if (formatter is null) throw new ArgumentNullException(nameof(formatter));
+        if (sinkConfiguration is null) throw new ArgumentNullException(nameof(sinkConfiguration));
+        if (formatter is null) throw new ArgumentNullException(nameof(formatter));
 
-            syncRoot ??= DefaultSyncRoot;
+        syncRoot ??= DefaultSyncRoot;
 
-            return sinkConfiguration.Sink(new ConsoleSink(ConsoleTheme.None, formatter, standardErrorFromLevel, syncRoot), restrictedToMinimumLevel, levelSwitch);
-        }
+        return sinkConfiguration.Sink(new ConsoleSink(ConsoleTheme.None, formatter, standardErrorFromLevel, syncRoot), restrictedToMinimumLevel, levelSwitch);
+    }
+
+    /// <summary>
+    /// Writes log events to <see cref="System.Console"/>.
+    /// </summary>
+    /// <param name="sinkConfiguration">Logger sink configuration.</param>
+    /// <param name="consoleFormatter">The console formatter that controls the rendering of log events into text with access to console theme information.</param>
+    /// <param name="theme">The theme to apply to the styled output. If not specified, uses <see cref="SystemConsoleTheme.Literate"/>.</param>
+    /// <param name="syncRoot">An object that will be used to `lock` (sync) access to the console output. If you specify this, you
+    /// will have the ability to lock on this object, and guarantee that the console sink will not be about to output anything while
+    /// the lock is held.</param>
+    /// <param name="restrictedToMinimumLevel">The minimum level for
+    /// events passed through the sink. Ignored when <paramref name="levelSwitch"/> is specified.</param>
+    /// <param name="levelSwitch">A switch allowing the pass-through minimum level
+    /// to be changed at runtime.</param>
+    /// <param name="standardErrorFromLevel">Specifies the level at which events will be written to standard error.</param>
+    /// <param name="applyThemeToRedirectedOutput">Applies the selected or default theme even when output redirection is detected.</param>
+    /// <returns>Configuration object allowing method chaining.</returns>
+    /// <exception cref="ArgumentNullException">When <paramref name="sinkConfiguration"/> is <code>null</code></exception>
+    /// <exception cref="ArgumentNullException">When <paramref name="consoleFormatter"/> is <code>null</code></exception>
+    public static LoggerConfiguration Console(
+        this LoggerSinkConfiguration sinkConfiguration,
+        IConsoleFormatter consoleFormatter,
+        ConsoleTheme? theme = null,
+        LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
+        LoggingLevelSwitch? levelSwitch = null,
+        LogEventLevel? standardErrorFromLevel = null,
+        bool applyThemeToRedirectedOutput = false,
+        object? syncRoot = null)
+    {
+        if (sinkConfiguration is null) throw new ArgumentNullException(nameof(sinkConfiguration));
+        if (consoleFormatter is null) throw new ArgumentNullException(nameof(consoleFormatter));
+
+        // see https://no-color.org/
+        var appliedTheme = !applyThemeToRedirectedOutput && (System.Console.IsOutputRedirected || System.Console.IsErrorRedirected) || !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("NO_COLOR")) ?
+            ConsoleTheme.None :
+            theme ?? SystemConsoleThemes.Literate;
+
+        syncRoot ??= DefaultSyncRoot;
+
+        return sinkConfiguration.Sink(new ConsoleSink(appliedTheme, consoleFormatter, standardErrorFromLevel, syncRoot), restrictedToMinimumLevel, levelSwitch);
+    }
 }
