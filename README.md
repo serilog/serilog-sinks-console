@@ -1,6 +1,6 @@
-# Serilog.Sinks.Console [![Build status](https://ci.appveyor.com/api/projects/status/w1w3m1wyk3in1c96/branch/master?svg=true)](https://ci.appveyor.com/project/serilog/serilog-sinks-console/branch/master) [![NuGet Version](http://img.shields.io/nuget/v/Serilog.Sinks.Console.svg?style=flat)](https://www.nuget.org/packages/Serilog.Sinks.Console/) [![Documentation](https://img.shields.io/badge/docs-wiki-yellow.svg)](https://github.com/serilog/serilog/wiki) [![Help](https://img.shields.io/badge/stackoverflow-serilog-orange.svg)](http://stackoverflow.com/questions/tagged/serilog)
+# Serilog.Sinks.Console [![NuGet Version](http://img.shields.io/nuget/v/Serilog.Sinks.Console.svg?style=flat)](https://www.nuget.org/packages/Serilog.Sinks.Console/) [![Documentation](https://img.shields.io/badge/docs-wiki-yellow.svg)](https://github.com/serilog/serilog/wiki) [![Help](https://img.shields.io/badge/stackoverflow-serilog-orange.svg)](http://stackoverflow.com/questions/tagged/serilog)
 
-A Serilog sink that writes log events to the Windows Console or an ANSI terminal via standard output. Coloring and custom themes are supported, including ANSI 256-color themes on macOS, Linux and Windows 10. The default output is plain text; JSON formatting can be plugged in using a package such as [_Serilog.Formatting.Compact_](https://github.com/serilog/serilog-formatting-compact).
+A Serilog sink that writes log events to the Windows Console or an ANSI terminal via standard output. Coloring and custom themes are supported, including ANSI 256-color themes on macOS, Linux and Windows 10+. The default output is plain text; JSON formatting can be plugged in using [_Serilog.Formatting.Compact_](https://github.com/serilog/serilog-formatting-compact) or the [fully-customizable](https://nblumhardt.com/2021/06/customize-serilog-json-output/) [_Serilog.Expressions_](https://github.com/serilog/serilog-expressions).
 
 ### Getting started
 
@@ -16,7 +16,7 @@ Then enable the sink using `WriteTo.Console()`:
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateLogger();
-    
+
 Log.Information("Hello, world!");
 ```
 
@@ -171,17 +171,8 @@ Log.Logger = new LoggerConfiguration()
 
 ### Contributing
 
-Would you like to help make the Serilog console sink even better? We keep a list of issues that are approachable for newcomers under the [up-for-grabs](https://github.com/serilog/serilog-sinks-console/issues?labels=up-for-grabs&state=open) label. Before starting work on a pull request, we suggest commenting on, or raising, an issue on the issue tracker so that we can help and coordinate efforts.  For more details check out our [contributing guide](CONTRIBUTING.md).
+Would you like to help make the Serilog console sink even better? We keep a list of issues that are approachable for newcomers under the [up-for-grabs](https://github.com/serilog/serilog-sinks-console/issues?labels=up-for-grabs&state=open) label. Before starting work on a pull request, we suggest commenting on, or raising, an issue on the issue tracker so that we can help and coordinate efforts. For more details check out our [contributing guide](CONTRIBUTING.md).
 
 When contributing please keep in mind our [Code of Conduct](CODE_OF_CONDUCT.md).
-
-
-### Detailed build status
-
-Branch  | AppVeyor | Travis
-------------- | ------------- |-------------
-dev | [![Build status](https://ci.appveyor.com/api/projects/status/w1w3m1wyk3in1c96/branch/dev?svg=true)](https://ci.appveyor.com/project/serilog/serilog-sinks-console/branch/dev)  | [![Build Status](https://travis-ci.org/serilog/serilog-sinks-console.svg?branch=dev)](https://travis-ci.org/serilog/serilog-sinks-console) 
-main | [![Build status](https://ci.appveyor.com/api/projects/status/w1w3m1wyk3in1c96/branch/main?svg=true)](https://ci.appveyor.com/project/serilog/serilog-sinks-console/branch/main) | [![Build Status](https://travis-ci.org/serilog/serilog-sinks-console.svg?branch=main)](https://travis-ci.org/serilog/serilog-sinks-console) 
-
 
 _Copyright &copy; Serilog Contributors - Provided under the [Apache License, Version 2.0](http://apache.org/licenses/LICENSE-2.0.html)._
