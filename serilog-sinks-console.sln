@@ -5,11 +5,10 @@ VisualStudioVersion = 15.0.26430.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{037440DE-440B-4129-9F7A-09B42D00397E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{E9D1B5E1-DEB9-4A04-8BAB-24EC7240ADAF}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sln", "sln", "{E9D1B5E1-DEB9-4A04-8BAB-24EC7240ADAF}"
 	ProjectSection(SolutionItems) = preProject
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
-		appveyor.yml = appveyor.yml
 		Build.ps1 = Build.ps1
 		CHANGES.md = CHANGES.md
 		LICENSE = LICENSE
@@ -28,6 +27,17 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleDemo", "sample\ConsoleDemo\ConsoleDemo.csproj", "{DBF4907A-63A2-4895-8DEF-59F90C20380B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncWritesDemo", "sample\SyncWritesDemo\SyncWritesDemo.csproj", "{633AE0AD-C9D4-440D-874A-C0F4632DB75F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{91B268E6-3BCF-49B4-A04D-8467AE23410A}"
+	ProjectSection(SolutionItems) = preProject
+		.github\ISSUE_TEMPLATE.md = .github\ISSUE_TEMPLATE.md
+		.github\PULL_REQUEST_TEMPLATE.md = .github\PULL_REQUEST_TEMPLATE.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{F4C015DE-80BA-4D63-9D3D-D687999B4960}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\ci.yml = .github\workflows\ci.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,6 +70,7 @@ Global
 		{1D56534C-4009-42C2-A573-789CAE6B8AA9} = {7D0692CD-F95D-4BF9-8C63-B4A1C078DF23}
 		{DBF4907A-63A2-4895-8DEF-59F90C20380B} = {CF817664-4CEC-4B6A-9C57-A0D687757D82}
 		{633AE0AD-C9D4-440D-874A-C0F4632DB75F} = {CF817664-4CEC-4B6A-9C57-A0D687757D82}
+		{F4C015DE-80BA-4D63-9D3D-D687999B4960} = {91B268E6-3BCF-49B4-A04D-8467AE23410A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {43C32ED4-D39A-4E27-AE99-7BB8C883833C}
