@@ -19,23 +19,23 @@ using Serilog.Parsing;
 using Serilog.Sinks.SystemConsole.Rendering;
 using Serilog.Sinks.SystemConsole.Themes;
 
-namespace Serilog.Sinks.SystemConsole.Output
-{
-    class EventPropertyTokenRenderer : OutputTemplateTokenRenderer
-    {
-        readonly ConsoleTheme _theme;
-        readonly PropertyToken _token;
-        readonly IFormatProvider? _formatProvider;
+namespace Serilog.Sinks.SystemConsole.Output;
 
-        public EventPropertyTokenRenderer(ConsoleTheme theme, PropertyToken token, IFormatProvider? formatProvider)
-        {
+class EventPropertyTokenRenderer : OutputTemplateTokenRenderer
+{
+    readonly ConsoleTheme _theme;
+    readonly PropertyToken _token;
+    readonly IFormatProvider? _formatProvider;
+
+    public EventPropertyTokenRenderer(ConsoleTheme theme, PropertyToken token, IFormatProvider? formatProvider)
+    {
             _theme = theme;
             _token = token;
             _formatProvider = formatProvider;
         }
 
-        public override void Render(LogEvent logEvent, TextWriter output)
-        {
+    public override void Render(LogEvent logEvent, TextWriter output)
+    {
             // If a property is missing, don't render anything (message templates render the raw token here).
             if (!logEvent.Properties.TryGetValue(_token.PropertyName, out var propertyValue))
             {
@@ -67,5 +67,4 @@ namespace Serilog.Sinks.SystemConsole.Output
                 }
             }
         }
-    }
 }

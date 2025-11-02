@@ -15,22 +15,21 @@
 using System;
 using System.IO;
 
-namespace Serilog.Sinks.SystemConsole.Themes
-{
-    struct StyleReset : IDisposable
-    {
-        readonly ConsoleTheme _theme;
-        readonly TextWriter _output;
+namespace Serilog.Sinks.SystemConsole.Themes;
 
-        public StyleReset(ConsoleTheme theme, TextWriter output)
-        {
+struct StyleReset : IDisposable
+{
+    readonly ConsoleTheme _theme;
+    readonly TextWriter _output;
+
+    public StyleReset(ConsoleTheme theme, TextWriter output)
+    {
             _theme = theme;
             _output = output;
         }
 
-        public void Dispose()
-        {
+    public void Dispose()
+    {
             _theme.Reset(_output);
         }
-    }
 }

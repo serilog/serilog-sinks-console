@@ -21,14 +21,14 @@ using Serilog.Formatting.Display;
 using Serilog.Parsing;
 using Serilog.Sinks.SystemConsole.Themes;
 
-namespace Serilog.Sinks.SystemConsole.Output
-{
-    class OutputTemplateRenderer : ITextFormatter
-    {
-        readonly OutputTemplateTokenRenderer[] _renderers;
+namespace Serilog.Sinks.SystemConsole.Output;
 
-        public OutputTemplateRenderer(ConsoleTheme theme, string outputTemplate, IFormatProvider? formatProvider)
-        {
+class OutputTemplateRenderer : ITextFormatter
+{
+    readonly OutputTemplateTokenRenderer[] _renderers;
+
+    public OutputTemplateRenderer(ConsoleTheme theme, string outputTemplate, IFormatProvider? formatProvider)
+    {
             if (outputTemplate is null) throw new ArgumentNullException(nameof(outputTemplate));
             var template = new MessageTemplateParser().Parse(outputTemplate);
 
@@ -50,6 +50,14 @@ namespace Serilog.Sinks.SystemConsole.Output
                 {
                     renderers.Add(new NewLineTokenRenderer(pt.Alignment));
                 }
+                else if (pt.PropertyName == OutputProperties.TraceIdPropertyName)
+                {
+                    renderers.Add(new TraceIdTokenRenderer(theme, pt));
+                }
+                else if (pt.PropertyName == OutputProperties.SpanIdPropertyName)
+                {
+                    renderers.Add(new SpanIdTokenRenderer(theme, pt));
+                }
                 else if (pt.PropertyName == OutputProperties.ExceptionPropertyName)
                 {
                     renderers.Add(new ExceptionTokenRenderer(theme));
@@ -60,9 +68,13 @@ namespace Serilog.Sinks.SystemConsole.Output
                 }
                 else if (pt.PropertyName == OutputProperties.TimestampPropertyName)
                 {
-                    renderers.Add(new TimestampTokenRenderer(theme, pt, formatProvider));
+                    renderers.Add(new TimestampTokenRenderer(theme, pt, formatProvider, convertToUtc: false));
                 }
-                else if (pt.PropertyName == "Properties")
+                else if (pt.PropertyName == OutputProperties.UtcTimestampPropertyName)
+                {
+                    renderers.Add(new TimestampTokenRenderer(theme, pt, formatProvider, convertToUtc: true));
+                }
+                else if (pt.PropertyName == OutputProperties.PropertiesPropertyName)
                 {
                     renderers.Add(new PropertiesTokenRenderer(theme, pt, template, formatProvider));
                 }
@@ -75,13 +87,12 @@ namespace Serilog.Sinks.SystemConsole.Output
             _renderers = renderers.ToArray();
         }
 
-        public void Format(LogEvent logEvent, TextWriter output)
-        {
+    public void Format(LogEvent logEvent, TextWriter output)
+    {
             if (logEvent is null) throw new ArgumentNullException(nameof(logEvent));
             if (output is null) throw new ArgumentNullException(nameof(output));
 
             foreach (var renderer in _renderers)
                 renderer.Render(logEvent, output);
         }
-    }
 }
