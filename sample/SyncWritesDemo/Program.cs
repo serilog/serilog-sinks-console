@@ -24,7 +24,7 @@ if (args is { Length: 1 })
 
 Console.WriteLine("Expecting one of the following arguments:{0}--sync-root-default{0}--sync-root-separate{0}--sync-root-same", Environment.NewLine);
 
-static void SystemConsoleSyncTest(object syncRootForLogger1, object syncRootForLogger2)
+static void SystemConsoleSyncTest(object? syncRootForLogger1, object? syncRootForLogger2)
 {
     var logger1 = new LoggerConfiguration()
         .MinimumLevel.Verbose()
